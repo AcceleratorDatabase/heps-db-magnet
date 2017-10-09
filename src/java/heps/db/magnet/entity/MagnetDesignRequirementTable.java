@@ -46,9 +46,9 @@ public class MagnetDesignRequirementTable implements Serializable {
     @NotNull
     @Column(name = "design_id")
     private Integer designId;
-    @Column(name = "length")
-    private Integer length;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "length")
+    private Double length;
     @Column(name = "aperture")
     private Double aperture;
     @Column(name = "minimum_gap")
@@ -86,11 +86,11 @@ public class MagnetDesignRequirementTable implements Serializable {
         this.designId = designId;
     }
 
-    public Integer getLength() {
+    public Double getLength() {
         return length;
     }
 
-    public void setLength(Integer length) {
+    public void setLength(Double length) {
         this.length = length;
     }
 

@@ -31,25 +31,25 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author qiaoys
  */
 @Entity
-@Table(name = "stretched_wire_system")
+@Table(name = "stretched_wire_system_table")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "StretchedWireSystem.findAll", query = "SELECT s FROM StretchedWireSystem s")
-    , @NamedQuery(name = "StretchedWireSystem.findBySwRunId", query = "SELECT s FROM StretchedWireSystem s WHERE s.swRunId = :swRunId")
-    , @NamedQuery(name = "StretchedWireSystem.findBySamplingRate", query = "SELECT s FROM StretchedWireSystem s WHERE s.samplingRate = :samplingRate")
-    , @NamedQuery(name = "StretchedWireSystem.findBySpeed", query = "SELECT s FROM StretchedWireSystem s WHERE s.speed = :speed")
-    , @NamedQuery(name = "StretchedWireSystem.findByAcceleratedSpeed", query = "SELECT s FROM StretchedWireSystem s WHERE s.acceleratedSpeed = :acceleratedSpeed")
-    , @NamedQuery(name = "StretchedWireSystem.findByDistance", query = "SELECT s FROM StretchedWireSystem s WHERE s.distance = :distance")
-    , @NamedQuery(name = "StretchedWireSystem.findByStartEX0", query = "SELECT s FROM StretchedWireSystem s WHERE s.startEX0 = :startEX0")
-    , @NamedQuery(name = "StretchedWireSystem.findByStartEY0", query = "SELECT s FROM StretchedWireSystem s WHERE s.startEY0 = :startEY0")
-    , @NamedQuery(name = "StretchedWireSystem.findByStrain", query = "SELECT s FROM StretchedWireSystem s WHERE s.strain = :strain")
-    , @NamedQuery(name = "StretchedWireSystem.findByCurrent", query = "SELECT s FROM StretchedWireSystem s WHERE s.current = :current")
-    , @NamedQuery(name = "StretchedWireSystem.findByCutOffFrequency", query = "SELECT s FROM StretchedWireSystem s WHERE s.cutOffFrequency = :cutOffFrequency")
-    , @NamedQuery(name = "StretchedWireSystem.findByMeasBy", query = "SELECT s FROM StretchedWireSystem s WHERE s.measBy = :measBy")
-    , @NamedQuery(name = "StretchedWireSystem.findByMeasDate", query = "SELECT s FROM StretchedWireSystem s WHERE s.measDate = :measDate")
-    , @NamedQuery(name = "StretchedWireSystem.findByMeasAt", query = "SELECT s FROM StretchedWireSystem s WHERE s.measAt = :measAt")
-    , @NamedQuery(name = "StretchedWireSystem.findByDescription", query = "SELECT s FROM StretchedWireSystem s WHERE s.description = :description")})
-public class StretchedWireSystem implements Serializable {
+    @NamedQuery(name = "StretchedWireSystemTable.findAll", query = "SELECT s FROM StretchedWireSystemTable s")
+    , @NamedQuery(name = "StretchedWireSystemTable.findBySwRunId", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.swRunId = :swRunId")
+    , @NamedQuery(name = "StretchedWireSystemTable.findBySamplingRate", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.samplingRate = :samplingRate")
+    , @NamedQuery(name = "StretchedWireSystemTable.findBySpeed", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.speed = :speed")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByAcceleratedSpeed", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.acceleratedSpeed = :acceleratedSpeed")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByDistance", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.distance = :distance")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByStartEX0", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.startEX0 = :startEX0")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByStartEY0", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.startEY0 = :startEY0")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByStrain", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.strain = :strain")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByCurrent", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.current = :current")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByCutOffFrequency", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.cutOffFrequency = :cutOffFrequency")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByMeasBy", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.measBy = :measBy")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByMeasDate", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.measDate = :measDate")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByMeasAt", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.measAt = :measAt")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByDescription", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.description = :description")})
+public class StretchedWireSystemTable implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,13 +57,13 @@ public class StretchedWireSystem implements Serializable {
     @Basic(optional = false)
     @Column(name = "sw_run_id")
     private Integer swRunId;
-    @Column(name = "sampling_rate")
-    private Integer samplingRate;
-    @Column(name = "speed")
-    private Integer speed;
-    @Column(name = "accelerated_speed")
-    private Integer acceleratedSpeed;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "sampling_rate")
+    private Double samplingRate;
+    @Column(name = "speed")
+    private Double speed;
+    @Column(name = "accelerated_speed")
+    private Double acceleratedSpeed;
     @Column(name = "distance")
     private Double distance;
     @Column(name = "start_EX0")
@@ -88,16 +88,16 @@ public class StretchedWireSystem implements Serializable {
     @Size(max = 45)
     @Column(name = "description")
     private String description;
+    @OneToMany(mappedBy = "runId")
+    private Collection<SwsDataTable> swsDataTableCollection;
     @JoinColumn(name = "device_id", referencedColumnName = "device_id")
     @ManyToOne
     private DeviceInfoTable deviceId;
-    @OneToMany(mappedBy = "runId")
-    private Collection<SwsDataTable> swsDataTableCollection;
 
-    public StretchedWireSystem() {
+    public StretchedWireSystemTable() {
     }
 
-    public StretchedWireSystem(Integer swRunId) {
+    public StretchedWireSystemTable(Integer swRunId) {
         this.swRunId = swRunId;
     }
 
@@ -109,27 +109,27 @@ public class StretchedWireSystem implements Serializable {
         this.swRunId = swRunId;
     }
 
-    public Integer getSamplingRate() {
+    public Double getSamplingRate() {
         return samplingRate;
     }
 
-    public void setSamplingRate(Integer samplingRate) {
+    public void setSamplingRate(Double samplingRate) {
         this.samplingRate = samplingRate;
     }
 
-    public Integer getSpeed() {
+    public Double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Integer speed) {
+    public void setSpeed(Double speed) {
         this.speed = speed;
     }
 
-    public Integer getAcceleratedSpeed() {
+    public Double getAcceleratedSpeed() {
         return acceleratedSpeed;
     }
 
-    public void setAcceleratedSpeed(Integer acceleratedSpeed) {
+    public void setAcceleratedSpeed(Double acceleratedSpeed) {
         this.acceleratedSpeed = acceleratedSpeed;
     }
 
@@ -213,14 +213,6 @@ public class StretchedWireSystem implements Serializable {
         this.description = description;
     }
 
-    public DeviceInfoTable getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(DeviceInfoTable deviceId) {
-        this.deviceId = deviceId;
-    }
-
     @XmlTransient
     public Collection<SwsDataTable> getSwsDataTableCollection() {
         return swsDataTableCollection;
@@ -228,6 +220,14 @@ public class StretchedWireSystem implements Serializable {
 
     public void setSwsDataTableCollection(Collection<SwsDataTable> swsDataTableCollection) {
         this.swsDataTableCollection = swsDataTableCollection;
+    }
+
+    public DeviceInfoTable getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(DeviceInfoTable deviceId) {
+        this.deviceId = deviceId;
     }
 
     @Override
@@ -240,10 +240,10 @@ public class StretchedWireSystem implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StretchedWireSystem)) {
+        if (!(object instanceof StretchedWireSystemTable)) {
             return false;
         }
-        StretchedWireSystem other = (StretchedWireSystem) object;
+        StretchedWireSystemTable other = (StretchedWireSystemTable) object;
         if ((this.swRunId == null && other.swRunId != null) || (this.swRunId != null && !this.swRunId.equals(other.swRunId))) {
             return false;
         }
@@ -252,7 +252,7 @@ public class StretchedWireSystem implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.StretchedWireSystem[ swRunId=" + swRunId + " ]";
+        return "heps.db.magnet.entity.StretchedWireSystemTable[ swRunId=" + swRunId + " ]";
     }
     
 }

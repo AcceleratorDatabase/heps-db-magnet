@@ -63,9 +63,9 @@ public class MagnetDesignParameterTable implements Serializable {
     @Column(name = "offset")
     private Double offset;
     @Column(name = "ampere_turns")
-    private Integer ampereTurns;
+    private Double ampereTurns;
     @Column(name = "ampere_turns_each")
-    private Integer ampereTurnsEach;
+    private Double ampereTurnsEach;
     @Column(name = "current")
     private Double current;
     @Size(max = 45)
@@ -74,9 +74,9 @@ public class MagnetDesignParameterTable implements Serializable {
     @Column(name = "current_density")
     private Double currentDensity;
     @Column(name = "wire_length")
-    private Integer wireLength;
+    private Double wireLength;
     @Column(name = "resistance")
-    private Integer resistance;
+    private Double resistance;
     @Column(name = "inductance")
     private Double inductance;
     @Column(name = "voltage")
@@ -84,9 +84,9 @@ public class MagnetDesignParameterTable implements Serializable {
     @Column(name = "consumption")
     private Double consumption;
     @Column(name = "c_pressure_drop")
-    private Integer cPressureDrop;
+    private Double cPressureDrop;
     @Column(name = "c_channel_num")
-    private Integer cChannelNum;
+    private Double cChannelNum;
     @Column(name = "c_velocity")
     private Double cVelocity;
     @Column(name = "c_flow")
@@ -94,13 +94,13 @@ public class MagnetDesignParameterTable implements Serializable {
     @Column(name = "c_temp")
     private Double cTemp;
     @Column(name = "core_length")
-    private Integer coreLength;
+    private Double coreLength;
     @Column(name = "core_section")
-    private Integer coreSection;
+    private Double coreSection;
     @Column(name = "core_weight")
-    private Integer coreWeight;
+    private Double coreWeight;
     @Column(name = "copper_weight")
-    private Integer copperWeight;
+    private Double copperWeight;
     @Size(max = 45)
     @Column(name = "physics_plot")
     private String physicsPlot;
@@ -134,19 +134,19 @@ public class MagnetDesignParameterTable implements Serializable {
         this.offset = offset;
     }
 
-    public Integer getAmpereTurns() {
+    public Double getAmpereTurns() {
         return ampereTurns;
     }
 
-    public void setAmpereTurns(Integer ampereTurns) {
+    public void setAmpereTurns(Double ampereTurns) {
         this.ampereTurns = ampereTurns;
     }
 
-    public Integer getAmpereTurnsEach() {
+    public Double getAmpereTurnsEach() {
         return ampereTurnsEach;
     }
 
-    public void setAmpereTurnsEach(Integer ampereTurnsEach) {
+    public void setAmpereTurnsEach(Double ampereTurnsEach) {
         this.ampereTurnsEach = ampereTurnsEach;
     }
 
@@ -174,19 +174,19 @@ public class MagnetDesignParameterTable implements Serializable {
         this.currentDensity = currentDensity;
     }
 
-    public Integer getWireLength() {
+    public Double getWireLength() {
         return wireLength;
     }
 
-    public void setWireLength(Integer wireLength) {
+    public void setWireLength(Double wireLength) {
         this.wireLength = wireLength;
     }
 
-    public Integer getResistance() {
+    public Double getResistance() {
         return resistance;
     }
 
-    public void setResistance(Integer resistance) {
+    public void setResistance(Double resistance) {
         this.resistance = resistance;
     }
 
@@ -214,19 +214,19 @@ public class MagnetDesignParameterTable implements Serializable {
         this.consumption = consumption;
     }
 
-    public Integer getCPressureDrop() {
+    public Double getCPressureDrop() {
         return cPressureDrop;
     }
 
-    public void setCPressureDrop(Integer cPressureDrop) {
+    public void setCPressureDrop(Double cPressureDrop) {
         this.cPressureDrop = cPressureDrop;
     }
 
-    public Integer getCChannelNum() {
+    public Double getCChannelNum() {
         return cChannelNum;
     }
 
-    public void setCChannelNum(Integer cChannelNum) {
+    public void setCChannelNum(Double cChannelNum) {
         this.cChannelNum = cChannelNum;
     }
 
@@ -254,35 +254,35 @@ public class MagnetDesignParameterTable implements Serializable {
         this.cTemp = cTemp;
     }
 
-    public Integer getCoreLength() {
+    public Double getCoreLength() {
         return coreLength;
     }
 
-    public void setCoreLength(Integer coreLength) {
+    public void setCoreLength(Double coreLength) {
         this.coreLength = coreLength;
     }
 
-    public Integer getCoreSection() {
+    public Double getCoreSection() {
         return coreSection;
     }
 
-    public void setCoreSection(Integer coreSection) {
+    public void setCoreSection(Double coreSection) {
         this.coreSection = coreSection;
     }
 
-    public Integer getCoreWeight() {
+    public Double getCoreWeight() {
         return coreWeight;
     }
 
-    public void setCoreWeight(Integer coreWeight) {
+    public void setCoreWeight(Double coreWeight) {
         this.coreWeight = coreWeight;
     }
 
-    public Integer getCopperWeight() {
+    public Double getCopperWeight() {
         return copperWeight;
     }
 
-    public void setCopperWeight(Integer copperWeight) {
+    public void setCopperWeight(Double copperWeight) {
         this.copperWeight = copperWeight;
     }
 

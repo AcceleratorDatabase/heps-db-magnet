@@ -71,7 +71,7 @@ public class MagnetDesignTable implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "magnetDesignTable")
     private MagnetDesignParameterTable magnetDesignParameterTable;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "designId")
-    private Collection<DesignOtherTable> designOtherTableCollection;
+    private Collection<DesignOthesrTable> designOthesrTableCollection;
 
     public MagnetDesignTable() {
     }
@@ -162,12 +162,12 @@ public class MagnetDesignTable implements Serializable {
     }
 
     @XmlTransient
-    public Collection<DesignOtherTable> getDesignOtherTableCollection() {
-        return designOtherTableCollection;
+    public Collection<DesignOthesrTable> getDesignOthesrTableCollection() {
+        return designOthesrTableCollection;
     }
 
-    public void setDesignOtherTableCollection(Collection<DesignOtherTable> designOtherTableCollection) {
-        this.designOtherTableCollection = designOtherTableCollection;
+    public void setDesignOthesrTableCollection(Collection<DesignOthesrTable> designOthesrTableCollection) {
+        this.designOthesrTableCollection = designOthesrTableCollection;
     }
 
     @Override

@@ -49,7 +49,7 @@ public class SwsDataTable implements Serializable {
     private String analysisData;
     @JoinColumn(name = "run_id", referencedColumnName = "sw_run_id")
     @ManyToOne
-    private StretchedWireSystem runId;
+    private StretchedWireSystemTable runId;
 
     public SwsDataTable() {
     }
@@ -82,11 +82,11 @@ public class SwsDataTable implements Serializable {
         this.analysisData = analysisData;
     }
 
-    public StretchedWireSystem getRunId() {
+    public StretchedWireSystemTable getRunId() {
         return runId;
     }
 
-    public void setRunId(StretchedWireSystem runId) {
+    public void setRunId(StretchedWireSystemTable runId) {
         this.runId = runId;
     }
 

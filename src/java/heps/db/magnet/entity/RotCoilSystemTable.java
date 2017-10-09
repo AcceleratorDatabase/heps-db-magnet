@@ -74,11 +74,11 @@ public class RotCoilSystemTable implements Serializable {
     @Column(name = "gain")
     private String gain;
     @Column(name = "start_position")
-    private Integer startPosition;
+    private Double startPosition;
     @Column(name = "rotation_rate")
-    private Integer rotationRate;
+    private Double rotationRate;
     @Column(name = "r_ref")
-    private Integer rRef;
+    private Double rRef;
     @Column(name = "dx")
     private Double dx;
     @Column(name = "dy")
@@ -163,27 +163,27 @@ public class RotCoilSystemTable implements Serializable {
         this.gain = gain;
     }
 
-    public Integer getStartPosition() {
+    public Double getStartPosition() {
         return startPosition;
     }
 
-    public void setStartPosition(Integer startPosition) {
+    public void setStartPosition(Double startPosition) {
         this.startPosition = startPosition;
     }
 
-    public Integer getRotationRate() {
+    public Double getRotationRate() {
         return rotationRate;
     }
 
-    public void setRotationRate(Integer rotationRate) {
+    public void setRotationRate(Double rotationRate) {
         this.rotationRate = rotationRate;
     }
 
-    public Integer getRRef() {
+    public Double getRRef() {
         return rRef;
     }
 
-    public void setRRef(Integer rRef) {
+    public void setRRef(Double rRef) {
         this.rRef = rRef;
     }
 

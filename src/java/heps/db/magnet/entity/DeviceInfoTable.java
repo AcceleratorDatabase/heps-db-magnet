@@ -78,7 +78,7 @@ public class DeviceInfoTable implements Serializable {
     @ManyToOne
     private MagnetDesignTable designId;
     @OneToMany(mappedBy = "deviceId")
-    private Collection<StretchedWireSystem> stretchedWireSystemCollection;
+    private Collection<StretchedWireSystemTable> stretchedWireSystemTableCollection;
     @OneToMany(mappedBy = "deviceId")
     private Collection<HallProbeSystemTable> hallProbeSystemTableCollection;
     @OneToMany(mappedBy = "deviceId")
@@ -172,12 +172,12 @@ public class DeviceInfoTable implements Serializable {
     }
 
     @XmlTransient
-    public Collection<StretchedWireSystem> getStretchedWireSystemCollection() {
-        return stretchedWireSystemCollection;
+    public Collection<StretchedWireSystemTable> getStretchedWireSystemTableCollection() {
+        return stretchedWireSystemTableCollection;
     }
 
-    public void setStretchedWireSystemCollection(Collection<StretchedWireSystem> stretchedWireSystemCollection) {
-        this.stretchedWireSystemCollection = stretchedWireSystemCollection;
+    public void setStretchedWireSystemTableCollection(Collection<StretchedWireSystemTable> stretchedWireSystemTableCollection) {
+        this.stretchedWireSystemTableCollection = stretchedWireSystemTableCollection;
     }
 
     @XmlTransient
