@@ -8,32 +8,57 @@
 
 <!DOCTYPE html>
 <html>
-
     <head>
-          
-        
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css">     
-      
-
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
-        
         <title>录入-磁铁设计</title>
         <style type="text/css">
-            p{font-size:14px;}
-            span {font-size:14px;}
-            
-        </style>
+        
+ .a-upload {
+    padding: 4px 10px;
+   
+   width: 350px;
+    line-height: 20px;
+    position: relative;
+    cursor: pointer;
+    color: #000;
+    background: #fafafa;
+    
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+}
 
+.a-upload  input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.a-upload:hover {
+    color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none
+}
+ 
+        </style>
     </head>
     <body>
         <h2>录入磁铁设计信息</h2>  
-        <div class="easyui-panel"  style="width:100%;padding:30px 60px 60px;position: relative;" >
+        <div class="easyui-panel"   style="height: 820px;padding:20px 60px 20px;position: relative;" >
+            <div style="position:absolute;left:0;right:0;width: 1000px;margin:0 auto;">
             <form action="NewDesign" method="POST" target="_blank" onsubmit="return submitform();" >
-                <div style="margin:0 auto;text-align: center">
+                <div id="info">
                     <span>磁铁种类: </span> 
                     <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
                         <option value="二极铁">二极铁</option>
@@ -49,8 +74,8 @@
                     </select>
                     <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newfamily()">新建型号</a>
                 </div>
-                <div id="table" style="width: 1000px;margin:0 auto; ">
-                    <div id="table1" style="margin-left:20px ;float: left ">
+                <div id="table">
+                    <div id="table1" style=" ;float: left ">
                         <p> 请输入磁铁设计要求：
                         <div style="margin:25px 0;"></div>
                         <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>-->                         
@@ -75,16 +100,9 @@
                             <div style="margin-bottom:5px">
                                 <input class="easyui-textbox" name="remark" label="备注" labelPosition="top" style="width:100%">
                             </div>
-<!--                                                        <div style="margin-bottom:5px">
-                                                            <input class="easyui-filebox" name="mmplot" id="mmplot" label="上传机械、物理设计图:（PDF格式）" labelPosition="top" data-options="prompt:'选择机械设计文件...',accept: 'application/pdf'" style="width:100%">
-                                                        </div>
-                            <div align="right">             <a href="#" class="easyui-linkbutton" style="width:100%" onclick="return ajaxFileUpload();">上  传</a>         </div> 
-                                                        <div style="margin-bottom:5px">
-                                                                <input class="easyui-filebox"  name="mpplot" id="ppplot" data-options="prompt:'选择物理设计文件...',accept: 'application/pdf'" style="width:100%">
-                            </div>-->
                         </div>                                                          
                     </div>
-                    <div id="table2" style="margin-left:20px ;float: right">
+                    <div id="table2" style="float: right">
                         <p>请输入磁铁设计参数：
                             <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges2()">查看修改项</a>-->
                             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="addrow()">新增设计参数</a>
@@ -99,202 +117,204 @@
                                ">
                         </table>                    
                     </div>
-
                 </div>
-                <div style="width:1800px;position: absolute;bottom: 0;margin:0 auto;text-align: center">
-                    <p>输入完成请点击提交
-                        <input style="width:90px; " type="submit" value="提交" >
+                <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center">
+                    
+                        <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
                         <input type="hidden" id="hd1" name="hd1"/>
                         <input type="hidden" id="hd2" name="hd2"/>
-
-                    </p>
+                    
                 </div>
             </form>
-<!--            <div style="width:1800px;position: absolute;bottom: 100px;margin:0 auto;text-align: left">
-                <form id="form1" action="UploadHandleServlet" enctype="multipart/form-data" method="post" target="nm_iframe" onsubmit="beginUpload()">
-                   
-                    上传文件1：<input type="file" name="file1"><br/>
+            </div>
+           
+            <div  class="easyui-panel"   style=" position: absolute;left:450px; top:650px; width:400px;padding: 5px">  
+                <span >请上传物理设计文件（PDF格式）</span>                
+                <form  id="formId1" action="IframeAjax?plottype=0" method="post"  
+                      target="hiddenFrameName1" enctype="multipart/form-data">                       
+                    <div>                         
+                       <input id="pplotId" type="file" class="a-upload" name="pplotName"  
+                               onchange="uploadpplot()" /> 
+                        <div style="display: none; color: red;" id="errorTip1">未选择文件  
+                        </div>  
+                        <div style="display: none; color: green;" id="successTip1"></div>  
+                    </div> 
+                 <!--    <img id="img" src="" width="200" height="200" style="display: none;" /> -->
+                </form>  
+                <iframe style="display: none" name='hiddenFrameName1' id="hidden_frame1"></iframe>  
 
-                    上传文件2：<input type="file" name="file2"><br/>
-                    <input type="submit" value="提交" onclick="formSubmit()" >
-                </form>
-              <span id="spann"></span>  
-    <table width="300px;" border="0"><tr><td>  
-   <table id="tablee" height="20px;" style="background-color: gray;"><tr><td></td></tr></table>  
-   </td>  
-   
-   </tr>  
-  </table> 
-                <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
-</div>-->
-        <div>    
-<form id="formId" action="IframeAjax" method="post"  
-        target="hiddenFrameName" enctype="multipart/form-data">  
-        <div>  
-            <input id="imageId" type="file" name="imageName"  
-                onchange="uploadImg()" />  
-            <div style="display: none; color: red;" id="errorTip">活动海报不可为空  
-            </div>  
-            <div style="display: none; color: green;" id="successTip"></div>  
-        </div> 
-    
-<!--    <img id="img" src="" width="200" height="200" style="display: none;" /> -->
-    </form>  
-    <iframe style="display: none" name='hiddenFrameName' id="hidden_frame"></iframe>  
-    
-  </div>
-     
-        <script type="text/javascript">
-  function uploadImg() {  
-        var names = $("#imageId").val().split(".");  
-        if (names[1] !== "gif" && names[1] !== "GIF" && names[1] !== "jpg"  
-                && names[1] !== "JPG" && names[1] !== "png" && names[1] !== "PNG") {  
-            $("#errorTip").html("海报必须为gif,jpg,png格式");  
-            $("#errorTip").show();  
-            return;  
-        }  
-        $("#formId").submit();  
-    }  
-  
-    function callback(success, message, url) {  
-        if (success === false) {  
-            $("#errorTip").html(message);  
-            $("#errorTip").show();  
-        } else {  
-            $("#errorTip").hide();  
-            $("#successTip").html(message);  
-            $("#successTip").show();  
-//            $("#img").attr("src", "E:/plot/uploads/" + url);  
-//            $("#img").show();  
-        }  
-    }  
+                <span >请上传机械设计文件（PDF格式）</span>                
+                <form  id="formId2" action="IframeAjax?plottype=1" method="post"  
+                      target="hiddenFrameName2" enctype="multipart/form-data">                       
+                    <div>                         
+                       <input id="mplotId" type="file" class="a-upload" name="mplotName"  
+                               onchange="uploadmplot()" /> 
+                        <div style="display: none; color: red;" id="errorTip2">未选择文件  
+                        </div>  
+                        <div style="display: none; color: green;" id="successTip2"></div>  
+                    </div> 
+                 <!--    <img id="img" src="" width="200" height="200" style="display: none;" /> -->
+                </form>  
+                <iframe style="display: none" name='hiddenFrameName2' id="hidden_frame2"></iframe>
+                <input type="hidden" id="plottype" name="plottype"/>
+            </div>
+        </div>
+        
+            <script type="text/javascript">
+                function uploadpplot() {
+                    var names = $("#pplotId").val().split(".");
+                    document.getElementById("plottype").value="physics";
+                    if (names[1] !== "pdf") {
+                        $("#errorTip1").html("文件格式必须为PDF");
+                        $("#errorTip1").show();
+                        return;
+                    }
+                    $("#formId1").submit();
+                }
+                function uploadmplot() {
+                     document.getElementById("plottype").value="mechanic";
+                    var names = $("#mplotId").val().split(".");
+                    if (names[1] !== "pdf") {
+                        $("#errorTip2").html("文件格式必须为PDF");
+                        $("#errorTip2").show();
+                        return;
+                    }
+                    $("#formId2").submit();
+                }
 
-//            function callback() {
-//                $.ajax({  
-//            type:"post",  
-//            url:"UploadHandleServlet",//响应文件上传进度的servlet   
-//            success:function(msg){  
-//            document.getElementById("spann").innerHTML="已上传："+msg;//显示读取百分比   
-//            //document.getElementById("tablee").width=message;//通过表格宽度 实现进度条   
-//           }  
-//       });
-//            }
-            function formSubmit() {
-                window.setInterval("callback()", 100);//每隔100毫秒执行    
-                document.getElementById("#form1").form.submit();
-            }
-         
-    
-          
-            function submitform() {
-                var require = $("#design_require").datagrid("getData");
-                document.getElementById("hd1").value = JSON.stringify(require);
-                var parameter = $("#design_para").datagrid("getData");
-                document.getElementById("hd2").value = JSON.stringify(parameter);
-               
-                var yn = window.confirm("确认提交？");
-                if (yn) {
-                    alert("您已提交成功");
-                } else
-                    return false;
-            }
-       
-
-            function newtype()
-            {
-                var name = window.prompt("新建磁铁类型", "");
-                if (name !== null && name !== "")
-                {
-                    var x = document.getElementById("magtype");
-                    var option = document.createElement("option");
-                    option.text = name;
-                    option.value = name;
-                    try {
-                        x.add(option, x.options[null]);
-                    } catch (e) {
-                        x.add(option, null);
+                function callback1(success, message, url) {
+                    if (success === false) {
+                        $("#errorTip1").html(message);
+                        $("#errorTip1").show();
+                    } else {
+                        $("#errorTip1").hide();
+                        $("#successTip1").html(message);
+                        $("#successTip1").show();
+                        //            $("#img").attr("src", "E:/plot/uploads/" + url);  
+                        //            $("#img").show();  
                     }
                 }
-            }
-            function newfamily()
-            {
-                var name = window.prompt("新建磁铁型号", "");
-                if (name !== null && name !== "")
-                {
-                    var x = document.getElementById("magfamily");
-                    var option = document.createElement("option");
-                    option.text = name;
-                    option.value = name;
-                    try {
-                        x.add(option, x.options[null]);
-                    } catch (e) {
-                        x.add(option, null);
+function callback2(success, message, url) {
+                    if (success === false) {
+                        $("#errorTip2").html(message);
+                        $("#errorTip2").show();
+                    } else {
+                        $("#errorTip2").hide();
+                        $("#successTip2").html(message);
+                        $("#successTip2").show();
+                        //            $("#img").attr("src", "E:/plot/uploads/" + url);  
+                        //            $("#img").show();  
                     }
                 }
-            }
-            var mycolumns = [[
-                    {field: 'name', title: '设计参数', width: 100, sortable: true},
-                    {field: 'value', title: '数值', width: 100, resizable: false, formatter: function (value, arr) {
-                            var editor = '';
-                            if (typeof arr.editor === 'object') {
-                                editor = arr.editor.type;
-                            } else {
-                                editor = arr.editor;
-                            }
-                            if (editor === "numberbox" && value !== '') {
-                                return Number(value);
-                            } else
-                                return value;
-                        }}
-                ]];
-            function getChanges1() {
-                //var all=$('#table_require').getData();
-                //  alert(all);
-                var s = '';
-                var rows = $('#design_require').propertygrid('getChanges');
-                for (var i = 0; i < rows.length; i++) {
-                    s += rows[i].name + ':' + rows[i].value + ',';
+                function submitform() {
+                    var require = $("#design_require").datagrid("getData");
+                    document.getElementById("hd1").value = JSON.stringify(require);
+                    var parameter = $("#design_para").datagrid("getData");
+                    document.getElementById("hd2").value = JSON.stringify(parameter);
+
+                    var yn = window.confirm("确认提交？");
+                    if (yn) {
+                        alert("您已提交成功");
+                    } else
+                        return false;
                 }
-                alert(s);
-            }
-            function getChanges2() {
-                var s = '';
-                var rows = $('#design_para').propertygrid('getChanges');
-                for (var i = 0; i < rows.length; i++) {
-                    s += rows[i].name + ':' + rows[i].value + ',';
+
+
+                function newtype()
+                {
+                    var name = window.prompt("新建磁铁类型", "");
+                    if (name !== null && name !== "")
+                    {
+                        var x = document.getElementById("magtype");
+                        var option = document.createElement("option");
+                        option.text = name;
+                        option.value = name;
+                        try {
+                            x.add(option, x.options[null]);
+                        } catch (e) {
+                            x.add(option, null);
+                        }
+                    }
                 }
-                alert(s);
-            }
-            function addrow() {
-                var input = window.prompt("新建设计参数,格式：参数名/参数组名/参数类型(text或number)", "property/其他/text");
-                var slice = input.split("/");
-                var property = slice[0];
-                var group = slice[1];
-                var type;
-                if (slice[2] === "text") {
-                    type = "text";
-                } else if (slice[2] === "number") {
-                    type = "numberbox";
-                } else {
-                    alert("格式错误");
+                function newfamily()
+                {
+                    var name = window.prompt("新建磁铁型号", "");
+                    if (name !== null && name !== "")
+                    {
+                        var x = document.getElementById("magfamily");
+                        var option = document.createElement("option");
+                        option.text = name;
+                        option.value = name;
+                        try {
+                            x.add(option, x.options[null]);
+                        } catch (e) {
+                            x.add(option, null);
+                        }
+                    }
                 }
-                var row = {
-                    name: property,
-                    value: '',
-                    group: group,
-                    editor: {type: type, options: {precision: 5}}
-                };
-                $('#design_para').propertygrid('appendRow', row);
-            }
-            function delrow() {
-                var row = $('#design_para').propertygrid('getSelected');
-                var index = $('#design_para').propertygrid('getRowIndex', row);
-                if (index > 19) {
-                    $('#design_para').propertygrid('deleteRow', index);
-                } else
-                    alert("只能删除自定义参数！");
-            }
-        </script>  
+                var mycolumns = [[
+                        {field: 'name', title: '设计参数', width: 100, sortable: true},
+                        {field: 'value', title: '数值', width: 100, resizable: false, formatter: function (value, arr) {
+                                var editor = '';
+                                if (typeof arr.editor === 'object') {
+                                    editor = arr.editor.type;
+                                } else {
+                                    editor = arr.editor;
+                                }
+                                if (editor === "numberbox" && value !== '') {
+                                    return Number(value);
+                                } else
+                                    return value;
+                            }}
+                    ]];
+                function getChanges1() {
+                    //var all=$('#table_require').getData();
+                    //  alert(all);
+                    var s = '';
+                    var rows = $('#design_require').propertygrid('getChanges');
+                    for (var i = 0; i < rows.length; i++) {
+                        s += rows[i].name + ':' + rows[i].value + ',';
+                    }
+                    alert(s);
+                }
+                function getChanges2() {
+                    var s = '';
+                    var rows = $('#design_para').propertygrid('getChanges');
+                    for (var i = 0; i < rows.length; i++) {
+                        s += rows[i].name + ':' + rows[i].value + ',';
+                    }
+                    alert(s);
+                }
+                function addrow() {
+                    var input = window.prompt("新建设计参数,格式：参数名/参数组名/参数类型(text或number)", "property/其他/text");
+                    var slice = input.split("/");
+                    var property = slice[0];
+                    var group = slice[1];
+                    var type;
+                    if (slice[2] === "text") {
+                        type = "text";
+                    } else if (slice[2] === "number") {
+                        type = "numberbox";
+                    } else {
+                        alert("格式错误");
+                    }
+                    var row = {
+                        name: property,
+                        value: '',
+                        group: group,
+                        editor: {type: type, options: {precision: 5}}
+                    };
+                    $('#design_para').propertygrid('appendRow', row);
+                }
+                function delrow() {
+                    var row = $('#design_para').propertygrid('getSelected');
+                    var index = $('#design_para').propertygrid('getRowIndex', row);
+                    if (index > 19) {
+                        $('#design_para').propertygrid('deleteRow', index);
+                    } else
+                        alert("只能删除自定义参数！");
+                }
+            </script>  
 
     </body>
 </html>

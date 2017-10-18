@@ -47,9 +47,17 @@ public class IframeAjax extends HttpServlet {
      */  
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  
         // 这里是取得WebContent的根目录路径  
+        
         String realPath = "E:/plot";  
+        String plottype=request.getParameter("plottype");
+        String dir="";
         // 这里是为了方便管理上传的文件，因而在根目录下建立一个文件夹  
-        File uploadPath = new File(realPath, "uploads");  
+        if(plottype.equals("0")){
+           dir="pplot";
+        }else if(plottype.equals("1")){
+          dir="mplot";
+        }
+        File uploadPath = new File(realPath, dir);  
         uploadPath.mkdirs();  
         // 解决Servelt to js乱码问题  
         response.setContentType("text/html;charset=UTF-8");  
@@ -74,7 +82,7 @@ public class IframeAjax extends HttpServlet {
                             extName = srcName.substring(pos);  
                         }  
                         // 取得当前时间的纳秒数加扩展名来做保存文件的文件名  
-                        String name = System.nanoTime() + extName;  
+                        String name = plottype+srcName.substring(0, pos)+"-"+System.nanoTime()+extName;  
                         File file = new File(uploadPath, name);  
                         f.write(file);// 保存到指定的目录中去  
                         pics.add(name);  
@@ -82,10 +90,20 @@ public class IframeAjax extends HttpServlet {
                     }  
                 }  
             } catch (Exception e) {  
-                response.getWriter().write("<script>parent.callback(false,'图片上传失败','')</script>");  
+                if(plottype.equals("0")){
+                response.getWriter().write("<script>parent.callback1(false,'上传失败','')</script>");
+                }else if(plottype.equals("1"))
+                {
+                response.getWriter().write("<script>parent.callback2(false,'上传失败','')</script>");
+                }
             }  
-  
-            response.getWriter().write("<script>parent.callback(true,'图片上传成功','" + pics.get(0) + "')</script>");  
+  if(plottype.equals("0")){
+                 response.getWriter().write("<script>parent.callback1(true,'上传成功','" + pics.get(0) + "')</script>");
+                }else if(plottype.equals("1"))
+                {
+                response.getWriter().write("<script>parent.callback2(true,'上传成功','" + pics.get(0) + "')</script>");
+                }
+           // response.getWriter().write("<script>parent.callback(true,'上传成功','" + pics.get(0) + "')</script>");  
             // 一般如果是直接表单提交的方法需要返回  
            //  request.getRequestDispatcher("newdesign.jsp").forward(request,response);  
   
