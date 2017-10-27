@@ -25,15 +25,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author qiaoys
  */
 @Entity
-@Table(name = "design_othesr_table")
+@Table(name = "design_others_table")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "DesignOthesrTable.findAll", query = "SELECT d FROM DesignOthesrTable d")
-    , @NamedQuery(name = "DesignOthesrTable.findByIndex", query = "SELECT d FROM DesignOthesrTable d WHERE d.index = :index")
-    , @NamedQuery(name = "DesignOthesrTable.findByProperty", query = "SELECT d FROM DesignOthesrTable d WHERE d.property = :property")
-    , @NamedQuery(name = "DesignOthesrTable.findByValueNum", query = "SELECT d FROM DesignOthesrTable d WHERE d.valueNum = :valueNum")
-    , @NamedQuery(name = "DesignOthesrTable.findByValueText", query = "SELECT d FROM DesignOthesrTable d WHERE d.valueText = :valueText")})
-public class DesignOthesrTable implements Serializable {
+    @NamedQuery(name = "DesignOthersTable.findAll", query = "SELECT d FROM DesignOthersTable d")
+    , @NamedQuery(name = "DesignOthersTable.findByIndex", query = "SELECT d FROM DesignOthersTable d WHERE d.index = :index")
+    , @NamedQuery(name = "DesignOthersTable.findByProperty", query = "SELECT d FROM DesignOthersTable d WHERE d.property = :property")
+    , @NamedQuery(name = "DesignOthersTable.findByValueNum", query = "SELECT d FROM DesignOthersTable d WHERE d.valueNum = :valueNum")
+    , @NamedQuery(name = "DesignOthersTable.findByValueText", query = "SELECT d FROM DesignOthersTable d WHERE d.valueText = :valueText")})
+public class DesignOthersTable implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,10 +54,10 @@ public class DesignOthesrTable implements Serializable {
     @ManyToOne(optional = false)
     private MagnetDesignTable designId;
 
-    public DesignOthesrTable() {
+    public DesignOthersTable() {
     }
 
-    public DesignOthesrTable(Integer index) {
+    public DesignOthersTable(Integer index) {
         this.index = index;
     }
 
@@ -111,10 +111,10 @@ public class DesignOthesrTable implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DesignOthesrTable)) {
+        if (!(object instanceof DesignOthersTable)) {
             return false;
         }
-        DesignOthesrTable other = (DesignOthesrTable) object;
+        DesignOthersTable other = (DesignOthersTable) object;
         if ((this.index == null && other.index != null) || (this.index != null && !this.index.equals(other.index))) {
             return false;
         }
@@ -123,7 +123,7 @@ public class DesignOthesrTable implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.DesignOthesrTable[ index=" + index + " ]";
+        return "heps.db.magnet.entity.DesignOthersTable[ index=" + index + " ]";
     }
     
 }

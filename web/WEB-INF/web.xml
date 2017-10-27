@@ -8,6 +8,14 @@
         <servlet-name>NewDesign</servlet-name>
         <servlet-class>heps.db.magnet.servlet.NewDesign</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>QueryDesign</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.QueryDesign</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DesignResult</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.DesignResult</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IframeAjax</servlet-name>
         <url-pattern>/IframeAjax</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>NewDesign</servlet-name>
         <url-pattern>/NewDesign</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QueryDesign</servlet-name>
+        <url-pattern>/QueryDesign</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DesignResult</servlet-name>
+        <url-pattern>/DesignResult</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

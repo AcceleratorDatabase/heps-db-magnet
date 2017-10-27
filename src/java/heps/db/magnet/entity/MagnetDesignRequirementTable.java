@@ -31,11 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByLength", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.length = :length")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByAperture", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.aperture = :aperture")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByMinimumGap", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.minimumGap = :minimumGap")
+    , @NamedQuery(name = "MagnetDesignRequirementTable.findByUsefulField", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.usefulField = :usefulField")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByIntensityB", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.intensityB = :intensityB")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByIntensityQ", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.intensityQ = :intensityQ")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByIntensityS", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.intensityS = :intensityS")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByIntensityO", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.intensityO = :intensityO")
-    , @NamedQuery(name = "MagnetDesignRequirementTable.findByUsefulField", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.usefulField = :usefulField")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findBySystemComponent", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.systemComponent = :systemComponent")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByNonSystemComponent", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.nonSystemComponent = :nonSystemComponent")})
 public class MagnetDesignRequirementTable implements Serializable {
@@ -53,6 +53,8 @@ public class MagnetDesignRequirementTable implements Serializable {
     private Double aperture;
     @Column(name = "minimum_gap")
     private Double minimumGap;
+    @Column(name = "useful_field")
+    private Double usefulField;
     @Column(name = "intensity_B")
     private Double intensityB;
     @Column(name = "intensity_Q")
@@ -61,8 +63,6 @@ public class MagnetDesignRequirementTable implements Serializable {
     private Double intensityS;
     @Column(name = "intensity_O")
     private Double intensityO;
-    @Column(name = "useful_field")
-    private Double usefulField;
     @Column(name = "system_component")
     private Double systemComponent;
     @Column(name = "non_system_component")
@@ -110,6 +110,14 @@ public class MagnetDesignRequirementTable implements Serializable {
         this.minimumGap = minimumGap;
     }
 
+    public Double getUsefulField() {
+        return usefulField;
+    }
+
+    public void setUsefulField(Double usefulField) {
+        this.usefulField = usefulField;
+    }
+
     public Double getIntensityB() {
         return intensityB;
     }
@@ -140,14 +148,6 @@ public class MagnetDesignRequirementTable implements Serializable {
 
     public void setIntensityO(Double intensityO) {
         this.intensityO = intensityO;
-    }
-
-    public Double getUsefulField() {
-        return usefulField;
-    }
-
-    public void setUsefulField(Double usefulField) {
-        this.usefulField = usefulField;
     }
 
     public Double getSystemComponent() {

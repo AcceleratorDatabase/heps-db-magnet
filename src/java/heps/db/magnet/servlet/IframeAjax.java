@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;  
 import javax.servlet.http.HttpServletRequest;  
 import javax.servlet.http.HttpServletResponse;  
+import javax.servlet.http.HttpSession;
   
 import org.apache.commons.fileupload.FileItem;  
 import org.apache.commons.fileupload.FileItemFactory;  
@@ -25,7 +26,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */  
 public class IframeAjax extends HttpServlet {  
     private static final long serialVersionUID = 1L;  
-  
+  public String mplotname,pplotname;
     /** 
      * Default constructor. 
      */  
@@ -51,6 +52,7 @@ public class IframeAjax extends HttpServlet {
         String realPath = "E:/plot";  
         String plottype=request.getParameter("plottype");
         String dir="";
+       
         // 这里是为了方便管理上传的文件，因而在根目录下建立一个文件夹  
         if(plottype.equals("0")){
            dir="pplot";
@@ -66,7 +68,9 @@ public class IframeAjax extends HttpServlet {
         if (isMultipart) {  
             FileItemFactory factory = new DiskFileItemFactory();  
             ServletFileUpload upload = new ServletFileUpload(factory);  
-            ArrayList<String> pics = new ArrayList<String>();  
+            ArrayList<String> pics;  
+             String name;
+            pics = new ArrayList<>();
             try {  
                 @SuppressWarnings("unchecked")  
                 List<FileItem> items = upload.parseRequest(request);  
@@ -82,26 +86,32 @@ public class IframeAjax extends HttpServlet {
                             extName = srcName.substring(pos);  
                         }  
                         // 取得当前时间的纳秒数加扩展名来做保存文件的文件名  
-                        String name = plottype+srcName.substring(0, pos)+"-"+System.nanoTime()+extName;  
+                        name = srcName.substring(0, pos)+"-"+System.nanoTime()+extName;  
                         File file = new File(uploadPath, name);  
                         f.write(file);// 保存到指定的目录中去  
                         pics.add(name);  
-  
+                       
+  //System.out.println(pics.get(0));
                     }  
                 }  
             } catch (Exception e) {  
                 if(plottype.equals("0")){
                 response.getWriter().write("<script>parent.callback1(false,'上传失败','')</script>");
+               
                 }else if(plottype.equals("1"))
                 {
                 response.getWriter().write("<script>parent.callback2(false,'上传失败','')</script>");
                 }
             }  
-  if(plottype.equals("0")){
-                 response.getWriter().write("<script>parent.callback1(true,'上传成功','" + pics.get(0) + "')</script>");
+            if(plottype.equals("0")){
+              
+               
+
+                 response.getWriter().write("<script>parent.callback1(true,'上传成功!','" + pics.get(0) + "')</script>");
                 }else if(plottype.equals("1"))
                 {
-                response.getWriter().write("<script>parent.callback2(true,'上传成功','" + pics.get(0) + "')</script>");
+              
+                response.getWriter().write("<script>parent.callback2(true,'上传成功!','" + pics.get(0) + "')</script>");
                 }
            // response.getWriter().write("<script>parent.callback(true,'上传成功','" + pics.get(0) + "')</script>");  
             // 一般如果是直接表单提交的方法需要返回  

@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,25 +14,23 @@
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
         <title>录入-磁铁设计</title>
-        <style type="text/css">
-        
+        <style type="text/css">       
  .a-upload {
     padding: 4px 10px;
-   
-   width: 350px;
+    width: 350px;
     line-height: 20px;
     position: relative;
     cursor: pointer;
-    color: #000;
-    background: #fafafa;
-    
-    border-radius: 4px;
+    color: #444;
+  background: #fafafa;
+  background-repeat: repeat-x;    
+     border: 1px solid #bbb;
+     border-radius: 5px 5px 5px 5px;
     overflow: hidden;
     display: inline-block;
     *display: inline;
     *zoom: 1
 }
-
 .a-upload  input {
     position: absolute;
     font-size: 100px;
@@ -43,14 +40,12 @@
     filter: alpha(opacity=0);
     cursor: pointer
 }
-
 .a-upload:hover {
-    color: #444;
-    background: #eee;
-    border-color: #ccc;
+    color:  #000000;
+    background: #eaf2ff;
+    border: 1px solid #b7d2ff;
     text-decoration: none
-}
- 
+} 
         </style>
     </head>
     <body>
@@ -58,7 +53,7 @@
         <div class="easyui-panel"   style="height: 820px;padding:20px 60px 20px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1000px;margin:0 auto;">
             <form action="NewDesign" method="POST" target="_blank" onsubmit="return submitform();" >
-                <div id="info">
+                <div id="info" >
                     <span>磁铁种类: </span> 
                     <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
                         <option value="二极铁">二极铁</option>
@@ -118,18 +113,19 @@
                         </table>                    
                     </div>
                 </div>
-                <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center">
-                    
+                <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
                         <input type="hidden" id="hd1" name="hd1"/>
-                        <input type="hidden" id="hd2" name="hd2"/>
-                    
+                        <input type="hidden" id="hd2" name="hd2"/>      
+                        <input type="hidden" id="pplotn" name="pplotn"/>
+                        <input type="hidden" id="mplotn" name="mplotn"/>
                 </div>
             </form>
             </div>
            
-            <div  class="easyui-panel"   style=" position: absolute;left:450px; top:650px; width:400px;padding: 5px">  
-                <span >请上传物理设计文件（PDF格式）</span>                
+            <div  class="easyui-panel"   style=" position: absolute;left:450px; top:640px; width:404px;padding: 5px">  
+                <span >请上传物理设计文件（PDF格式）</span>  
+                <div style="margin:5px 0;"></div>
                 <form  id="formId1" action="IframeAjax?plottype=0" method="post"  
                       target="hiddenFrameName1" enctype="multipart/form-data">                       
                     <div>                         
@@ -138,12 +134,14 @@
                         <div style="display: none; color: red;" id="errorTip1">未选择文件  
                         </div>  
                         <div style="display: none; color: green;" id="successTip1"></div>  
+                        
                     </div> 
                  <!--    <img id="img" src="" width="200" height="200" style="display: none;" /> -->
                 </form>  
                 <iframe style="display: none" name='hiddenFrameName1' id="hidden_frame1"></iframe>  
 
-                <span >请上传机械设计文件（PDF格式）</span>                
+                <span >请上传机械设计文件（PDF格式）</span>  
+                <div style="margin:5px 0;"></div>
                 <form  id="formId2" action="IframeAjax?plottype=1" method="post"  
                       target="hiddenFrameName2" enctype="multipart/form-data">                       
                     <div>                         
@@ -152,18 +150,20 @@
                         <div style="display: none; color: red;" id="errorTip2">未选择文件  
                         </div>  
                         <div style="display: none; color: green;" id="successTip2"></div>  
+                        
                     </div> 
                  <!--    <img id="img" src="" width="200" height="200" style="display: none;" /> -->
                 </form>  
                 <iframe style="display: none" name='hiddenFrameName2' id="hidden_frame2"></iframe>
-                <input type="hidden" id="plottype" name="plottype"/>
+                
             </div>
         </div>
         
             <script type="text/javascript">
                 function uploadpplot() {
+                    
                     var names = $("#pplotId").val().split(".");
-                    document.getElementById("plottype").value="physics";
+                    
                     if (names[1] !== "pdf") {
                         $("#errorTip1").html("文件格式必须为PDF");
                         $("#errorTip1").show();
@@ -172,7 +172,7 @@
                     $("#formId1").submit();
                 }
                 function uploadmplot() {
-                     document.getElementById("plottype").value="mechanic";
+                     
                     var names = $("#mplotId").val().split(".");
                     if (names[1] !== "pdf") {
                         $("#errorTip2").html("文件格式必须为PDF");
@@ -184,24 +184,26 @@
 
                 function callback1(success, message, url) {
                     if (success === false) {
-                        $("#errorTip1").html(message);
+                        $("#errorTip1").html(message+url);
                         $("#errorTip1").show();
                     } else {
                         $("#errorTip1").hide();
-                        $("#successTip1").html(message);
+                        $("#successTip1").html(message+url);
                         $("#successTip1").show();
+                         document.getElementById("pplotn").value=url;
                         //            $("#img").attr("src", "E:/plot/uploads/" + url);  
                         //            $("#img").show();  
                     }
                 }
 function callback2(success, message, url) {
                     if (success === false) {
-                        $("#errorTip2").html(message);
+                        $("#errorTip2").html(message+url);
                         $("#errorTip2").show();
                     } else {
                         $("#errorTip2").hide();
-                        $("#successTip2").html(message);
+                        $("#successTip2").html(message+url);
                         $("#successTip2").show();
+                        document.getElementById("mplotn").value=url;
                         //            $("#img").attr("src", "E:/plot/uploads/" + url);  
                         //            $("#img").show();  
                     }

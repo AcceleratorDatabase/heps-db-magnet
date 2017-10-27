@@ -71,7 +71,7 @@ public class MagnetDesignTable implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "magnetDesignTable")
     private MagnetDesignParameterTable magnetDesignParameterTable;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "designId")
-    private Collection<DesignOthesrTable> designOthesrTableCollection;
+    private Collection<DesignOthersTable> designOthersTableCollection;
 
     public MagnetDesignTable() {
     }
@@ -162,12 +162,12 @@ public class MagnetDesignTable implements Serializable {
     }
 
     @XmlTransient
-    public Collection<DesignOthesrTable> getDesignOthesrTableCollection() {
-        return designOthesrTableCollection;
+    public Collection<DesignOthersTable> getDesignOthersTableCollection() {
+        return designOthersTableCollection;
     }
 
-    public void setDesignOthesrTableCollection(Collection<DesignOthesrTable> designOthesrTableCollection) {
-        this.designOthesrTableCollection = designOthesrTableCollection;
+    public void setDesignOthersTableCollection(Collection<DesignOthersTable> designOthersTableCollection) {
+        this.designOthersTableCollection = designOthersTableCollection;
     }
 
     @Override
@@ -192,7 +192,8 @@ public class MagnetDesignTable implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.MagnetDesignTable[ designId=" + designId + " ]";
+//        return "heps.db.magnet.entity.MagnetDesignTable[ designId=" + designId + " ]";
+return "{\"designid\":\""+designId+"\","+"\"magtype\":\""+type+"\","+"\"magfamily\":\""+family+"\","+"\"designedby\":\""+designBy+"\","+"\"approvedby\":\""+approvedBy+"\","+"\"remark\":\""+remark+"\"}";
     }
     
 }
