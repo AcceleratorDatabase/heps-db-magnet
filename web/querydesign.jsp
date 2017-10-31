@@ -13,9 +13,7 @@
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
-        <script type="text/javascript">
-           
-            </script>
+        
         <title>查询-磁铁设计</title>
         <style type="text/css">
             span{
@@ -64,6 +62,7 @@
                         <div id="info1" style="position:absolute;width: 200px">
                             <span>磁铁种类：</span> 
                             <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
+                                <option value="">未选择</option>
                                 <option value="二极铁">二极铁</option>
                                 <option value="四极铁">四极铁</option>
                                 <option value="六极铁">六极铁</option>
@@ -74,6 +73,7 @@
                         <div id="info2" style="position:absolute;width: 200px;left:200px">
                             <span>磁铁型号：</span>
                             <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
+                                <option value="">未选择</option>
                                 <option value="1">I</option>
                                 <option value="2">II</option>
                             </select>
@@ -110,40 +110,66 @@
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >
                     </div> 
                 </form> 
-               <div style="position: absolute;top: 170px;width: 1200px">
+                <div style="position: absolute;top: 170px;width: 1200px">
                     <table id="dg" name="dg" class="easyui-datagrid" title="Frozen Rows in DataGrid" 
                            data-options="
-                           singleSelect: true,
+                           singleSelect: true,                                                    
                            collapsible: true,
                            rownumbers: true,
-                         dataType:'json',
+                           dataType:'json',
+                           toolbar:toolbar,
                            url: '',
                            method: 'get',
-                           onLoadSuccess: function(){                            
-                           $(this).datagrid('freezeRow',0).datagrid('freezeRow',1);
+                           onLoadSuccess: function(){  
+                           
+                                                      
                            }
                            ">
                         <thead data-options="frozen:true">
                             <tr>
-                                <th data-options="field:'designid',width:100">ID</th>
-                                <th data-options="field:'magtype',width:120">磁铁类型</th>
-
+                                <th data-options="field:'designid',width:80,sortable:true">ID</th>
+                                <th data-options="field:'magtype',width:80">磁铁类型</th>
+                                <th data-options="field:'magfamily',width:80">磁铁型号</th>
                             </tr>
                         </thead>
                         <thead>
-                            <tr>
-                                <th data-options="field:'magfamily',width:120">磁铁型号</th>
-                                <th data-options="field:'designedby',width:90,align:'right'">设计人</th>
-                                <th data-options="field:'approvedby',width:90,align:'right'">设计人</th>
-                                <th data-options="field:'remark',width:90,align:'right'">设计人</th>
-                                
+                            <tr>                                
+                                <th data-options="field:'designedby',width:90">设计人</th>
+                                <th data-options="field:'approvedby',width:90">负责人</th>
+                                <th data-options="field:'remark',width:90">备注</th>
+                                <th data-options="field:'length',width:90">有效长度</th>
+                                <th data-options="field:'aperture',width:90">磁铁孔径</th>
+                                <th data-options="field:'min_gap',width:120">相邻磁极最小间隙</th>
+                                <th data-options="field:'useful_field',width:90">好场区范围</th>
+                                <th data-options="field:'intensityB',width:90">二极分量</th>
+                                <th data-options="field:'intensityQ',width:90">四极分量</th>
+                                <th data-options="field:'intensityS',width:90">六极分量</th>
+                                <th data-options="field:'intensityO',width:90">八极分量</th>
+                                <th data-options="field:'sys',width:90">系统分量</th>
+                                <th data-options="field:'non_sys',width:90">非系统分量</th>
                             </tr>
                         </thead>
                     </table>
                 </div>
-                
-                
+
+
             </div>            
         </div>
+        <script type="text/javascript">
+        var toolbar = [{
+            text:'Add',
+            iconCls:'icon-add',
+            handler:function(){alert('add');}
+        },{
+            text:'Cut',
+            iconCls:'icon-cut',
+            handler:function(){alert('cut');}
+        },'-',{
+            text:'Save',
+            iconCls:'icon-save',
+            handler:function(){alert('save');}
+        }];
+
+        </script>
     </body>
 </html>

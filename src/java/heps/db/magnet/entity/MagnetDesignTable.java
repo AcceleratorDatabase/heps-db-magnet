@@ -193,7 +193,15 @@ public class MagnetDesignTable implements Serializable {
     @Override
     public String toString() {
 //        return "heps.db.magnet.entity.MagnetDesignTable[ designId=" + designId + " ]";
-return "{\"designid\":\""+designId+"\","+"\"magtype\":\""+type+"\","+"\"magfamily\":\""+family+"\","+"\"designedby\":\""+designBy+"\","+"\"approvedby\":\""+approvedBy+"\","+"\"remark\":\""+remark+"\"}";
+        return "{\"designid\":\"" + designId + "\"," + "\"magtype\":\"" + type + "\"," + "\"magfamily\":\"" + family + 
+                "\"," + "\"designedby\":\"" + designBy + "\"," + "\"approvedby\":\"" + approvedBy + "\"," + "\"remark\":\"" 
+                + remark + "\"," + "\"length\":\"" + magnetDesignRequirementTable.getLength() +  "\"," + "\"aperture\":\"" +
+                magnetDesignRequirementTable.getAperture()+ "\"," + "\"min_gap\":\"" + magnetDesignRequirementTable.getMinimumGap()+
+                "\"," + "\"useful_field\":\"" + magnetDesignRequirementTable.getUsefulField()+"\"," + "\"intensityB\":\"" + 
+                magnetDesignRequirementTable.getIntensityB()+"\"," + "\"intensityQ\":\"" + magnetDesignRequirementTable.getIntensityQ()+
+                "\"," + "\"intensityS\":\"" + magnetDesignRequirementTable.getIntensityS()+"\"," + "\"intensityO\":\"" + 
+                magnetDesignRequirementTable.getIntensityO()+"\"," + "\"sys\":\"" + magnetDesignRequirementTable.getSystemComponent()+
+                "\"," + "\"non_sys\":\"" + magnetDesignRequirementTable.getNonSystemComponent()+"\"}";
     }
-    
+
 }

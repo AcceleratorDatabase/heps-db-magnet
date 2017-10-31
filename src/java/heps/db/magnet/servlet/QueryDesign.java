@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import heps.db.magnet.jpa.DesignAPI;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 /**
  *
  * @author qiaoys
@@ -29,8 +30,16 @@ public class QueryDesign extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String type,family;
-    private Double lengthmin,lengthmax;
+    private String result,type;
+    private Integer family;
+    private Double lengthmin, lengthmax;
+     public static Integer precalc(Object obj) {
+        if (obj.toString().isEmpty()) {
+            return null;
+        } else {
+            return Integer.parseInt(obj.toString());
+        }
+    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -63,39 +72,7 @@ public class QueryDesign extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-//        PrintWriter out = response.getWriter();
-//        DesignAPI a = new DesignAPI();
-//        type=request.getParameter("magtype");//        out.println(type);
-//        System.out.println("{\"rows\":"+a.queryDesignByType(type)+"}");
-//        request.getSession().setAttribute("aaa", "aaa");
-//        request.getSession().setAttribute("value","{\"rows\":"+a.queryDesignByType(type)+"}");
-//        //out.print("{\"rows\":"+a.queryDesignByType(type)+"}");
-//       //out.print("{\"rows\":[{\"designid\":\"1\",\"magtype\":\"六极铁\",\"magfamily\":\"2\",\"designedby\":\"31\",\"approvedby\":\"\",\"remark\":\"\"}, {\"designid\":\"3\",\"magtype\":\"六极铁\",\"magfamily\":\"2\",\"designedby\":\"小明\",\"approvedby\":\"\",\"remark\":\"\"}, {\"designid\":\"4\",\"magtype\":\"六极铁\",\"magfamily\":\"1\",\"designedby\":\"呜呜\",\"approvedby\":\"\",\"remark\":\"\"}]}\n" );
-//      //  out.close();
-//
-////		String account="5"; 		
-////		JSONObject json = new JSONObject();
-////		JSONArray array = new JSONArray();
-////		JSONObject member = null;
-////			for (int i=0;i<3;i++) {
-////				member = new JSONObject();
-////				member.put("name", "qiao");
-////				member.put("age", 23);
-////				member.put("phone", "212");
-////				member.put("email", "2121");
-////				array.add(member);
-////			}		
-////		PrintWriter pw;
-////		try {                   
-////			pw = response.getWriter();
-////                        System.out.println("{\"rows\":"+array.toString()+"}");
-////			pw.print("{\"rows\":"+array.toString()+"}");
-////			pw.close();
-////		} catch (IOException e) {
-////			e.printStackTrace();
-////		}     
-//        request.getRequestDispatcher("queryresult.jsp").forward(request, response);
-//        //processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -109,16 +86,23 @@ public class QueryDesign extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
+        //PrintWriter out = response.getWriter();
         DesignAPI a = new DesignAPI();
-        type=request.getParameter("magtype");//        out.println(type);
-        //System.out.println("{\"rows\":"+a.queryDesignByType(type)+"}");
-       // request.getSession().setAttribute("aaa", "aaa");
-        request.getSession().setAttribute("value","{\"rows\":"+a.queryDesignByType(type)+"}");
+        type = request.getParameter("magtype");
+        family=precalc(request.getParameter("magfamily"));
+        //System.out.println("type:"+type+"family:"+family);
+       
+       // if(family.isEmpty()){
+        result=a.queryDesignByType(type);
+        System.out.println(result);
+        //}else{}
+       // System.out.println(a.queryDesignByTypeFamily(type,family));
+        //System.out.println("{\"rows\":"+a.queryDesignByType(type)+"}");            
+        request.getSession().setAttribute("value", "{\"rows\":" + result + "}");       
         request.getRequestDispatcher("designresult.jsp").forward(request, response);
-       // processRequest(request, response);
+        // processRequest(request, response);
     }
 
     /**
