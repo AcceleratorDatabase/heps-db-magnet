@@ -158,27 +158,17 @@ public class DesignAPI {
         List<MagnetDesignTable> re = query.getResultList();
         return re.toString();
     }
-
+ public String queryDesignByFamily(Integer family) {
+      Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family= :family");
+        query.setParameter("family", family);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+ 
+ }
     public String queryDesignByTypeFamily(String type, Integer family) {
         Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.family= :family");
         query.setParameter("type", type).setParameter("family", family);
         List<MagnetDesignTable> re = query.getResultList();
-
-        Query query1 = em.createQuery("SELECT m.magnetDesignRequirementTable FROM MagnetDesignTable m WHERE m.type = :type AND m.family= :family");
-        query1.setParameter("type", type).setParameter("family", family);
-        List<MagnetDesignTable> re1 = query1.getResultList();
-JSONArray json = new JSONArray();
-            for(MagnetDesignTable a : re){
-                JSONObject jo = new JSONObject();
-                jo.put("designId", a.getDesignId());
-                //jo.put("title", a.get);
-               // jo.put("desc", a.getDescription());
-                json.add(jo);
-            }
-        Query query2 = em.createQuery("SELECT m.magnetDesignParameterTable FROM MagnetDesignTable m WHERE m.type = :type AND m.family= :family");
-        query2.setParameter("type", type).setParameter("family", family);
-        List<MagnetDesignTable> re2 = query2.getResultList();
-
-        return re1.toString();
+        return re.toString();
     }
 }

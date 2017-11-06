@@ -30,16 +30,18 @@ public class QueryDesign extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String result,type;
+    private String result, type;
     private Integer family;
     private Double lengthmin, lengthmax;
-     public static Integer precalc(Object obj) {
+
+    public static Integer precalcInt(Object obj) {
         if (obj.toString().isEmpty()) {
             return null;
         } else {
             return Integer.parseInt(obj.toString());
         }
     }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -91,16 +93,29 @@ public class QueryDesign extends HttpServlet {
         //PrintWriter out = response.getWriter();
         DesignAPI a = new DesignAPI();
         type = request.getParameter("magtype");
-        family=precalc(request.getParameter("magfamily"));
-        //System.out.println("type:"+type+"family:"+family);
-       
-       // if(family.isEmpty()){
-        result=a.queryDesignByType(type);
+        family = precalcInt(request.getParameter("magfamily"));
+       // System.out.println("type:" + type + "family:" + family);
+
+        if ((!type.equals("none")) & (family == -1)) {
+            result = a.queryDesignByType(type);
+            //System.out.println("A");
+        }
+        if ((!type.equals("none")) & (family != -1)) {
+            result = a.queryDesignByTypeFamily(type, family);
+             //System.out.println("B");
+        }
+        if (type.equals("none")&& (family != -1)) {
+            result = a.queryDesignByFamily(family);
+            // System.out.println("C");
+        }
+        // result = a.queryDesignByType(type);
         System.out.println(result);
-        //}else{}
-       // System.out.println(a.queryDesignByTypeFamily(type,family));
+
+        // System.out.println(a.queryDesignByTypeFamily(type,family));
         //System.out.println("{\"rows\":"+a.queryDesignByType(type)+"}");            
-        request.getSession().setAttribute("value", "{\"rows\":" + result + "}");       
+        request.getSession().setAttribute("value", "{\"rows\":" + result + "}");
+        request.getSession().setAttribute("magtype", type);
+        request.getSession().setAttribute("magfamily", family);
         request.getRequestDispatcher("designresult.jsp").forward(request, response);
         // processRequest(request, response);
     }
