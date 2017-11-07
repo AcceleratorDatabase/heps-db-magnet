@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import heps.db.magnet.jpa.DesignAPI;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+
 
 /**
  *
@@ -109,7 +108,7 @@ public class QueryDesign extends HttpServlet {
             // System.out.println("C");
         }
         // result = a.queryDesignByType(type);
-        System.out.println(result);
+       // System.out.println(result);
 
         // System.out.println(a.queryDesignByTypeFamily(type,family));
         //System.out.println("{\"rows\":"+a.queryDesignByType(type)+"}");            

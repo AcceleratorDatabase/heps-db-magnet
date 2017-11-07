@@ -29,18 +29,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DesignOthersTable.findAll", query = "SELECT d FROM DesignOthersTable d")
-    , @NamedQuery(name = "DesignOthersTable.findByIndex", query = "SELECT d FROM DesignOthersTable d WHERE d.index = :index")
+    , @NamedQuery(name = "DesignOthersTable.findByIndex", query = "SELECT d FROM DesignOthersTable d WHERE d.otherIndex = :otherIndex")
     , @NamedQuery(name = "DesignOthersTable.findByProperty", query = "SELECT d FROM DesignOthersTable d WHERE d.property = :property")
     , @NamedQuery(name = "DesignOthersTable.findByValueNum", query = "SELECT d FROM DesignOthersTable d WHERE d.valueNum = :valueNum")
     , @NamedQuery(name = "DesignOthersTable.findByValueText", query = "SELECT d FROM DesignOthersTable d WHERE d.valueText = :valueText")})
 public class DesignOthersTable implements Serializable {
 
+    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "index")
-    private Integer index;
+    @Column(name = "other_index")
+    private Integer otherIndex;
     @Size(max = 45)
     @Column(name = "property")
     private String property;
@@ -57,17 +59,7 @@ public class DesignOthersTable implements Serializable {
     public DesignOthersTable() {
     }
 
-    public DesignOthersTable(Integer index) {
-        this.index = index;
-    }
-
-    public Integer getIndex() {
-        return index;
-    }
-
-    public void setIndex(Integer index) {
-        this.index = index;
-    }
+    
 
     public String getProperty() {
         return property;
@@ -101,10 +93,28 @@ public class DesignOthersTable implements Serializable {
         this.designId = designId;
     }
 
+    
+
+    
+
+    
+
+    public DesignOthersTable(Integer otherIndex) {
+        this.otherIndex = otherIndex;
+    }
+
+    public Integer getOtherIndex() {
+        return otherIndex;
+    }
+
+    public void setOtherIndex(Integer otherIndex) {
+        this.otherIndex = otherIndex;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (index != null ? index.hashCode() : 0);
+        hash += (otherIndex != null ? otherIndex.hashCode() : 0);
         return hash;
     }
 
@@ -115,7 +125,7 @@ public class DesignOthersTable implements Serializable {
             return false;
         }
         DesignOthersTable other = (DesignOthersTable) object;
-        if ((this.index == null && other.index != null) || (this.index != null && !this.index.equals(other.index))) {
+        if ((this.otherIndex == null && other.otherIndex != null) || (this.otherIndex != null && !this.otherIndex.equals(other.otherIndex))) {
             return false;
         }
         return true;
@@ -123,7 +133,7 @@ public class DesignOthersTable implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.DesignOthersTable[ index=" + index + " ]";
+        return "heps.db.magnet.entity.DesignOthersTable[ otherIndex=" + otherIndex + " ]";
     }
     
 }

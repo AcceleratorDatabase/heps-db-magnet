@@ -192,31 +192,31 @@ public class MagnetDesignTable implements Serializable {
 
     @Override
     public String toString() {
-//        return "heps.db.magnet.entity.MagnetDesignTable[ designId=" + designId + " ]";
-        return "{\"designid\":\"" + designId + "\"," + "\"magtype\":\"" + type + "\"," + "\"magfamily\":\"" + family + 
-                "\"," + "\"designedby\":\"" + designBy + "\"," + "\"approvedby\":\"" + approvedBy + "\"," + "\"remark\":\"" 
-                + remark + "\"," + "\"length\":\"" + magnetDesignRequirementTable.getLength() +  "\"," + "\"aperture\":\"" +
-                magnetDesignRequirementTable.getAperture()+ "\"," + "\"min_gap\":\"" + magnetDesignRequirementTable.getMinimumGap()+
-                "\"," + "\"useful_field\":\"" + magnetDesignRequirementTable.getUsefulField()+"\"," + "\"intensityB\":\"" + 
-                magnetDesignRequirementTable.getIntensityB()+"\"," + "\"intensityQ\":\"" + magnetDesignRequirementTable.getIntensityQ()+
-                "\"," + "\"intensityS\":\"" + magnetDesignRequirementTable.getIntensityS()+"\"," + "\"intensityO\":\"" + 
-                magnetDesignRequirementTable.getIntensityO()+"\"," + "\"sys\":\"" + magnetDesignRequirementTable.getSystemComponent()+
-                "\"," + "\"non_sys\":\"" + magnetDesignRequirementTable.getNonSystemComponent()+"\"," + "\"offset\":\"" + 
-                magnetDesignParameterTable.getOffset()+"\"," + "\"ampere_turns\":\"" + magnetDesignParameterTable.getAmpereTurns()+
-                "\"," + "\"ampere_turns_each\":\"" + magnetDesignParameterTable.getAmpereTurnsEach()+"\"," + "\"current\":\"" +
-                magnetDesignParameterTable.getCurrent()+ "\"," + "\"wire\":\"" + magnetDesignParameterTable.getWire()+ 
-                "\"," + "\"current_density\":\"" + magnetDesignParameterTable.getCurrentDensity()+ "\"," + "\"wire_length\":\"" +
-                magnetDesignParameterTable.getWireLength()+ "\"," + "\"resistence\":\"" + magnetDesignParameterTable.getResistance()+ 
-                "\"," + "\"inductance\":\"" + magnetDesignParameterTable.getInductance()+ "\"," + "\"voltage\":\"" + 
-                magnetDesignParameterTable.getVoltage()+ "\"," + "\"consumption\":\"" + magnetDesignParameterTable.getConsumption()+
-                "\"," + "\"c_pressure_drop\":\"" + magnetDesignParameterTable.getCPressureDrop()+ "\"," + "\"c_channel_num\":\"" +
-                magnetDesignParameterTable.getCChannelNum()+ "\"," + "\"c_velocity\":\"" + magnetDesignParameterTable.getCVelocity()+
-                "\"," + "\"c_flow\":\"" + magnetDesignParameterTable.getCFlow()+ "\"," + "\"c_temp\":\"" + 
-                magnetDesignParameterTable.getCTemp()+ "\"," + "\"core_length\":\"" + magnetDesignParameterTable.getCoreLength()+ 
-                "\"," + "\"core_section\":\"" + magnetDesignParameterTable.getCoreSection()+ "\"," + "\"core_weight\":\"" + 
-                magnetDesignParameterTable.getCoreWeight()+ "\"," + "\"copper_weight\":\"" + magnetDesignParameterTable.getCopperWeight()+ 
-                "\"," + "\"pplot\":\"" + magnetDesignParameterTable.getPhysicsPlot()+ "\"," + "\"mplot\":\"" + 
-                magnetDesignParameterTable.getMechanicalPlot()+"\"}";
+        //return "heps.db.magnet.entity.MagnetDesignTable[ designId=" + designId + " ]";
+    return "{\"designid\":\"" + designId + "\"," + "\"magtype\":\"" + type + "\"," + "\"magfamily\":\"" + family + 
+            "\"," + "\"designedby\":\"" + designBy + "\"," + "\"approvedby\":\"" + approvedBy + "\"," + "\"remark\":\"" 
+            + remark + "\"," + "\"length\":\"" + magnetDesignRequirementTable.getLength() +  "\"," + "\"aperture\":\"" +
+            magnetDesignRequirementTable.getAperture()+ "\"," + "\"min_gap\":\"" + magnetDesignRequirementTable.getMinimumGap()+
+            "\"," + "\"useful_field\":\"" + magnetDesignRequirementTable.getUsefulField()+"\"," + "\"intensityB\":\"" + 
+            magnetDesignRequirementTable.getIntensityB()+"\"," + "\"intensityQ\":\"" + magnetDesignRequirementTable.getIntensityQ()+
+            "\"," + "\"intensityS\":\"" + magnetDesignRequirementTable.getIntensityS()+"\"," + "\"intensityO\":\"" + 
+            magnetDesignRequirementTable.getIntensityO()+"\"," + "\"sys\":\"" + magnetDesignRequirementTable.getSystemComponent()+
+            "\"," + "\"non_sys\":\"" + magnetDesignRequirementTable.getNonSystemComponent()+"\"," + "\"offset\":\"" + 
+            magnetDesignParameterTable.getOffset()+"\"," + "\"ampere_turns\":\"" + magnetDesignParameterTable.getAmpereTurns()+
+            "\"," + "\"ampere_turns_each\":\"" + magnetDesignParameterTable.getAmpereTurnsEach()+"\"," + "\"current\":\"" +
+            magnetDesignParameterTable.getCurrent()+ "\"," + "\"wire\":\"" + magnetDesignParameterTable.getWire()+ 
+            "\"," + "\"current_density\":\"" + magnetDesignParameterTable.getCurrentDensity()+ "\"," + "\"wire_length\":\"" +
+            magnetDesignParameterTable.getWireLength()+ "\"," + "\"resistence\":\"" + magnetDesignParameterTable.getResistance()+ 
+            "\"," + "\"inductance\":\"" + magnetDesignParameterTable.getInductance()+ "\"," + "\"voltage\":\"" + 
+            magnetDesignParameterTable.getVoltage()+ "\"," + "\"consumption\":\"" + magnetDesignParameterTable.getConsumption()+
+            "\"," + "\"c_pressure_drop\":\"" + magnetDesignParameterTable.getCPressureDrop()+ "\"," + "\"c_channel_num\":\"" +
+            magnetDesignParameterTable.getCChannelNum()+ "\"," + "\"c_velocity\":\"" + magnetDesignParameterTable.getCVelocity()+
+            "\"," + "\"c_flow\":\"" + magnetDesignParameterTable.getCFlow()+ "\"," + "\"c_temp\":\"" + 
+            magnetDesignParameterTable.getCTemp()+ "\"," + "\"core_length\":\"" + magnetDesignParameterTable.getCoreLength()+ 
+            "\"," + "\"core_section\":\"" + magnetDesignParameterTable.getCoreSection()+ "\"," + "\"core_weight\":\"" + 
+            magnetDesignParameterTable.getCoreWeight()+ "\"," + "\"copper_weight\":\"" + magnetDesignParameterTable.getCopperWeight()+ 
+            "\"," + "\"pplot\":\"" + magnetDesignParameterTable.getPhysicsPlot()+ "\"," + "\"mplot\":\"" + 
+            magnetDesignParameterTable.getMechanicalPlot()+"\"}";
     }
-
+    
 }

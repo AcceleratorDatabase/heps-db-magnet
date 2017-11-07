@@ -20,8 +20,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  *
@@ -48,6 +46,8 @@ public class DesignAPI {
         et.begin();
 //        MagnetDesignTable design = new MagnetDesignTable();  
         try {
+            //System.out.println("dadas");
+           // design.setType("二极铁");
             design.setType(designall.get(0).toString());
             design.setFamily(Integer.parseInt(designall.get(1).toString()));
             design.setDesignName(designall.get(0).toString() + "-" + Integer.parseInt(designall.get(1).toString()));
@@ -170,5 +170,17 @@ public class DesignAPI {
         query.setParameter("type", type).setParameter("family", family);
         List<MagnetDesignTable> re = query.getResultList();
         return re.toString();
+    }
+    
+    public Integer deleteDesignById(Integer designId){
+        et.begin();
+       // MagnetDesignTable demag=em.find(MagnetDesignTable.class, designId);   
+       Query query = em.createNamedQuery("MagnetDesignTable.findByDesignId");
+        query.setParameter("designId", designId);
+       MagnetDesignTable re = (MagnetDesignTable)query.getSingleResult();
+      // System.out.println(re);
+        em.remove(re);
+        et.commit();
+        return 1;
     }
 }

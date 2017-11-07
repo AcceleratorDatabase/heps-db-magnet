@@ -3,7 +3,6 @@
     Created on : 2017-10-24, 15:40:32
     Author     : qiaoys
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,16 +14,16 @@
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
         <script>
             <%
-String magtype =(String)session.getAttribute("magtype");
-Integer magfamily=(Integer)session.getAttribute("magfamily");
+                String magtype = (String) session.getAttribute("magtype");
+                Integer magfamily = (Integer) session.getAttribute("magfamily");
 //System.out.println(magtype);
-            %>
-    var tt="<%=magtype%>";
-    var ff="<%=magfamily%>";
-    window.onload=function(){ 
-        document.getElementById("magtype").value=tt;
-        document.getElementById("magfamily").value=ff;
-    };
+%>
+            var tt = "<%=magtype%>";
+            var ff = "<%=magfamily%>";
+            window.onload = function () {
+                document.getElementById("magtype").value = tt;
+                document.getElementById("magfamily").value = ff;
+            };
         </script>
         <title>查询-磁铁设计</title>
         <style type="text/css">
@@ -118,15 +117,15 @@ Integer magfamily=(Integer)session.getAttribute("magfamily");
                     </div>
                     <div style="position:absolute;top:130px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >
+                        <button onclick="show()">tap</button>
                     </div>                   
-                </form>                
+                               
                 <div style="position: absolute;top: 170px;width: 1200px">
                     <table id="dg" name="dg" class="easyui-datagrid" title="查询结果" align="center"
                            data-options="
                            singleSelect: true,
                            collapsible: true,                           
                            rownumbers: true,
-                           
                            dataType:'json',
                            remoteSort:true,
                            toolbar:toolbar,
@@ -141,22 +140,22 @@ Integer magfamily=(Integer)session.getAttribute("magfamily");
                                 <th data-options="field:'designid',width:80,sortable:true">ID</th>
                                 <th data-options="field:'magtype',width:80">磁铁类型</th>
                                 <th data-options="field:'magfamily',width:80">磁铁型号</th>
-                                
+
                             </tr>
                         </thead>
                         <thead>
                             <tr> 
-                                
-                               <th colspan="10"><span>设计要求</span></th>
-                                 <th colspan="11"><span>主要参数</span></th>
+
+                                <th colspan="10"><span>设计要求</span></th>
+                                <th colspan="11"><span>主要参数</span></th>
                                 <th colspan="5"><span>水冷参数</span></th>
                                 <th colspan="4"><span>尺寸及重量</span></th>
-                               <th colspan="3"><span>其他</span></th>
+                                <th colspan="3"><span>其他</span></th>
                             </tr>
                             <tr>                             
-                                
-                               
-                                 <th data-options="field:'length',width:70,formatter:formatPrice">有效长度</th>
+
+
+                                <th data-options="field:'length',width:70,formatter:formatPrice">有效长度</th>
                                 <th data-options="field:'aperture',width:70,formatter:formatPrice">磁铁孔径</th>
                                 <th data-options="field:'min_gap',width:120,formatter:formatPrice">相邻磁极最小间隙</th>
                                 <th data-options="field:'useful_field',width:80,formatter:formatPrice">好场区范围</th>
@@ -166,7 +165,7 @@ Integer magfamily=(Integer)session.getAttribute("magfamily");
                                 <th data-options="field:'intensityO',width:70,formatter:formatPrice">八极分量</th>
                                 <th data-options="field:'sys',width:70,formatter:formatPrice">系统分量</th>
                                 <th data-options="field:'non_sys',width:80,formatter:formatPrice">非系统分量</th>
-                                
+
                                 <th data-options="field:'offset',width:100,formatter:formatPrice">偏置安装偏移量</th>
                                 <th data-options="field:'ampere_turns',width:80,formatter:formatPrice">励磁安匝数</th>
                                 <th data-options="field:'ampere_turns_each',width:100,formatter:formatPrice">每磁极线圈匝数</th>
@@ -178,18 +177,18 @@ Integer magfamily=(Integer)session.getAttribute("magfamily");
                                 <th data-options="field:'inductance',width:70,formatter:formatPrice">磁铁电感</th>
                                 <th data-options="field:'voltage',width:70,formatter:formatPrice">励磁电压</th>
                                 <th data-options="field:'consumption',width:70,formatter:formatPrice">磁铁功耗</th>
-                                
+
                                 <th data-options="field:'c_pressure_drop',width:80,formatter:formatPrice">冷却水压降</th>
                                 <th data-options="field:'c_channel_num',width:80,formatter:formatPrice">并联水路数</th>
                                 <th data-options="field:'c_velocity',width:80,formatter:formatPrice">冷却水流速</th>
                                 <th data-options="field:'c_flow',width:80,formatter:formatPrice">冷却水流量</th>
                                 <th data-options="field:'c_temp',width:60,formatter:formatPrice">水温升</th>
-                                
+
                                 <th data-options="field:'core_length',width:70,formatter:formatPrice">铁芯长度</th>
                                 <th data-options="field:'core_section',width:80,formatter:formatPrice">铁芯截面尺寸</th>
                                 <th data-options="field:'core_weight',width:60,formatter:formatPrice">铁芯重</th>
                                 <th data-options="field:'copper_weight',width:60,formatter:formatPrice">铜重</th>
-                                 <th data-options="field:'designedby',width:70">设计人</th>
+                                <th data-options="field:'designedby',width:70">设计人</th>
                                 <th data-options="field:'approvedby',width:70">负责人</th>
                                 <th data-options="field:'remark',width:90">备注</th>
                             </tr>
@@ -200,8 +199,7 @@ Integer magfamily=(Integer)session.getAttribute("magfamily");
             </div>            
         </div>
         <script type="text/javascript">
-            
-            
+           
             function formatPrice(val, row) {
                 if (val === 'null') {
                     return '';
@@ -216,6 +214,8 @@ Integer magfamily=(Integer)session.getAttribute("magfamily");
                         var row = $('#dg').datagrid('getSelected');
                         if (row) {
                             alert('Item ID:' + row.designid + "Price:" + row.length);
+                        } else {
+                            alert("请选择一条记录");
                         }
                         //alert('add');
 
@@ -224,17 +224,53 @@ Integer magfamily=(Integer)session.getAttribute("magfamily");
                     text: '删除',
                     iconCls: 'icon-clear',
                     handler: function () {
-                        var yn = window.confirm("确认删除此磁铁设计？");
-                    if (yn) {
-                        alert("您已成功删除");
-                    } else
-                        return false;
+                        var row = $('#dg').datagrid('getSelected');
+                        if (row) {
+                            var yn = window.confirm("确认删除此磁铁设计？");
+                            if (yn) {
+                                 $.ajax({
+            type:'POST',
+            url:'DeleteDesign',
+            data: "designId=" + row.designid,
+            success:function(data){
+                alert(data);
+            }
+        });     
+                            } else
+                                return false;
+                        } else {
+                            alert("请选择一条记录");
+                        }
                     }
                 }, {
                     text: '下载设计图纸',
                     iconCls: 'icon-download',
                     handler: function () {
-                        alert('下载');
+                        var row = $('#dg').datagrid('getSelected');
+                        if (row) {
+                            alert("download");
+                        } else {
+                            alert("请选择一条记录");
+                        }
+                    }
+                }, {
+                    text: '查看用户自定义参数',
+                    iconCls: 'icon-more',
+                    handler: function () {
+                         $.ajax({
+            type:'POST',
+            url:'DesignResult',
+            success:function(data){
+                alert(data);
+            }
+        });
+//                        var row = $('#dg').datagrid('getSelected');
+//                        if (row) {
+//                            alert("self-define");
+//                        } else {
+//                            alert("请选择一条记录");
+//                        }
+
                     }
                 }];
         </script>

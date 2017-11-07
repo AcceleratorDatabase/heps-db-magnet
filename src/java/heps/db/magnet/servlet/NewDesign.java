@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import heps.db.magnet.jpa.DesignAPI;
-import java.io.UnsupportedEncodingException;
-import static java.time.zone.ZoneRulesProvider.refresh;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -154,7 +152,7 @@ public class NewDesign extends HttpServlet {
         }
         //out.println("design_others= "+design_others+"flag"+other_flag); 
         //try{
-        // a.insertDesign(design, design_requirement, design_para, design_plot, other_flag, design_others);
+         a.insertDesign(design, design_requirement, design_para, design_plot, other_flag, design_others);
         // }catch(UnsupportedEncodingException e){
         // result="失败！"+e;
         // }

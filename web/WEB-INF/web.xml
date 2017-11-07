@@ -16,6 +16,10 @@
         <servlet-name>DesignResult</servlet-name>
         <servlet-class>heps.db.magnet.servlet.DesignResult</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteDesign</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.DeleteDesign</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IframeAjax</servlet-name>
         <url-pattern>/IframeAjax</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>DesignResult</servlet-name>
         <url-pattern>/DesignResult</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteDesign</servlet-name>
+        <url-pattern>/DeleteDesign</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

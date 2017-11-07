@@ -196,9 +196,7 @@ public class MagnetDesignRequirementTable implements Serializable {
 
     @Override
     public String toString() {
-        //return "heps.db.magnet.entity.MagnetDesignRequirementTable[ designId=" + designId + " ]";
-        return "{\"length\":\""+length+"\","+"\"aperture\":\""+aperture+"\","+"\"minimumGap\":\""+minimumGap+"\","+"\"usefulField\":\""+usefulField+"\","+"\"intensityB\":\""+intensityB+"\","+"\"intensityQ\":\""+intensityQ+"\","+"\"intensityS\":\""+intensityS+"\","+"\"intensityO\":\""+intensityO+"\","+"\"systemComponent\":\""+systemComponent+"\","+"\"nonSystemComponent\":\""+nonSystemComponent+"\"}";
-
+        return "heps.db.magnet.entity.MagnetDesignRequirementTable[ designId=" + designId + " ]";
     }
     
 }

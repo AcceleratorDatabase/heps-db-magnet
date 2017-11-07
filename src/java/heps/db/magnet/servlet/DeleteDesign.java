@@ -11,12 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import heps.db.magnet.jpa.DesignAPI;
 /**
  *
  * @author qiaoys
  */
-public class DesignResult extends HttpServlet {
+public class DeleteDesign extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -24,13 +24,9 @@ public class DesignResult extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * 
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -39,10 +35,10 @@ public class DesignResult extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet DesignResult</title>");            
+//            out.println("<title>Servlet DeleteDesign</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet DesignResult at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet DeleteDesign at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -60,13 +56,6 @@ public class DesignResult extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json;charset=utf-8");
-       String re= request.getSession().getAttribute("value").toString();
-       //String type=request.getSession().getAttribute("type").toString();
-         PrintWriter out = response.getWriter();
-        // System.out.println("woshiresult:"+type);
-         out.print(re);
         processRequest(request, response);
     }
 
@@ -81,7 +70,15 @@ public class DesignResult extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+         DesignAPI a = new DesignAPI();
         
+        Integer designId=Integer.parseInt(request.getParameter("designId"));
+        Integer result=a.deleteDesignById(designId);
+        if(result==1){
+        out.print("success");
+        }else
+           out.print("failure"); 
         processRequest(request, response);
     }
 
