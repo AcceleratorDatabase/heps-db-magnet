@@ -117,9 +117,9 @@
                     </div>
                     <div style="position:absolute;top:130px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >
-                        <button onclick="show()">tap</button>
+                        
                     </div>                   
-                               
+                          
                 <div style="position: absolute;top: 170px;width: 1200px">
                     <table id="dg" name="dg" class="easyui-datagrid" title="查询结果" align="center"
                            data-options="
@@ -140,21 +140,17 @@
                                 <th data-options="field:'designid',width:80,sortable:true">ID</th>
                                 <th data-options="field:'magtype',width:80">磁铁类型</th>
                                 <th data-options="field:'magfamily',width:80">磁铁型号</th>
-
                             </tr>
                         </thead>
                         <thead>
                             <tr> 
-
                                 <th colspan="10"><span>设计要求</span></th>
                                 <th colspan="11"><span>主要参数</span></th>
                                 <th colspan="5"><span>水冷参数</span></th>
                                 <th colspan="4"><span>尺寸及重量</span></th>
                                 <th colspan="3"><span>其他</span></th>
                             </tr>
-                            <tr>                             
-
-
+                            <tr>                           
                                 <th data-options="field:'length',width:70,formatter:formatPrice">有效长度</th>
                                 <th data-options="field:'aperture',width:70,formatter:formatPrice">磁铁孔径</th>
                                 <th data-options="field:'min_gap',width:120,formatter:formatPrice">相邻磁极最小间隙</th>
@@ -248,7 +244,7 @@
                     handler: function () {
                         var row = $('#dg').datagrid('getSelected');
                         if (row) {
-                            alert("download");
+                           location.href = 'DownloadFile?designId='+row.designid;
                         } else {
                             alert("请选择一条记录");
                         }

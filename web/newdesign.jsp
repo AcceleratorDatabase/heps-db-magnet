@@ -73,7 +73,7 @@
                     <div id="table1" style=" ;float: left ">
                         <p> 请输入磁铁设计要求：
                         <div style="margin:25px 0;"></div>
-                        <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>-->                         
+<!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
                         </p>                                               
                         <table id="design_require" name="design_require" class="easyui-propertygrid" style="width:400px" data-options="
                                url: 'design_require.json',
@@ -213,12 +213,17 @@ function callback2(success, message, url) {
                     document.getElementById("hd1").value = JSON.stringify(require);
                     var parameter = $("#design_para").datagrid("getData");
                     document.getElementById("hd2").value = JSON.stringify(parameter);
-
+                   if(JSON.stringify(require).length===1057||JSON.stringify(parameter).length===2048){
+                       alert("设计要求和基本参数未填写");
+                       return false;
+                   }else{
                     var yn = window.confirm("确认提交？");
                     if (yn) {
-                        alert("您已提交成功");
-                    } else
-                        return false;
+                        alert("成功提交");
+                    } else{
+                       return false;
+                    }
+                }
                 }
 
 
@@ -270,14 +275,20 @@ function callback2(success, message, url) {
                             }}
                     ]];
                 function getChanges1() {
-                    //var all=$('#table_require').getData();
-                    //  alert(all);
-                    var s = '';
-                    var rows = $('#design_require').propertygrid('getChanges');
-                    for (var i = 0; i < rows.length; i++) {
-                        s += rows[i].name + ':' + rows[i].value + ',';
+                     var require = $("#design_require").datagrid("getData");
+                    document.getElementById("hd1").value = JSON.stringify(require);
+                    var parameter = $("#design_para").datagrid("getData");
+                    document.getElementById("hd2").value = JSON.stringify(parameter);
+                    if(JSON.stringify(require).length===1057){
+                        alert(JSON.stringify(parameter).length);
                     }
-                    alert(s);
+//                   
+//                    var s = '';
+//                    var rows = $('#design_require').propertygrid('getChanges');
+//                    for (var i = 0; i < rows.length; i++) {
+//                        s += rows[i].name + ':' + rows[i].value + ',';
+//                    }
+//                    alert(s);
                 }
                 function getChanges2() {
                     var s = '';

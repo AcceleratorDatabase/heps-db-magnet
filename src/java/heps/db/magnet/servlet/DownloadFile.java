@@ -5,55 +5,53 @@
  */
 package heps.db.magnet.servlet;
 
+import heps.db.magnet.jpa.DesignAPI;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import heps.db.magnet.jpa.DesignAPI;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import javax.servlet.ServletOutputStream;
 
 /**
  *
  * @author qiaoys
  */
-public class QueryDesign extends HttpServlet {
+public class DownloadFile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
+     * @param filename
+     * @param saveRootPath
      * @param request servlet request
      * @param response servlet response
+     * @return 
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String result = null;
-    private String type;
-    private Integer family;
-    private Double lengthmin, lengthmax;
-
-    public static Integer precalcInt(Object obj) {
-        if (obj.toString().isEmpty()) {
-            return null;
-        } else {
-            return Integer.parseInt(obj.toString());
-        }
-    }
-
+    
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 //        try (PrintWriter out = response.getWriter()) {
 //            /* TODO output your page here. You may use following sample code. */
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet QueryDesign</title>");            
+//            out.println("<title>Servlet DownloadFile</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet QueryDesign at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet DownloadFile at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -71,8 +69,35 @@ public class QueryDesign extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
+         
+       DesignAPI a = new DesignAPI();
+ String FilePath="E:/plot/mplot/";       
+Integer designId=Integer.parseInt(request.getParameter("designId"));
+String FileName=a.queryMplot(designId);
+//System.out.println("dasd"+FileName);
+if(!FileName.equals("")){
+ File f = new File(FilePath+FileName);  
+        if(f.exists()){  
+            FileInputStream  fis = new FileInputStream(f);  
+            String filename=URLEncoder.encode(f.getName(),"utf-8"); //解决中文文件名下载后乱码的问题  
+            byte[] b = new byte[fis.available()];  
+            fis.read(b);  
+            response.setCharacterEncoding("utf-8");  
+            response.setHeader("Content-Disposition","attachment; filename="+filename+"");  
+            //获取响应报文输出流对象  
+            ServletOutputStream  out =response.getOutputStream();  
+            //输出  
+            out.write(b);  
+            out.flush();  
+            out.close();  
+        }else{
+        PrintWriter out = response.getWriter();
+            out.print("<script language='javascript'>alert('File Not Found.');window.location.href='designresult.jsp';</script>");
+        } 
+}else{
+           PrintWriter out = response.getWriter();
+           out.print("<script language='javascript'>alert('File Not Found.');window.location.href='designresult.jsp';</script>");
+}
         processRequest(request, response);
     }
 
@@ -86,38 +111,10 @@ public class QueryDesign extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        //PrintWriter out = response.getWriter();
-        DesignAPI a = new DesignAPI();
-        type = request.getParameter("magtype");
-        family = precalcInt(request.getParameter("magfamily"));
-        // System.out.println("type:" + type + "family:" + family);
-        if ((type.equals("none")) & (family == -1)) {
-            result = "";
-        }
-        if ((!type.equals("none")) & (family == -1)) {
-            result = a.queryDesignByType(type);
-            //System.out.println("A");
-        }
-        if ((!type.equals("none")) & (family != -1)) {
-            result = a.queryDesignByTypeFamily(type, family);
-            //System.out.println("B");
-        }
-        if (type.equals("none") && (family != -1)) {
-            result = a.queryDesignByFamily(family);
-            // System.out.println("C");
-        }
-        // result = a.queryDesignByType(type);
-        // System.out.println(result);
-        // System.out.println(a.queryDesignByTypeFamily(type,family));
-        //System.out.println("{\"rows\":"+a.queryDesignByType(type)+"}");            
-        request.getSession().setAttribute("value", "{\"rows\":" + result + "}");
-        request.getSession().setAttribute("magtype", type);
-        request.getSession().setAttribute("magfamily", family);
-        request.getRequestDispatcher("designresult.jsp").forward(request, response);
-        // processRequest(request, response);
+            throws ServletException, IOException {      
+         
+          
+        processRequest(request, response);
     }
 
     /**

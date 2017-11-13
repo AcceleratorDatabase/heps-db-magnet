@@ -20,6 +20,10 @@
         <servlet-name>DeleteDesign</servlet-name>
         <servlet-class>heps.db.magnet.servlet.DeleteDesign</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DownloadFile</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.DownloadFile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IframeAjax</servlet-name>
         <url-pattern>/IframeAjax</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>DeleteDesign</servlet-name>
         <url-pattern>/DeleteDesign</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DownloadFile</servlet-name>
+        <url-pattern>/DownloadFile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

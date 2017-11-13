@@ -174,13 +174,18 @@ public class DesignAPI {
     
     public Integer deleteDesignById(Integer designId){
         et.begin();
-       // MagnetDesignTable demag=em.find(MagnetDesignTable.class, designId);   
-       Query query = em.createNamedQuery("MagnetDesignTable.findByDesignId");
-        query.setParameter("designId", designId);
-       MagnetDesignTable re = (MagnetDesignTable)query.getSingleResult();
+        MagnetDesignTable demag=em.find(MagnetDesignTable.class, designId);   
+       //Query query = em.createNamedQuery("MagnetDesignTable.findByDesignId");
+        //query.setParameter("designId", designId);
+       //MagnetDesignTable re = (MagnetDesignTable)query.getSingleResult();
       // System.out.println(re);
-        em.remove(re);
+        em.remove(demag);
         et.commit();
         return 1;
+    }
+    
+    public String queryMplot(Integer designId){
+         String mplot=em.find(MagnetDesignTable.class, designId).getMagnetDesignParameterTable().getMechanicalPlot();
+         return mplot;
     }
 }
