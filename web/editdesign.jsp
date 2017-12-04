@@ -4,7 +4,7 @@
     Author     : qiaoys
 --%>
 
-<%@page import="net.sf.json.JSONObject"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,11 +16,67 @@
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="dr.js"></script>
         <script type="text/javascript" src="dp.js"></script>
-       <script>
-         window.onload = function () {                
+        <script>
+            <%
+                String magtype = (String) session.getAttribute("magtype");
+                Integer magfamily = (Integer) session.getAttribute("magfamily");
+                String seldata = (String) session.getAttribute("seldata");
+                //JSONObject seljson = JSONObject.fromObject(seldata);
+//System.out.println("jsp"+seldata);
+            %>
+            var tt = "<%=magtype%>";
+            var ff = <%=magfamily%>;
+            var ss =<%=seldata%>;
+            for (var p in ss)
+            {
+               // document.write(p + ": " + ss[p] + "<br / >");
+            }
+            if (ss !== null) {
+                
+                rowr[0].value = ss["length"];
+                rowr[1].value = ss["aperture"];
+                rowr[2].value = ss["min_gap"];
+                rowr[3].value = ss["useful_field"];
+                rowr[4].value = ss["intensityB"];
+                rowr[5].value = ss["intensityQ"];
+                rowr[6].value = ss["intensityS"];
+                rowr[7].value = ss["intensityO"];
+                rowr[8].value = ss["sys"];
+                rowr[9].value = ss["non_sys"];    
+                rowp[0].value = ss["offset"];
+                rowp[1].value = ss["ampere_turns"];
+                rowp[2].value = ss["ampere_turns_each"];
+                rowp[3].value = ss["current"];
+                rowp[4].value = ss["wire"];
+                rowp[5].value = ss["current_density"];
+                rowp[6].value = ss["wire_length"];
+                rowp[7].value = ss["resistence"];
+                rowp[8].value = ss["inductance"];
+                rowp[9].value = ss["voltage"];
+                rowp[10].value = ss["consumption"];
+                rowp[11].value = ss["c_pressure_drop"];
+                rowp[12].value = ss["c_channel_num"];
+                rowp[13].value = ss["c_velocity"];
+                rowp[14].value = ss["c_flow"];
+                rowp[15].value = ss["c_temp"];
+                rowp[16].value = ss["core_length"];
+                rowp[17].value = ss["core_section"];
+                rowp[18].value = ss["core_weight"];
+                rowp[19].value = ss["copper_weight"]; 
+            
+                
+            }
+            window.onload = function () {
+                document.getElementById("magtype").value = tt;
+                document.getElementById("magfamily").value = ff;
+                if(ss!==null){
+                $('#designed_by').textbox('setValue',ss["designedby"]);
+                 $('#approved_by').textbox('setValue',ss["approvedby"]);
+                  $('#remark').textbox('setValue',ss["remark"]);
+                }
                 $('#design_require').propertygrid('loadData', rowr);
                 $('#design_para').propertygrid('loadData', rowp);
-               
+                ss=null;
             };
         </script>
         <title>录入-磁铁设计</title>
@@ -86,7 +142,6 @@
                             <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
                             </p>                                               
                             <table id="design_require" name="design_require" class="easyui-propertygrid" style="width:400px" data-options="
-
                                    method: 'get',
                                    showGroup: true,
                                    scrollbarSize: 0,                                  
@@ -114,7 +169,6 @@
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow()">删除设计参数</a>
                             </p>
                             <table id="design_para" name="design_para" class="easyui-propertygrid" style="width:400px" data-options="
-
                                    method: 'get',
                                    showGroup: true,
                                    scrollbarSize: 0,                                   
@@ -170,7 +224,10 @@
         </div>
 
         <script type="text/javascript">
-          
+            function formatPrice(val, row) {
+
+
+            }
             function uploadpplot() {
                 var names = $("#pplotId").val().split(".");
 
@@ -272,11 +329,11 @@
             var mycolumns = [[
                     {field: 'name', title: '设计参数', width: 100, sortable: true},
                     {field: 'value', title: '数值', width: 100, resizable: false, formatter: function (value, arr) {
-//                            if (value === '\"null\"') {
-//                                return '';
-//                            } else {
-//                                return value;
-//                            }
+                            if (value === '\"null\"') {
+                                return '';
+                            } else {
+                                return value;
+                            }
                             var editor = '';
                             if (typeof arr.editor === 'object') {
                                 editor = arr.editor.type;

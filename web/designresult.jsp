@@ -17,7 +17,9 @@
                 String magtype = (String) session.getAttribute("magtype");
                 Integer magfamily = (Integer) session.getAttribute("magfamily");
 //System.out.println(magtype);
-%>
+            %>
+
+
             var tt = "<%=magtype%>";
             var ff = "<%=magfamily%>";
             window.onload = function () {
@@ -116,10 +118,10 @@
                         <input type="text" size= 8 autocomplete="off" value="">
                     </div>
                     <div style="position:absolute;top:130px;bottom: 0; left:0;right:0;text-align: center">                    
-                        <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >
-                        
+                        <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >                      
                     </div>                   
-                          
+                </form>     
+
                 <div style="position: absolute;top: 170px;width: 1200px">
                     <table id="dg" name="dg" class="easyui-datagrid" title="查询结果" align="center"
                            data-options="
@@ -130,9 +132,8 @@
                            remoteSort:true,
                            toolbar:toolbar,
                            url: 'DesignResult',
-                           method: 'get',
+                           method: 'get',                           
                            onLoadSuccess: function(){    
-
                            }
                            ">
                         <thead data-options="frozen:true">
@@ -190,12 +191,16 @@
                             </tr>
                         </thead>
                     </table>
+                    <input type="hidden" id="hd" name="hd"/>
+
                 </div>
 
-            </div>            
+            </div> 
+            <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
+                <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
+            </div>
         </div>
         <script type="text/javascript">
-           
             function formatPrice(val, row) {
                 if (val === 'null') {
                     return '';
@@ -208,13 +213,26 @@
                     iconCls: 'icon-edit',
                     handler: function () {
                         var row = $('#dg').datagrid('getSelected');
+                        var index = $('#dg').datagrid('getRowIndex', row);
+                        //alert(index);
+                        var seldata = $('#dg').datagrid('getData').rows[index];
+                        document.getElementById("hd").value = JSON.stringify(seldata);
+                        ;
                         if (row) {
-                            alert('Item ID:' + row.designid + "Price:" + row.length);
+                            $.ajax({
+                                type: 'POST',
+                                url: 'EditDesign',
+                                data: "magType=" + row.magtype + "&magFamily=" + row.magfamily + "&selData=" + document.getElementById("hd").value,
+                                success: function (data) {
+                                    window.location.href = 'editdesign.jsp';
+                                }
+                            });
+                            //alert('Item ID:' + row.designid + "Price:" + row.length);
+                            //location.href = 'EditDesign?magType='+row.magtype+'&magFamily='+row.magfamily+'&selData='+document.getElementById("hd").value;
                         } else {
                             alert("请选择一条记录");
                         }
                         //alert('add');
-
                     }
                 }, {
                     text: '删除',
@@ -224,14 +242,14 @@
                         if (row) {
                             var yn = window.confirm("确认删除此磁铁设计？");
                             if (yn) {
-                                 $.ajax({
-            type:'POST',
-            url:'DeleteDesign',
-            data: "designId=" + row.designid,
-            success:function(data){
-                alert(data);
-            }
-        });     
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'DeleteDesign',
+                                    data: "designId=" + row.designid,
+                                    success: function (data) {
+                                        alert(data);
+                                    }
+                                });
                             } else
                                 return false;
                         } else {
@@ -244,7 +262,7 @@
                     handler: function () {
                         var row = $('#dg').datagrid('getSelected');
                         if (row) {
-                           location.href = 'DownloadFile?designId='+row.designid;
+                            location.href = 'DownloadFile?designId=' + row.designid;
                         } else {
                             alert("请选择一条记录");
                         }
@@ -253,20 +271,14 @@
                     text: '查看用户自定义参数',
                     iconCls: 'icon-more',
                     handler: function () {
-                         $.ajax({
-            type:'POST',
-            url:'DesignResult',
-            success:function(data){
-                alert(data);
-            }
-        });
-//                        var row = $('#dg').datagrid('getSelected');
-//                        if (row) {
-//                            alert("self-define");
-//                        } else {
-//                            alert("请选择一条记录");
-//                        }
-
+                        $.ajax({
+                            type: 'POST',
+                            url: '',
+                            success: function (data) {
+                                //alert(data);
+                                
+                            }
+                        });
                     }
                 }];
         </script>

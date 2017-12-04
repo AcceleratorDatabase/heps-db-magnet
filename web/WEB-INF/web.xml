@@ -24,6 +24,10 @@
         <servlet-name>DownloadFile</servlet-name>
         <servlet-class>heps.db.magnet.servlet.DownloadFile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditDesign</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.EditDesign</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IframeAjax</servlet-name>
         <url-pattern>/IframeAjax</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>DownloadFile</servlet-name>
         <url-pattern>/DownloadFile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditDesign</servlet-name>
+        <url-pattern>/EditDesign</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
