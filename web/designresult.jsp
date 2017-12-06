@@ -195,12 +195,26 @@
 
                 </div>
 
-            </div> 
+            </div>
+            <div id="dlg" class="easyui-dialog" title="用户自定义参数"  style="width:400px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
+          
+        <table class="easyui-datagrid" align="center" data-options="">
+    <thead data-options="fitColumns:true">
+        <tr>
+            <th data-options="field:'property',formatter:formatPrice">参数</th>
+            <th data-options="field:'valueNum',formatter:formatPrice">数值1</th>
+            <th data-options="field:'valueText',formatter:formatPrice">数值2</th>
+        </tr>
+    </thead>
+   
+</table>
+            </div>
             <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
             </div>
         </div>
         <script type="text/javascript">
+            var design_others=null;
             function formatPrice(val, row) {
                 if (val === 'null') {
                     return '';
@@ -271,14 +285,23 @@
                     text: '查看用户自定义参数',
                     iconCls: 'icon-more',
                     handler: function () {
-                        $.ajax({
-                            type: 'POST',
-                            url: '',
-                            success: function (data) {
-                                //alert(data);
-                                
-                            }
-                        });
+                        var row = $('#dg').datagrid('getSelected');
+                        if (row) {                           
+                               $.ajax({
+                                    type: 'POST',
+                                    url: 'UserDefineDesign',
+                                    scriptCharset: 'UTF-8',
+                                    data: "designId=" + row.designid,
+                                    success: function (data) {
+                                        //alert(data);                                      
+                                        $('#dlg').dialog('open');
+                                        $('#dlg').dialog('refresh', 'editdesign.jsp');
+                                    }
+                                });
+                           
+                        } else {
+                            alert("请选择一条记录");
+                        }
                     }
                 }];
         </script>

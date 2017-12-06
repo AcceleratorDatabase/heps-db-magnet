@@ -133,7 +133,7 @@ public class DesignOthersTable implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.DesignOthersTable[ otherIndex=" + otherIndex + " ]";
+        return "{\"property\":\"" + property + "\","+"\"valueNum\":\"" + valueNum+ "\","+"\"valueText\":\"" + valueText+ "}";
     }
     
 }
