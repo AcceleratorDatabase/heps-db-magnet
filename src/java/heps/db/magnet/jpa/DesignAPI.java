@@ -48,7 +48,7 @@ public class DesignAPI {
 //        MagnetDesignTable design = new MagnetDesignTable();  
         try {
             //System.out.println("dadas");
-           // design.setType("二极铁");
+            // design.setType("二极铁");
             design.setType(designall.get(0).toString());
             design.setFamily(Integer.parseInt(designall.get(1).toString()));
             design.setDesignName(designall.get(0).toString() + "-" + Integer.parseInt(designall.get(1).toString()));
@@ -159,39 +159,115 @@ public class DesignAPI {
         List<MagnetDesignTable> re = query.getResultList();
         return re.toString();
     }
- public String queryDesignByFamily(Integer family) {
-      Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family= :family");
+
+    public String queryDesignByFamily(Integer family) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family= :family");
         query.setParameter("family", family);
         List<MagnetDesignTable> re = query.getResultList();
         return re.toString();
- 
- }
+    }
+
     public String queryDesignByTypeFamily(String type, Integer family) {
         Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.family= :family");
         query.setParameter("type", type).setParameter("family", family);
         List<MagnetDesignTable> re = query.getResultList();
         return re.toString();
     }
-    
-    public Integer deleteDesignById(Integer designId){
+
+    public String queryDesignbyLength(Double lengthmin, Double lengthmax) {
+        if (lengthmin == null) {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.magnetDesignRequirementTable.length <= :lengthmax ");
+            query.setParameter("lengthmax", lengthmax);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        } else if (lengthmax == null) {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.magnetDesignRequirementTable.length >= :lengthmin ");
+            query.setParameter("lengthmin", lengthmin);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        } else {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax");
+            query.setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        }
+    }
+
+    public String queryDesignbyTypeLength(String type, Double lengthmin, Double lengthmax) {
+        if (lengthmin == null) {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.magnetDesignRequirementTable.length <= :lengthmax ");
+            query.setParameter("type", type).setParameter("lengthmax", lengthmax);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        } else if (lengthmax == null) {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.magnetDesignRequirementTable.length >= :lengthmin ");
+            query.setParameter("type", type).setParameter("lengthmin", lengthmin);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        } else {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax");
+            query.setParameter("type", type).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        }
+    }
+public String queryDesignbyFamilyLength(Integer family, Double lengthmin, Double lengthmax) {
+        if (lengthmin == null) {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family= :family AND m.magnetDesignRequirementTable.length <= :lengthmax ");
+            query.setParameter("family", family).setParameter("lengthmax", lengthmax);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        } else if (lengthmax == null) {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.family= :family AND m.magnetDesignRequirementTable.length >= :lengthmin ");
+            query.setParameter("family", family).setParameter("lengthmin", lengthmin);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        } else {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family= :family AND m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax");
+            query.setParameter("family", family).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        }
+    }
+public String queryDesignbyTypeFamilyLength(String type, Integer family,Double lengthmin, Double lengthmax) {
+        if (lengthmin == null) {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.family= :family AND m.magnetDesignRequirementTable.length <= :lengthmax ");
+            query.setParameter("type", type).setParameter("family", family).setParameter("lengthmax", lengthmax);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        } else if (lengthmax == null) {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family= :family AND m.magnetDesignRequirementTable.length >= :lengthmin ");
+            query.setParameter("type", type).setParameter("family", family).setParameter("lengthmin", lengthmin);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        } else {
+            Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.family= :family AND m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax");
+            query.setParameter("type", type).setParameter("family", family).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax);
+            List<MagnetDesignTable> re = query.getResultList();
+            return re.toString();
+        }
+    }
+    public Integer deleteDesignById(Integer designId) {
         et.begin();
-        MagnetDesignTable demag=em.find(MagnetDesignTable.class, designId);   
-       //Query query = em.createNamedQuery("MagnetDesignTable.findByDesignId");
+        MagnetDesignTable demag = em.find(MagnetDesignTable.class, designId);
+        //Query query = em.createNamedQuery("MagnetDesignTable.findByDesignId");
         //query.setParameter("designId", designId);
-       //MagnetDesignTable re = (MagnetDesignTable)query.getSingleResult();
-      // System.out.println(re);
+        //MagnetDesignTable re = (MagnetDesignTable)query.getSingleResult();
+        // System.out.println(re);
         em.remove(demag);
         et.commit();
         return 1;
     }
-    
-    public String queryMplot(Integer designId){
-         String mplot=em.find(MagnetDesignTable.class, designId).getMagnetDesignParameterTable().getMechanicalPlot();
-         return mplot;
+
+    public String queryMplot(Integer designId) {
+        String mplot = em.find(MagnetDesignTable.class, designId).getMagnetDesignParameterTable().getMechanicalPlot();
+        return mplot;
     }
-    public String queryDesignOthers(Integer designId){        
-         Collection<DesignOthersTable> userdefine=em.find(MagnetDesignTable.class, designId).getDesignOthersTableCollection();         
-         //System.out.println(Arrays.toString(userdefine.toArray()));
-         return Arrays.toString(userdefine.toArray());
+
+    public String queryDesignOthers(Integer designId) {
+        Collection<DesignOthersTable> userdefine = em.find(MagnetDesignTable.class, designId).getDesignOthersTableCollection();
+        //System.out.println(Arrays.toString(userdefine.toArray()));
+        return Arrays.toString(userdefine.toArray());
     }
+
 }

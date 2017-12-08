@@ -57,7 +57,7 @@
         <h2 >查询磁铁设计信息</h2>                
         <div class="easyui-panel" style="height:820px;padding:10px 60px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1300px;margin:0 auto;font-size:14px;">
-                <form action="QueryDesign" method="post" target="">
+                <form action="QueryDesign" method="post" target="" onsubmit="return submitform();">
                     <div style="width: 1200px;height: 30px">
                         <div id="info1" style="position:absolute;width: 200px">
                             <span>磁铁种类：</span> 
@@ -69,7 +69,6 @@
                                 <option value="八极铁">八极铁</option>
                             </select> 
                         </div>
-
                         <div id="info2" style="position:absolute;width: 200px;left:200px">
                             <span>磁铁型号：</span>
                             <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
@@ -81,12 +80,11 @@
                         <div style="margin:10px 0;"></div>
                         <div id="length" style="position:absolute;top: 50px" >                     
                             <span>有效长度范围：</span>                                
-                            <input type="text"  size= 8 autocomplete="off" value="">
+                            <input id="lengthmin" name="lengthmin" type="text"  size= 8 autocomplete="off" value="">
                             <span> - </span>                         
-                            <input type="text" size= 8 autocomplete="off" value="">
+                            <input id="lengthmax" name="lengthmax" type="text" size= 8 autocomplete="off" value="">
                         </div>                  
                     </div>
-
                     <div id="intensity" style="position:absolute;top: 90px">
                         <span>磁场强度范围：</span>
                         <input name="sel_b" type="checkbox" value="" /><label>二极分量 </label>     
@@ -120,8 +118,7 @@
                            toolbar:toolbar,                         
                            url: '',
                            method: 'get',
-                           onLoadSuccess: function(){                           
-
+                           onLoadSuccess: function(){                          
                            }
                            ">
                         <thead data-options="frozen:true">
@@ -129,7 +126,6 @@
                                 <th data-options="field:'designid',width:60,sortable:true">ID</th>
                                 <th data-options="field:'magtype',width:60">磁铁类型</th>
                                 <th data-options="field:'magfamily',width:60">磁铁型号</th>
-
                             </tr>
                         </thead>
                         <thead>
@@ -140,8 +136,7 @@
                                 <th colspan="4"><span>尺寸及重量</span></th>
                                 <th colspan="3"><span>其他</span></th>
                             </tr>
-                            <tr>                                
-
+                            <tr>                              
                                 <th data-options="field:'length',width:70">有效长度</th>
                                 <th data-options="field:'aperture',width:70">磁铁孔径</th>
                                 <th data-options="field:'min_gap',width:120">相邻磁极最小间隙</th>
@@ -187,6 +182,15 @@
               </div>
         </div>
         <script type="text/javascript">
+            function submitform() {
+//               var lengthmin=document.getElementById("lengthmin");
+//                var lengthmax=document.getElementById("lengthmax");                
+//                if ((lengthmin.value!==''&&lengthmax.value==='')||(lengthmin.value===''&&lengthmax.value!=='')) {
+//                    alert("有效长度范围未填写完整");                    
+//                    return false;
+//                } 
+
+            }
             var toolbar = [{
                     text: '编辑',
                     iconCls: 'icon-edit',
@@ -205,8 +209,13 @@
                     handler: function () {
                         alert('未查询');
                     }
+                },{
+                    text: '查看用户自定义参数',
+                    iconCls: 'icon-more',
+                    handler: function () {
+                        alert('未查询');
+                    }
                 }];
-
         </script>
     </body>
 </html>

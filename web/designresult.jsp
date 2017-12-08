@@ -16,10 +16,8 @@
             <%
                 String magtype = (String) session.getAttribute("magtype");
                 Integer magfamily = (Integer) session.getAttribute("magfamily");
-//System.out.println(magtype);
+                //System.out.println(magtype);
             %>
-
-
             var tt = "<%=magtype%>";
             var ff = "<%=magfamily%>";
             window.onload = function () {
@@ -70,7 +68,7 @@
         <h2>查询磁铁设计</h2>  
         <div class="easyui-panel" style="height:820px;padding:10px 60px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1300px;margin:0 auto;font-size:14px;">
-                <form action="QueryDesign" method="post" >
+                <form action="QueryDesign" method="post" onsubmit="return submitform();" >
                     <div style="width: 1200px;height: 30px">
                         <div id="info1" style="position:absolute;width: 200px">
                             <span>磁铁种类：</span> 
@@ -93,9 +91,9 @@
                         <div style="margin:10px 0;"></div>
                         <div id="length" style="position:absolute;top: 50px" >                     
                             <span>有效长度范围：</span>                                
-                            <input type="text"  size= 8 autocomplete="off" value="">
+                            <input id="lengthmin" name="lengthmin"type="text"  size= 8 autocomplete="off" value="">
                             <span> - </span>                         
-                            <input type="text" size= 8 autocomplete="off" value="">
+                            <input id="lengthmax" name="lengthmax"type="text" size= 8 autocomplete="off" value="">
                         </div>                  
                     </div>
                     <div id="intensity" style="position:absolute;top: 90px">
@@ -192,29 +190,34 @@
                         </thead>
                     </table>
                     <input type="hidden" id="hd" name="hd"/>
-
                 </div>
-
             </div>
-            <div id="dlg" class="easyui-dialog" title="用户自定义参数"  style="width:400px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
-          
-        <table class="easyui-datagrid" align="center" data-options="">
-    <thead data-options="fitColumns:true">
-        <tr>
-            <th data-options="field:'property',formatter:formatPrice">参数</th>
-            <th data-options="field:'valueNum',formatter:formatPrice">数值1</th>
-            <th data-options="field:'valueText',formatter:formatPrice">数值2</th>
-        </tr>
-    </thead>
-   
-</table>
+            <div id="dlg" class="easyui-dialog" title="用户自定义参数"  style="width:390px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
+
+                <table id="dg_other" class="easyui-datagrid" align="center" data-options="">
+                    <thead data-options="fitColumns:true">
+                        <tr>
+                            <th data-options="field:'property',width:120,formatter:formatPrice">参数名</th>
+                            <th data-options="field:'valueNum',width:120,formatter:formatPrice">值(Num)</th>
+                            <th data-options="field:'valueText',width:120,formatter:formatPrice">值(Text)</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
             <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
             </div>
         </div>
-        <script type="text/javascript">
-            var design_others=null;
+        <script type="text/javascript">  
+            function submitform() {
+//               var lengthmin=document.getElementById("lengthmin");
+//                var lengthmax=document.getElementById("lengthmax");                
+//                if ((lengthmin.value!==''&&lengthmax.value==='')||(lengthmin.value===''&&lengthmax.value!=='')) {
+//                    alert("有效长度范围未填写完整");                    
+//                    return false;
+//                } 
+
+            }
             function formatPrice(val, row) {
                 if (val === 'null') {
                     return '';
@@ -245,8 +248,7 @@
                             //location.href = 'EditDesign?magType='+row.magtype+'&magFamily='+row.magfamily+'&selData='+document.getElementById("hd").value;
                         } else {
                             alert("请选择一条记录");
-                        }
-                        //alert('add');
+                        }                        
                     }
                 }, {
                     text: '删除',
@@ -286,20 +288,21 @@
                     iconCls: 'icon-more',
                     handler: function () {
                         var row = $('#dg').datagrid('getSelected');
-                        if (row) {                           
-                               $.ajax({
-                                    type: 'POST',
-                                    url: 'UserDefineDesign',
-                                    scriptCharset: 'UTF-8',
-                                    data: "designId=" + row.designid,
-                                    success: function (data) {
-                                        //alert(data);                                      
-                                        $('#dlg').dialog('open');
-                                        $('#dlg').dialog('refresh', 'editdesign.jsp');
-                                    }
-                                });
-                           
-                        } else {
+                        if (row) {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'UserDefineDesign',
+                                scriptCharset: 'UTF-8',
+                                data: "designId=" + row.designid,
+                                success: function (data) {                                    
+                                   var str = '{"total":2,"rows":'+data+'}';   
+                                    var s = $.parseJSON(str);
+                                    $('#dg_other').datagrid('loadData',s);   
+                                     $('#dlg').dialog('open');
+                                    //$('#dlg').dialog('refresh', 'editdesign.jsp');                                   
+                                }
+                            });                         
+                          } else {
                             alert("请选择一条记录");
                         }
                     }

@@ -76,7 +76,7 @@ public class UserDefineDesign extends HttpServlet {
         DesignAPI a = new DesignAPI();        
         Integer designId=Integer.parseInt(request.getParameter("designId"));
         String result=a.queryDesignOthers(designId);
-        System.out.println(result+"你好"); 
+        System.out.println(result); 
         out.print(result); 
         processRequest(request, response);
     }

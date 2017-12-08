@@ -31,13 +31,22 @@ public class QueryDesign extends HttpServlet {
     private String result = null;
     private String type;
     private Integer family;
-    private Double lengthmin, lengthmax;
+    private Double lengthmin;
+    private Double lengthmax;
 
     public static Integer precalcInt(Object obj) {
         if (obj.toString().isEmpty()) {
             return null;
         } else {
             return Integer.parseInt(obj.toString());
+        }
+    }
+
+    public static Double precalcDouble(Object obj) {
+        if (obj.toString().isEmpty()) {
+            return null;
+        } else {
+            return Double.parseDouble(obj.toString());
         }
     }
 
@@ -90,25 +99,68 @@ public class QueryDesign extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         //PrintWriter out = response.getWriter();
+        Integer bylength;
+        Integer bytype;
+        Integer byfamily;
+        Integer byintensity;
+        Integer func;
         DesignAPI a = new DesignAPI();
         type = request.getParameter("magtype");
         family = precalcInt(request.getParameter("magfamily"));
-        // System.out.println("type:" + type + "family:" + family);
-        if ((type.equals("none")) & (family == -1)) {
+        lengthmin = precalcDouble(request.getParameter("lengthmin"));
+        lengthmax = precalcDouble(request.getParameter("lengthmax"));
+        //System.out.println("min:" + lengthmin + "max:" + lengthmax);
+        if (type.equals("none")) {
+            bytype = 0;
+        } else {
+            bytype = 1;
+        }
+        if (family == -1) {
+            byfamily = 0;
+        } else {
+            byfamily = 1;
+        }
+        if (lengthmin == null & lengthmax == null) {
+            bylength = 0;
+        } else {
+            bylength = 1;
+        }
+
+        if (bytype == 0 && byfamily == 0 && bylength == 0) {//no query conditions
             result = "";
-        }
-        if ((!type.equals("none")) & (family == -1)) {
+        } else if (bytype == 1 && byfamily == 0 && bylength == 0) {//query by type
             result = a.queryDesignByType(type);
-            //System.out.println("A");
-        }
-        if ((!type.equals("none")) & (family != -1)) {
-            result = a.queryDesignByTypeFamily(type, family);
-            //System.out.println("B");
-        }
-        if (type.equals("none") && (family != -1)) {
+        } else if (bytype == 0 && byfamily == 1 && bylength == 0) {//query by family
             result = a.queryDesignByFamily(family);
-            // System.out.println("C");
+        } else if (bytype == 0 && byfamily == 0 && bylength == 1) {//query by length
+            result=a.queryDesignbyLength(lengthmin,lengthmax);
+        } else if (bytype == 1 && byfamily == 1 && bylength == 0) {//query by type & family
+            result = a.queryDesignByTypeFamily(type, family);
+        } else if (bytype == 1 && byfamily == 0 && bylength == 1) {//query by type & length
+             result=a.queryDesignbyTypeLength(type,lengthmin,lengthmax);
+        } else if (bytype == 0 && byfamily == 1 && bylength == 1) {//query by family & length
+ result=a.queryDesignbyFamilyLength(family,lengthmin,lengthmax);
+        } else if (bytype == 1 && byfamily == 1 && bylength == 1) {//query by type & family & length
+ result=a.queryDesignbyTypeFamilyLength(type,family,lengthmin,lengthmax);
         }
+        //System.out.println(bylength);
+//        if ((type.equals("none")) & (family == -1)) {
+//           result = "";
+//           
+//        }else{
+//        if ((!type.equals("none")) & (family == -1)) {
+//            result = a.queryDesignByType(type);
+//            //System.out.println("A");
+//        }
+//        if ((!type.equals("none")) & (family != -1)) {
+//            result = a.queryDesignByTypeFamily(type, family);
+//            //System.out.println("B");
+//        }
+//        if (type.equals("none") && (family != -1)) {
+//            result = a.queryDesignByFamily(family);
+//            // System.out.println("C");
+//        }
+//        }
         // result = a.queryDesignByType(type);
         // System.out.println(result);
         // System.out.println(a.queryDesignByTypeFamily(type,family));
@@ -118,6 +170,7 @@ public class QueryDesign extends HttpServlet {
         request.getSession().setAttribute("magfamily", family);
         request.getRequestDispatcher("designresult.jsp").forward(request, response);
         // processRequest(request, response);
+
     }
 
     /**

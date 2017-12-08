@@ -133,7 +133,7 @@ public class DesignOthersTable implements Serializable {
 
     @Override
     public String toString() {
-        return "{\"property\":\"" + property + "\","+"\"valueNum\":\"" + valueNum+ "\","+"\"valueText\":\"" + valueText+ "}";
+        return "{\"property\":\"" + property + "\","+"\"valueNum\":\"" + valueNum+ "\","+"\"valueText\":\"" + valueText+ "\"}";
     }
     
 }
