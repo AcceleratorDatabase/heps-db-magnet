@@ -59,7 +59,7 @@
             <div style="position:absolute;left:0;right:0;width: 1300px;margin:0 auto;font-size:14px;">
                 <form action="QueryDesign" method="post" target="" onsubmit="return submitform();">
                     <div style="width: 1200px;height: 30px">
-                        <div id="info1" style="position:absolute;width: 200px">
+                        <div id="info1" style="position:absolute;width: 200px;left: 400px">
                             <span>磁铁种类：</span> 
                             <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
                                 <option value="none">未选择</option>
@@ -69,7 +69,7 @@
                                 <option value="八极铁">八极铁</option>
                             </select> 
                         </div>
-                        <div id="info2" style="position:absolute;width: 200px;left:200px">
+                        <div id="info2" style="position:absolute;width: 200px;left:600px">
                             <span>磁铁型号：</span>
                             <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
                                 <option value="-1">未选择</option>
@@ -78,31 +78,26 @@
                             </select>
                         </div>
                         <div style="margin:10px 0;"></div>
-                        <div id="length" style="position:absolute;top: 50px" >                     
+                        <div id="length" style="position:absolute;top: 50px;left: 400px" >                     
                             <span>有效长度范围：</span>                                
                             <input id="lengthmin" name="lengthmin" type="text"  size= 8 autocomplete="off" value="">
                             <span> - </span>                         
                             <input id="lengthmax" name="lengthmax" type="text" size= 8 autocomplete="off" value="">
                         </div>                  
-                    </div>
-                    <div id="intensity" style="position:absolute;top: 90px">
-                        <span>磁场强度范围：</span>
-                        <input name="sel_b" type="checkbox" value="" /><label>二极分量 </label>     
-                        <input type="text" size=8 autocomplete="off" value="">
-                        <span> - </span>
-                        <input type="text" size= 8 autocomplete="off" value="">
-                        <input name="sel_q" type="checkbox" value="" /><label>四极分量 </label>     
-                        <input type="text" size=8 autocomplete="off" value="">
-                        <span> - </span>
-                        <input type="text" size= 8 autocomplete="off" value="">
-                        <input name="sel_s" type="checkbox" value="" /><label>六极分量 </label>     
-                        <input type="text" size=8 autocomplete="off" value="">
-                        <span> - </span>
-                        <input type="text" size= 8 autocomplete="off" value="">
-                        <input name="sel_o" type="checkbox" value="" /><label>八极分量 </label>     
-                        <input type="text" size=8 autocomplete="off" value="">
-                        <span> - </span>
-                        <input type="text" size= 8 autocomplete="off" value="">
+
+                        <div id="intensity" style="position:absolute;top: 90px;left: 400px" >
+                            <span>磁场强度范围：</span>
+                            <select  id="selintensity" name="selintensity" style="width: 100px;height: 25px" >
+                                <option value="-1">未选择</option>
+                                <option value="1">二极分量</option>
+                                <option value="2">四极分量</option>
+                                <option value="3">六极分量</option>
+                                <option value="4">八极分量</option>
+                            </select>                         
+                            <input id="intensitymin" name="intensitymin" type="text" size=8 autocomplete="off" value="">
+                            <span> - </span>
+                            <input id="intensitymax" name="intensitymax" type="text" size= 8 autocomplete="off" value="">                        
+                        </div>
                     </div>
                     <div style="position:absolute;top:130px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >
@@ -177,19 +172,26 @@
                     </table>
                 </div>               
             </div>  
-             <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
-                    <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
-              </div>
+            <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
+                <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
+            </div>
         </div>
         <script type="text/javascript">
             function submitform() {
-//               var lengthmin=document.getElementById("lengthmin");
-//                var lengthmax=document.getElementById("lengthmax");                
-//                if ((lengthmin.value!==''&&lengthmax.value==='')||(lengthmin.value===''&&lengthmax.value!=='')) {
-//                    alert("有效长度范围未填写完整");                    
-//                    return false;
-//                } 
-
+                var selintensity = document.getElementById("selintensity");
+                var intensitymin = document.getElementById("intensitymin");
+                var intensitymax = document.getElementById("intensitymax");
+                if (selintensity.value !== '-1') {
+                    if (intensitymin.value === '' && intensitymax.value === '') {
+                        alert("请输入范围");
+                        return false;
+                    }
+                } else {
+                    if (intensitymin.value !== '' || intensitymax.value !== '') {
+                        alert("请选择分量");
+                        return false;
+                    }
+                }
             }
             var toolbar = [{
                     text: '编辑',
@@ -209,7 +211,7 @@
                     handler: function () {
                         alert('未查询');
                     }
-                },{
+                }, {
                     text: '查看用户自定义参数',
                     iconCls: 'icon-more',
                     handler: function () {
