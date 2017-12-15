@@ -64,7 +64,7 @@
             <div style="position:absolute;left:0;right:0;width: 1000px;margin:0 auto;">
                 <form action="NewDesign" method="POST" target="_blank" onsubmit="return submitform();" >
                     <div id="info" >
-                        <span>磁铁种类: </span> 
+                        <label for="magtype">磁铁种类: </label> 
                         <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
                             <option value="二极铁">二极铁</option>
                             <option value="四极铁">四极铁</option>
@@ -72,7 +72,7 @@
                             <option value="八极铁">八极铁</option>
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 50px" onclick="newtype()">新建种类</a>
-                        <span>磁铁型号: </span>
+                        <label for="magfamily">磁铁型号: </label>
                         <select  id="magfamily" name="magfamily" style="width:15%;height: 25px" >
                             <option value="1">I</option>
                             <option value="2">II</option>

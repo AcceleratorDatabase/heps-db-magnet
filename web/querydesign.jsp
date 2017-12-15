@@ -60,7 +60,7 @@
                 <form action="QueryDesign" method="post" target="" onsubmit="return submitform();">
                     <div style="width: 1200px;height: 30px">
                         <div id="info1" style="position:absolute;width: 200px;left: 400px">
-                            <span>磁铁种类：</span> 
+                            <label for="magtype">磁铁种类：</label> 
                             <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
                                 <option value="none">未选择</option>
                                 <option value="二极铁">二极铁</option>
@@ -70,7 +70,7 @@
                             </select> 
                         </div>
                         <div id="info2" style="position:absolute;width: 200px;left:600px">
-                            <span>磁铁型号：</span>
+                            <label for="magfamily">磁铁型号：</label>
                             <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
                                 <option value="-1">未选择</option>
                                 <option value="1">I</option>
@@ -79,14 +79,14 @@
                         </div>
                         <div style="margin:10px 0;"></div>
                         <div id="length" style="position:absolute;top: 50px;left: 400px" >                     
-                            <span>有效长度范围：</span>                                
+                            <label for="lengthmin">有效长度范围：</label>                                
                             <input id="lengthmin" name="lengthmin" type="text"  size= 8 autocomplete="off" value="">
                             <span> - </span>                         
                             <input id="lengthmax" name="lengthmax" type="text" size= 8 autocomplete="off" value="">
                         </div>                  
 
                         <div id="intensity" style="position:absolute;top: 90px;left: 400px" >
-                            <span>磁场强度范围：</span>
+                            <label for="selintensity">磁场强度范围：</label>
                             <select  id="selintensity" name="selintensity" style="width: 100px;height: 25px" >
                                 <option value="-1">未选择</option>
                                 <option value="1">二极分量</option>
