@@ -92,11 +92,11 @@ if(!FileName.equals("")){
             out.close();  
         }else{
         PrintWriter out = response.getWriter();
-            out.print("<script language='javascript'>alert('File Not Found.');window.location.href='designresult.jsp';</script>");
+            out.print("<script language='javascript'>alert('File Not Found.');window.history.go(-1);</script>");
         } 
 }else{
            PrintWriter out = response.getWriter();
-           out.print("<script language='javascript'>alert('File Not Found.');window.location.href='designresult.jsp';</script>");
+           out.print("<script language='javascript'>alert('File Not Found.');window.history.go(-1);;</script>");
 }
         processRequest(request, response);
     }

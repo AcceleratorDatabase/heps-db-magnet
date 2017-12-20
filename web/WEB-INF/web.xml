@@ -32,6 +32,14 @@
         <servlet-name>UserDefineDesign</servlet-name>
         <servlet-class>heps.db.magnet.servlet.UserDefineDesign</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SetMagnetDesign</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.SetMagnetDesign</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewMagnet</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.NewMagnet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IframeAjax</servlet-name>
         <url-pattern>/IframeAjax</url-pattern>
@@ -63,6 +71,14 @@
     <servlet-mapping>
         <servlet-name>UserDefineDesign</servlet-name>
         <url-pattern>/UserDefineDesign</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetMagnetDesign</servlet-name>
+        <url-pattern>/SetMagnetDesign</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewMagnet</servlet-name>
+        <url-pattern>/NewMagnet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

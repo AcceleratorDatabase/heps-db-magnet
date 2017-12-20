@@ -201,11 +201,11 @@
                     </table>
                     <input type="hidden" id="hd" name="hd"/>
                 </div>
-            </div>
+            </div>            
             <div id="dlg" class="easyui-dialog" title="用户自定义参数"  style="width:390px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
 
                 <table id="dg_other" class="easyui-datagrid" align="center" data-options="">
-                    <thead data-options="fitColumns:true">
+                    <thead data-options="singleSelect: true,fitColumns:true">
                         <tr>
                             <th data-options="field:'property',width:120,formatter:formatPrice">参数名</th>
                             <th data-options="field:'valueNum',width:120,formatter:formatPrice">值(Num)</th>

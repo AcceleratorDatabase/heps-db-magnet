@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author qiaoys
  */
-public class UserDefineDesign extends HttpServlet {
+public class SetMagnetDesign extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +36,10 @@ public class UserDefineDesign extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet UserDefineDesign</title>");            
+//            out.println("<title>Servlet SetMagnetDesign</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet UserDefineDesign at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet SetMagnetDesign at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -70,12 +70,13 @@ public class UserDefineDesign extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException {        
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        DesignAPI a = new DesignAPI();        
-        Integer designId=Integer.parseInt(request.getParameter("designId"));
-        String result=a.queryDesignOthers(designId);
+        DesignAPI a = new DesignAPI();  
+        String type=(String)(request.getParameter("magType"));
+        Integer family=Integer.parseInt(request.getParameter("magFamily"));         
+        String result=a.queryDesignByTypeFamily(type,family);
         //System.out.println(result); 
         out.print(result); 
         processRequest(request, response);

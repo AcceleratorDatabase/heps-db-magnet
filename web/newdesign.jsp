@@ -11,11 +11,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
-        <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css">     
+        <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?param=Math.random()">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
-        <script type="text/javascript" src="dr.js"></script>
-        <script type="text/javascript" src="dp.js"></script>
+        <script type="text/javascript" src="dr.js?param=Math.random()"></script>
+        <script type="text/javascript" src="dp.js?param=Math.random()"></script>
        <script>
          window.onload = function () {                
                 $('#design_require').propertygrid('loadData', rowr);
@@ -229,7 +229,7 @@
                 } else {
                     var yn = window.confirm("确认提交？");
                     if (yn) {
-                        alert("成功提交");
+                        alert("已提交");
                     } else {
                         return false;
                     }
