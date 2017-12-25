@@ -16,12 +16,11 @@
             <%
                 String magtype = (String) session.getAttribute("magtype");
                 Integer magfamily = (Integer) session.getAttribute("magfamily");
-               Double lengthmin = (Double) session.getAttribute("lengthmin");
-               Double lengthmax = (Double) session.getAttribute("lengthmax");
+                Double lengthmin = (Double) session.getAttribute("lengthmin");
+                Double lengthmax = (Double) session.getAttribute("lengthmax");
                 Integer intensity = (Integer) session.getAttribute("intensity");
                 Double intensitymin = (Double) session.getAttribute("intensitymin");
-               Double intensitymax = (Double) session.getAttribute("intensitymax");
-                //System.out.println(magtype);
+                Double intensitymax = (Double) session.getAttribute("intensitymax");                
             %>
             var tt = "<%=magtype%>";
             var ff = <%=magfamily%>;
@@ -30,9 +29,45 @@
               var ii="<%=intensity%>";
               var iimin=<%=intensitymin%>;
              var iimax=<%=intensitymax%>;
-            window.onload = function () {
-                document.getElementById("magtype").value = tt;
-                document.getElementById("magfamily").value = ff;
+            window.onload = function () {            
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadType',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magtype");
+                        for (var i = 0; i < b.length; i++) {                            
+                                var option = document.createElement("option");                                
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }                                 
+                        }
+                        document.getElementById("magtype").value =tt;
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadFamily',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magfamily");
+                        for (var i = 0; i < b.length; i++) {                            
+                                var option = document.createElement("option");                                
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }                            
+                        }
+                         document.getElementById("magfamily").value = ff;
+                    }
+                });
                 document.getElementById("lengthmin").value = llmin;
                 document.getElementById("lengthmax").value = llmax;
                 document.getElementById("selintensity").value = ii;
@@ -89,18 +124,13 @@
                             <label for="magtype">磁铁种类：</label> 
                             <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
                                 <option value="none">未选择</option>
-                                <option value="二极铁">二极铁</option>
-                                <option value="四极铁">四极铁</option>
-                                <option value="六极铁">六极铁</option>
-                                <option value="八极铁">八极铁</option>
+                                
                             </select> 
                         </div>
                         <div id="info2" style="position:absolute;width: 200px;left:600px">
                             <label for="magfamily">磁铁型号：</label>
                             <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
-                                <option value="-1">未选择</option>
-                                <option value="1">I</option>
-                                <option value="2">II</option>
+                                <option value="-1">未选择</option>  
                             </select>
                         </div>
                         <div style="margin:10px 0;"></div>

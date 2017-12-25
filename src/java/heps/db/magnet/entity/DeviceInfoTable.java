@@ -11,6 +11,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -47,8 +49,9 @@ public class DeviceInfoTable implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+   
     @Column(name = "device_id")
     private Integer deviceId;
     @Column(name = "number")
@@ -63,7 +66,7 @@ public class DeviceInfoTable implements Serializable {
     @Column(name = "series")
     private String series;
     @Column(name = "date_of_manu")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dateOfManu;
     @Size(max = 45)
     @Column(name = "designed_by")

@@ -5,20 +5,20 @@
  */
 package heps.db.magnet.servlet;
 
+
+import heps.db.magnet.jpa.DesignAPI;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSONObject;
 
 /**
  *
  * @author qiaoys
  */
-public class EditDesign extends HttpServlet {
+public class LoadType extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,7 +29,6 @@ public class EditDesign extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     private ArrayList sellist, design_para;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -38,10 +37,10 @@ public class EditDesign extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet EditDesign</title>");            
+//            out.println("<title>Servlet LoadType</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet EditDesign at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet LoadType at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -59,9 +58,6 @@ public class EditDesign extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        
         processRequest(request, response);
     }
 
@@ -76,31 +72,15 @@ public class EditDesign extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("text/html;charset=UTF-8");
-//         sellist= new ArrayList();
-         PrintWriter out = response.getWriter();
-         String magtype=request.getParameter("magType");
-         Integer magfamily=Integer.parseInt(request.getParameter("magFamily"));
-         String seldata=request.getParameter("selData");
-         //seldata=seldata.substring(9,seldata.length()-15);
-         //String jsonMessage = "{\"语文\":\"88\",\"数学\":\"78\",\"计算机\":\"99\"}";
-          JSONObject seljson = JSONObject.fromObject(seldata); 
-          //System.out.println("json:"+seljson.getString("length"));
-//        JSONObject jsonobj = JSONObject.fromObject(seldata);
-//       JSONArray require_jsonarray = require_jsonobj.getJSONArray("rows");       
-//       if (seljson.size() > 0) {
-//            for (int i = 0; i < seljson.size(); i++) {               
-//                sellist.add(seljson.get("value"));
-//           }
-//        }
+      response.setContentType("text/html;charset=UTF-8");
+      request.setCharacterEncoding("UTF-8");      
+      PrintWriter out = response.getWriter();
+      DesignAPI a=new DesignAPI();
+      String re=a.queryAllTypes();
+      //System.out.println(re);
+      out.print(re.replace(" ", "")); 
         
-        // System.out.println("servelt:"+seljson);
-         request.getSession().setAttribute("magtype", magtype);
-         request.getSession().setAttribute("magfamily", magfamily);
-         request.getSession().setAttribute("seldata",seljson.toString());
-        
-        request.getRequestDispatcher("editdesign.jsp").forward(request, response);
-        processRequest(request, response);
+      processRequest(request, response);
     }
 
     /**

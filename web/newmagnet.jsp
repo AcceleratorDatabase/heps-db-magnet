@@ -10,15 +10,57 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
-        <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?param=Math.random()">     
+        <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
-        <script type="text/javascript" src="magnet.js?param=Math.random()"></script>
-        <script>
+        <script type="text/javascript" src="magnet.js?<%=Math.random()%>"></script>
+        <script type="text/javascript">
+           
             window.onload = function () {
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadType',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magtype");
+                        for (var i = 0; i < b.length; i++) {
+                            if (b[i] !== "二极铁") {
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }
+                            }
+                        }
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadFamily',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magfamily");
+                        for (var i = 0; i < b.length; i++) {
+                            if (b[i] !== "1") {
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }
+                            }
+                        }
+                    }
+                });
                 $('#maginfo').propertygrid('loadData', rowm);
-                document.getElementById('num').innerText = "当前编号：";
+                // document.getElementById('num').innerText = "当前编号：";
             };
+
         </script>
         <title>录入-磁铁设计</title>
     </head>
@@ -31,15 +73,15 @@
                         <label for="magtype">磁铁种类: </label> 
                         <select  id="magtype" name="magtype" style="width:10%;height: 25px" >
                             <option value="二极铁">二极铁</option>
-                            <option value="四极铁">四极铁</option>
-                            <option value="六极铁">六极铁</option>
-                            <option value="八极铁">八极铁</option>
+                            <!--                            <option value="四极铁">四极铁</option>
+                                                        <option value="六极铁">六极铁</option>
+                                                        <option value="八极铁">八极铁</option>-->
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 20px" onclick="newtype()">新建种类</a>
                         <label for="magfamily">磁铁型号: </label>
                         <select  id="magfamily" name="magfamily" style="width:10%;height: 25px" >
-                            <option value="1">I</option>
-                            <option value="2">II</option>
+                            <option value="1">1</option>
+                            
                         </select>
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 20px" onclick="newfamily()">新建型号</a>
                         <span id="num"></span>                        
@@ -66,70 +108,70 @@
                 </div>
             </form>
             <div id="dlg1" class="easyui-dialog" title="磁铁设计"  style="width:1200px;height:400px;padding:10px;text-align: center" data-options="iconCls:'icon-more',closed: true,resizable:true">
-                 <table id="dg" name="dg" class="easyui-datagrid" title="查询结果" align="center"
-                           data-options="
-                           singleSelect: true,
-                           collapsible: true,                           
-                           rownumbers: true,
-                           toolbar:toolbar                         
-                           ">
-                        <thead data-options="frozen:true">
-                            <tr>
-                                <th data-options="field:'designid',width:80,sortable:true">ID</th>
-                                <th data-options="field:'magtype',width:80">磁铁类型</th>
-                                <th data-options="field:'magfamily',width:80">磁铁型号</th>
-                            </tr>
-                        </thead>
-                        <thead>
-                            <tr> 
-                                <th colspan="10"><span>设计要求</span></th>
-                                <th colspan="11"><span>主要参数</span></th>
-                                <th colspan="5"><span>水冷参数</span></th>
-                                <th colspan="4"><span>尺寸及重量</span></th>
-                                <th colspan="3"><span>其他</span></th>
-                            </tr>
-                            <tr>                           
-                                <th data-options="field:'length',width:70,formatter:formatPrice">有效长度</th>
-                                <th data-options="field:'aperture',width:70,formatter:formatPrice">磁铁孔径</th>
-                                <th data-options="field:'min_gap',width:120,formatter:formatPrice">相邻磁极最小间隙</th>
-                                <th data-options="field:'useful_field',width:80,formatter:formatPrice">好场区范围</th>
-                                <th data-options="field:'intensityB',width:70,formatter:formatPrice">二极分量</th>
-                                <th data-options="field:'intensityQ',width:70,formatter:formatPrice">四极分量</th>
-                                <th data-options="field:'intensityS',width:70,formatter:formatPrice">六极分量</th>
-                                <th data-options="field:'intensityO',width:70,formatter:formatPrice">八极分量</th>
-                                <th data-options="field:'sys',width:70,formatter:formatPrice">系统分量</th>
-                                <th data-options="field:'non_sys',width:80,formatter:formatPrice">非系统分量</th>
+                <table id="dg" name="dg" class="easyui-datagrid" title="查询结果" align="center"
+                       data-options="
+                       singleSelect: true,
+                       collapsible: true,                           
+                       rownumbers: true,
+                       toolbar:toolbar                         
+                       ">
+                    <thead data-options="frozen:true">
+                        <tr>
+                            <th data-options="field:'designid',width:80,sortable:true">ID</th>
+                            <th data-options="field:'magtype',width:80">磁铁类型</th>
+                            <th data-options="field:'magfamily',width:80">磁铁型号</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr> 
+                            <th colspan="10"><span>设计要求</span></th>
+                            <th colspan="11"><span>主要参数</span></th>
+                            <th colspan="5"><span>水冷参数</span></th>
+                            <th colspan="4"><span>尺寸及重量</span></th>
+                            <th colspan="3"><span>其他</span></th>
+                        </tr>
+                        <tr>                           
+                            <th data-options="field:'length',width:70,formatter:formatPrice">有效长度</th>
+                            <th data-options="field:'aperture',width:70,formatter:formatPrice">磁铁孔径</th>
+                            <th data-options="field:'min_gap',width:120,formatter:formatPrice">相邻磁极最小间隙</th>
+                            <th data-options="field:'useful_field',width:80,formatter:formatPrice">好场区范围</th>
+                            <th data-options="field:'intensityB',width:70,formatter:formatPrice">二极分量</th>
+                            <th data-options="field:'intensityQ',width:70,formatter:formatPrice">四极分量</th>
+                            <th data-options="field:'intensityS',width:70,formatter:formatPrice">六极分量</th>
+                            <th data-options="field:'intensityO',width:70,formatter:formatPrice">八极分量</th>
+                            <th data-options="field:'sys',width:70,formatter:formatPrice">系统分量</th>
+                            <th data-options="field:'non_sys',width:80,formatter:formatPrice">非系统分量</th>
 
-                                <th data-options="field:'offset',width:100,formatter:formatPrice">偏置安装偏移量</th>
-                                <th data-options="field:'ampere_turns',width:80,formatter:formatPrice">励磁安匝数</th>
-                                <th data-options="field:'ampere_turns_each',width:100,formatter:formatPrice">每磁极线圈匝数</th>
-                                <th data-options="field:'current',width:70,formatter:formatPrice">励磁电流</th>
-                                <th data-options="field:'wire',width:70,formatter:formatPrice">导线规格</th>
-                                <th data-options="field:'current_density',width:70,formatter:formatPrice">电流密度</th>
-                                <th data-options="field:'wire_length',width:100,formatter:formatPrice">磁铁导线总长度</th>
-                                <th data-options="field:'resistence',width:80,formatter:formatPrice">磁铁总电阻</th>
-                                <th data-options="field:'inductance',width:70,formatter:formatPrice">磁铁电感</th>
-                                <th data-options="field:'voltage',width:70,formatter:formatPrice">励磁电压</th>
-                                <th data-options="field:'consumption',width:70,formatter:formatPrice">磁铁功耗</th>
+                            <th data-options="field:'offset',width:100,formatter:formatPrice">偏置安装偏移量</th>
+                            <th data-options="field:'ampere_turns',width:80,formatter:formatPrice">励磁安匝数</th>
+                            <th data-options="field:'ampere_turns_each',width:100,formatter:formatPrice">每磁极线圈匝数</th>
+                            <th data-options="field:'current',width:70,formatter:formatPrice">励磁电流</th>
+                            <th data-options="field:'wire',width:70,formatter:formatPrice">导线规格</th>
+                            <th data-options="field:'current_density',width:70,formatter:formatPrice">电流密度</th>
+                            <th data-options="field:'wire_length',width:100,formatter:formatPrice">磁铁导线总长度</th>
+                            <th data-options="field:'resistence',width:80,formatter:formatPrice">磁铁总电阻</th>
+                            <th data-options="field:'inductance',width:70,formatter:formatPrice">磁铁电感</th>
+                            <th data-options="field:'voltage',width:70,formatter:formatPrice">励磁电压</th>
+                            <th data-options="field:'consumption',width:70,formatter:formatPrice">磁铁功耗</th>
 
-                                <th data-options="field:'c_pressure_drop',width:80,formatter:formatPrice">冷却水压降</th>
-                                <th data-options="field:'c_channel_num',width:80,formatter:formatPrice">并联水路数</th>
-                                <th data-options="field:'c_velocity',width:80,formatter:formatPrice">冷却水流速</th>
-                                <th data-options="field:'c_flow',width:80,formatter:formatPrice">冷却水流量</th>
-                                <th data-options="field:'c_temp',width:60,formatter:formatPrice">水温升</th>
+                            <th data-options="field:'c_pressure_drop',width:80,formatter:formatPrice">冷却水压降</th>
+                            <th data-options="field:'c_channel_num',width:80,formatter:formatPrice">并联水路数</th>
+                            <th data-options="field:'c_velocity',width:80,formatter:formatPrice">冷却水流速</th>
+                            <th data-options="field:'c_flow',width:80,formatter:formatPrice">冷却水流量</th>
+                            <th data-options="field:'c_temp',width:60,formatter:formatPrice">水温升</th>
 
-                                <th data-options="field:'core_length',width:70,formatter:formatPrice">铁芯长度</th>
-                                <th data-options="field:'core_section',width:80,formatter:formatPrice">铁芯截面尺寸</th>
-                                <th data-options="field:'core_weight',width:60,formatter:formatPrice">铁芯重</th>
-                                <th data-options="field:'copper_weight',width:60,formatter:formatPrice">铜重</th>
-                                <th data-options="field:'designedby',width:70">设计人</th>
-                                <th data-options="field:'approvedby',width:70">负责人</th>
-                                <th data-options="field:'remark',width:90">备注</th>
-                            </tr>
-                        </thead>
-                    </table>
+                            <th data-options="field:'core_length',width:70,formatter:formatPrice">铁芯长度</th>
+                            <th data-options="field:'core_section',width:80,formatter:formatPrice">铁芯截面尺寸</th>
+                            <th data-options="field:'core_weight',width:60,formatter:formatPrice">铁芯重</th>
+                            <th data-options="field:'copper_weight',width:60,formatter:formatPrice">铜重</th>
+                            <th data-options="field:'designedby',width:70">设计人</th>
+                            <th data-options="field:'approvedby',width:70">负责人</th>
+                            <th data-options="field:'remark',width:90">备注</th>
+                        </tr>
+                    </thead>
+                </table>
                 <div style="margin:5px 0;"></div>
-                 <a href="#" class="easyui-linkbutton" onclick="setDesign()" data-options="iconCls:'icon-save'">Save</a>
+                <a href="#" class="easyui-linkbutton" onclick="setDesign()" data-options="iconCls:'icon-save'">Save</a>
             </div>
             <div id="dlg2" class="easyui-dialog" title="用户自定义参数"  style="width:390px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
 
@@ -147,21 +189,21 @@
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
             </div>
         </div>
-        
+
         <script type="text/javascript">
-            function setDesign(){
-                var row=$('#dg').datagrid('getSelected');
-                var design=row.designid;
-                
+            function setDesign() {
+                var row = $('#dg').datagrid('getSelected');
+                var design = row.designid;
+
                 $('#dlg1').dialog('close');
-                        $('#maginfo').datagrid('updateRow', {
-                            index: 6,
-                            row: {
-                                value: design+"<a href=\"#\" style=\"display:block;float:right\" onclick=\"chooseDesign()\">*更改磁铁设计*</a>"
-                            }
-                        });
-                
+                $('#maginfo').datagrid('updateRow', {
+                    index: 5,
+                    row: {
+                        value: design + "<a href=\"#\" style=\"display:block;float:right\" onclick=\"chooseDesign()\">*更改磁铁设计*</a>"
+                    }
+                });
             }
+
             function formatPrice(val, row) {
                 if (val === 'null') {
                     return '';
@@ -283,7 +325,7 @@
                     }
                 });
             }
-             var toolbar = [ {
+            var toolbar = [{
                     text: '下载设计图纸',
                     iconCls: 'icon-download',
                     handler: function () {
@@ -305,15 +347,15 @@
                                 url: 'UserDefineDesign',
                                 scriptCharset: 'UTF-8',
                                 data: "designId=" + row.designid,
-                                success: function (data) {                                    
-                                   var str = '{"total":2,"rows":'+data+'}';   
+                                success: function (data) {
+                                    var str = '{"total":2,"rows":' + data + '}';
                                     var s = $.parseJSON(str);
-                                    $('#dg_other').datagrid('loadData',s);   
-                                     $('#dlg2').dialog('open');
+                                    $('#dg_other').datagrid('loadData', s);
+                                    $('#dlg2').dialog('open');
                                     //$('#dlg').dialog('refresh', 'editdesign.jsp');                                   
                                 }
-                            });                         
-                          } else {
+                            });
+                        } else {
                             alert("请选择一条记录");
                         }
                     }

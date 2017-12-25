@@ -13,7 +13,48 @@
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?param=Math.ramdom()">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript">           
+            window.onload = function () {
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadType',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magtype");
+                        for (var i = 0; i < b.length; i++) {                            
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }                            
+                        }
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadFamily',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magfamily");
+                        for (var i = 0; i < b.length; i++) {                            
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }                            
+                        }
+                    }
+                });
+               
+            };
 
+        </script>
         <title>查询-磁铁设计</title>
         <style type="text/css">
             span{
@@ -62,19 +103,14 @@
                         <div id="info1" style="position:absolute;width: 200px;left: 400px">
                             <label for="magtype">磁铁种类：</label> 
                             <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
-                                <option value="none">未选择</option>
-                                <option value="二极铁">二极铁</option>
-                                <option value="四极铁">四极铁</option>
-                                <option value="六极铁">六极铁</option>
-                                <option value="八极铁">八极铁</option>
+                                <option value="none">未选择</option>                                
                             </select> 
                         </div>
                         <div id="info2" style="position:absolute;width: 200px;left:600px">
                             <label for="magfamily">磁铁型号：</label>
                             <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
                                 <option value="-1">未选择</option>
-                                <option value="1">I</option>
-                                <option value="2">II</option>
+                                
                             </select>
                         </div>
                         <div style="margin:10px 0;"></div>

@@ -40,6 +40,18 @@
         <servlet-name>NewMagnet</servlet-name>
         <servlet-class>heps.db.magnet.servlet.NewMagnet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoadType</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.LoadType</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadFamily</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.LoadFamily</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateDesign</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.UpdateDesign</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IframeAjax</servlet-name>
         <url-pattern>/IframeAjax</url-pattern>
@@ -79,6 +91,18 @@
     <servlet-mapping>
         <servlet-name>NewMagnet</servlet-name>
         <url-pattern>/NewMagnet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadType</servlet-name>
+        <url-pattern>/LoadType</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadFamily</servlet-name>
+        <url-pattern>/LoadFamily</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateDesign</servlet-name>
+        <url-pattern>/UpdateDesign</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

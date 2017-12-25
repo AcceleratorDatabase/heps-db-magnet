@@ -61,7 +61,23 @@ public class DesignAPI {
             result = "失败！-磁铁基本信息数据异常：" + e;
         }
     }
-
+ public void updateDesignBasic(ArrayList designall,Integer designId) {
+        et.begin();
+//        MagnetDesignTable design = new MagnetDesignTable();  
+        try {
+            //System.out.println("dadas");
+            // design.setType("二极铁");
+            Query query=em.createQuery("update MagnetDesignTable m set m.designBy=:designBy , m.approvedBy=:approvedBy  where m.designId=:designId");
+            query.setParameter("designBy", "qys");
+            query.setParameter("approvedBy", "qiqi");
+            query.setParameter("designId", designId);
+            
+            query.executeUpdate(); 
+            et.commit();
+        } catch (NumberFormatException e) {
+            result = "失败！-磁铁基本信息数据异常：" + e;
+        }
+    }
     public void insertDesignRequire(ArrayList design_requirement) {
         try {
             et.begin();
@@ -207,7 +223,7 @@ public class DesignAPI {
         if (intensitymax == null) {
             intensitymax = Double.MAX_VALUE;
         }
-      if (lengthmin == null) {
+        if (lengthmin == null) {
             lengthmin = 0.0;
         }
         if (lengthmax == null) {
@@ -222,21 +238,21 @@ public class DesignAPI {
             }
             break;
             case 2: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityQ BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityQ BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
             }
             break;
             case 3: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityS BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityS BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
             }
             break;
             case 4: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityO BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityO BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
@@ -247,7 +263,8 @@ public class DesignAPI {
         }
         return res;
     }
-public String queryDesignbyTypeLengthIntensity(String type,Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
+
+    public String queryDesignbyTypeLengthIntensity(String type, Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
         String res;
         if (intensitymin == null) {
             intensitymin = 0.0;
@@ -255,7 +272,7 @@ public String queryDesignbyTypeLengthIntensity(String type,Double lengthmin, Dou
         if (intensitymax == null) {
             intensitymax = Double.MAX_VALUE;
         }
-      if (lengthmin == null) {
+        if (lengthmin == null) {
             lengthmin = 0.0;
         }
         if (lengthmax == null) {
@@ -270,21 +287,21 @@ public String queryDesignbyTypeLengthIntensity(String type,Double lengthmin, Dou
             }
             break;
             case 2: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityQ BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityQ BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
             }
             break;
             case 3: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityS BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityS BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("type", type).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
             }
             break;
             case 4: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityO BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityO BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("type", type).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
@@ -295,7 +312,8 @@ public String queryDesignbyTypeLengthIntensity(String type,Double lengthmin, Dou
         }
         return res;
     }
-public String queryDesignbyFamilyLengthIntensity(Integer family,Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
+
+    public String queryDesignbyFamilyLengthIntensity(Integer family, Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
         String res;
         if (intensitymin == null) {
             intensitymin = 0.0;
@@ -303,7 +321,7 @@ public String queryDesignbyFamilyLengthIntensity(Integer family,Double lengthmin
         if (intensitymax == null) {
             intensitymax = Double.MAX_VALUE;
         }
-      if (lengthmin == null) {
+        if (lengthmin == null) {
             lengthmin = 0.0;
         }
         if (lengthmax == null) {
@@ -318,21 +336,21 @@ public String queryDesignbyFamilyLengthIntensity(Integer family,Double lengthmin
             }
             break;
             case 2: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityQ BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityQ BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
             }
             break;
             case 3: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityS BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityS BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("family", family).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
             }
             break;
             case 4: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityO BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityO BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("family", family).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
@@ -343,7 +361,8 @@ public String queryDesignbyFamilyLengthIntensity(Integer family,Double lengthmin
         }
         return res;
     }
-public String queryDesignbyTypeFamilyLengthIntensity(String type,Integer family,Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
+
+    public String queryDesignbyTypeFamilyLengthIntensity(String type, Integer family, Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
         String res;
         if (intensitymin == null) {
             intensitymin = 0.0;
@@ -351,7 +370,7 @@ public String queryDesignbyTypeFamilyLengthIntensity(String type,Integer family,
         if (intensitymax == null) {
             intensitymax = Double.MAX_VALUE;
         }
-      if (lengthmin == null) {
+        if (lengthmin == null) {
             lengthmin = 0.0;
         }
         if (lengthmax == null) {
@@ -366,21 +385,21 @@ public String queryDesignbyTypeFamilyLengthIntensity(String type,Integer family,
             }
             break;
             case 2: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityQ BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityQ BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("type", type).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
             }
             break;
             case 3: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityS BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityS BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("type", type).setParameter("family", family).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
             }
             break;
             case 4: {
-               Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityO BETWEEN :intensitymin AND :intensitymax)");
+                Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND (m.magnetDesignRequirementTable.length BETWEEN :lengthmin AND :lengthmax) AND (m.magnetDesignRequirementTable.intensityO BETWEEN :intensitymin AND :intensitymax)");
                 query.setParameter("type", type).setParameter("family", family).setParameter("lengthmin", lengthmin).setParameter("lengthmax", lengthmax).setParameter("intensitymin", intensitymin).setParameter("intensitymax", intensitymax);
                 List<MagnetDesignTable> re = query.getResultList();
                 res = re.toString();
@@ -391,6 +410,7 @@ public String queryDesignbyTypeFamilyLengthIntensity(String type,Integer family,
         }
         return res;
     }
+
     public String queryDesignbyIntensity(Integer intensity, Double intensitymin, Double intensitymax) {
         String res;
         if (intensitymin == null) {
@@ -628,4 +648,19 @@ public String queryDesignbyTypeFamilyLengthIntensity(String type,Integer family,
         return Arrays.toString(userdefine.toArray());
     }
 
+    public String queryAllTypes() {
+        String re;
+        Query query = em.createQuery("SELECT DISTINCT m.type from MagnetDesignTable m");
+        List s = query.getResultList();        
+        re = s.toString().substring(1, s.toString().length() - 1);        
+        return re;
+    }
+    public String queryAllFamilys() {
+        String re;
+        Query query = em.createQuery("SELECT DISTINCT m.family from MagnetDesignTable m");
+        List s = query.getResultList();
+        re = s.toString().substring(1, s.toString().length() - 1);
+//System.out.println(re);
+        return re;
+    }
 }

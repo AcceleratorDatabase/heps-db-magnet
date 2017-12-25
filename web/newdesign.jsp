@@ -14,10 +14,50 @@
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?param=Math.random()">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
-        <script type="text/javascript" src="dr.js?param=Math.random()"></script>
-        <script type="text/javascript" src="dp.js?param=Math.random()"></script>
+        <script type="text/javascript" src="dr.js?<%=Math.random()%>"></script>
+        <script type="text/javascript" src="dp.js?<%=Math.random()%>"></script>
        <script>
-         window.onload = function () {                
+         window.onload = function () {     
+             $.ajax({
+                    type: 'POST',
+                    url: 'LoadType',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magtype");
+                        for (var i = 0; i < b.length; i++) {
+                            if (b[i] !== "二极铁") {
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }
+                            }
+                        }
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadFamily',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magfamily");
+                        for (var i = 0; i < b.length; i++) {
+                            if (b[i] !== "1") {
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }
+                            }
+                        }
+                    }
+                });
                 $('#design_require').propertygrid('loadData', rowr);
                 $('#design_para').propertygrid('loadData', rowp);
                
@@ -66,16 +106,12 @@
                     <div id="info" >
                         <label for="magtype">磁铁种类: </label> 
                         <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
-                            <option value="二极铁">二极铁</option>
-                            <option value="四极铁">四极铁</option>
-                            <option value="六极铁">六极铁</option>
-                            <option value="八极铁">八极铁</option>
+                            <option value="二极铁">二极铁</option>                            
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 50px" onclick="newtype()">新建种类</a>
                         <label for="magfamily">磁铁型号: </label>
                         <select  id="magfamily" name="magfamily" style="width:15%;height: 25px" >
-                            <option value="1">I</option>
-                            <option value="2">II</option>
+                            <option value="1">1</option>                            
                         </select>
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newfamily()">新建型号</a>
                     </div>
@@ -114,7 +150,6 @@
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow()">删除设计参数</a>
                             </p>
                             <table id="design_para" name="design_para" class="easyui-propertygrid" style="width:400px" data-options="
-
                                    method: 'get',
                                    showGroup: true,
                                    scrollbarSize: 0,                                   

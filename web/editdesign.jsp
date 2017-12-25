@@ -67,6 +67,42 @@
                 
             }
             window.onload = function () {
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadType',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magtype");
+                        for (var i = 0; i < b.length; i++) {                            
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }                            
+                        }
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadFamily',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magfamily");
+                        for (var i = 0; i < b.length; i++) {                            
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }                            
+                        }
+                    }
+                });
                 document.getElementById("magtype").value = tt;
                 document.getElementById("magfamily").value = ff;
                 if(ss!==null){
@@ -118,20 +154,15 @@
         <h2>录入磁铁设计信息</h2>  
         <div class="easyui-panel"   style="height: 820px;padding:20px 60px 20px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1000px;margin:0 auto;">
-                <form action="NewDesign" method="POST" target="_blank" onsubmit="return submitform();" >
+                <form action="UpdateDesign" method="POST" target="_blank" onsubmit="return submitform();" >
                     <div id="info" >
                         <span>磁铁种类: </span> 
                         <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
-                            <option value="二极铁">二极铁</option>
-                            <option value="四极铁">四极铁</option>
-                            <option value="六极铁">六极铁</option>
-                            <option value="八极铁">八极铁</option>
+                            
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 50px" onclick="newtype()">新建种类</a>
                         <span>磁铁型号: </span>
-                        <select  id="magfamily" name="magfamily" style="width:15%;height: 25px" >
-                            <option value="1">I</option>
-                            <option value="2">II</option>
+                        <select  id="magfamily" name="magfamily" style="width:15%;height: 25px" >                            
                         </select>
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newfamily()">新建型号</a>
                     </div>
@@ -178,7 +209,7 @@
                         </div>
                     </div>
                     <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center">                    
-                        <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
+                        <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="更新" >
                         <input type="hidden" id="hd1" name="hd1"/>
                         <input type="hidden" id="hd2" name="hd2"/>      
                         <input type="hidden" id="pplotn" name="pplotn"/>
@@ -281,12 +312,12 @@
                 var parameter = $("#design_para").datagrid("getData");
                 document.getElementById("hd2").value = JSON.stringify(parameter);
                 if (JSON.stringify(require).length === 1057 || JSON.stringify(parameter).length === 2048) {
-                    alert("设计要求和基本参数未填写");
+                    alert("设计要求和基本参数不能为空");
                     return false;
                 } else {
-                    var yn = window.confirm("确认提交？");
+                    var yn = window.confirm("确认更新？");
                     if (yn) {
-                        alert("成功提交");
+                        alert("成功更新");
                     } else {
                         return false;
                     }
