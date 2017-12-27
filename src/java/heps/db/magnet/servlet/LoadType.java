@@ -76,6 +76,7 @@ public class LoadType extends HttpServlet {
       request.setCharacterEncoding("UTF-8");      
       PrintWriter out = response.getWriter();
       DesignAPI a=new DesignAPI();
+      a.init();
       String re=a.queryAllTypes();
       //System.out.println(re);
       out.print(re.replace(" ", "")); 

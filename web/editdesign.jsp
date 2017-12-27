@@ -18,21 +18,26 @@
         <script type="text/javascript" src="dp.js"></script>
         <script>
             <%
+                Integer designId = (Integer) session.getAttribute("designId");
                 String magtype = (String) session.getAttribute("magtype");
                 Integer magfamily = (Integer) session.getAttribute("magfamily");
-                String seldata = (String) session.getAttribute("seldata");
+                String seldata = (String) session.getAttribute("seldata");                
                 //JSONObject seljson = JSONObject.fromObject(seldata);
-//System.out.println("jsp"+seldata);
-            %>
+//System.out.println("jsp json:"+seldata);
+            %>           
+            var id = <%=designId%>;
             var tt = "<%=magtype%>";
             var ff = <%=magfamily%>;
             var ss =<%=seldata%>;
+           // document.write(obj.length + "<br / >");
             for (var p in ss)
             {
-               // document.write(p + ": " + ss[p] + "<br / >");
+                if(ss[p]==='"null"'){
+                    ss[p]='';
+                }
+                document.write(p + ":" + ss[p] + "<br / >");
             }
-            if (ss !== null) {
-                
+            if (ss !== null) {                
                 rowr[0].value = ss["length"];
                 rowr[1].value = ss["aperture"];
                 rowr[2].value = ss["min_gap"];
@@ -63,8 +68,6 @@
                 rowp[17].value = ss["core_section"];
                 rowp[18].value = ss["core_weight"];
                 rowp[19].value = ss["copper_weight"]; 
-            
-                
             }
             window.onload = function () {
                 $.ajax({
@@ -83,6 +86,7 @@
                                     x.add(option, null);
                                 }                            
                         }
+                        document.getElementById("magtype").value = tt;
                     }
                 });
                 $.ajax({
@@ -101,10 +105,11 @@
                                     x.add(option, null);
                                 }                            
                         }
+                        document.getElementById("magfamily").value = ff;
                     }
                 });
-                document.getElementById("magtype").value = tt;
-                document.getElementById("magfamily").value = ff;
+                
+                
                 if(ss!==null){
                 $('#designed_by').textbox('setValue',ss["designedby"]);
                  $('#approved_by').textbox('setValue',ss["approvedby"]);
@@ -170,9 +175,10 @@
                         <div id="table1" style=" ;float: left ">
                             <p> 请输入磁铁设计要求：
                             <div style="margin:25px 0;"></div>
-                            <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
+<!--                                                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
                             </p>                                               
                             <table id="design_require" name="design_require" class="easyui-propertygrid" style="width:400px" data-options="
+                                 
                                    method: 'get',
                                    showGroup: true,
                                    scrollbarSize: 0,                                  
@@ -195,11 +201,12 @@
                         </div>
                         <div id="table2" style="float: right">
                             <p>请输入磁铁设计参数：
-                                <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges2()">查看修改项</a>-->
+<!--                                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges2()">查看修改项</a>-->
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="addrow()">新增设计参数</a>
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow()">删除设计参数</a>
                             </p>
                             <table id="design_para" name="design_para" class="easyui-propertygrid" style="width:400px" data-options="
+                                   
                                    method: 'get',
                                    showGroup: true,
                                    scrollbarSize: 0,                                   
@@ -208,10 +215,13 @@
                             </table>                    
                         </div>
                     </div>
-                    <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center">                    
+                    <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center"> 
+<!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges()">查看修改项</a>-->
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="更新" >
                         <input type="hidden" id="hd1" name="hd1"/>
-                        <input type="hidden" id="hd2" name="hd2"/>      
+                        <input type="hidden" id="hd2" name="hd2"/> 
+                        <input type="hidden" id="hd3" name="hd3"/>
+                       
                         <input type="hidden" id="pplotn" name="pplotn"/>
                         <input type="hidden" id="mplotn" name="mplotn"/>
                     </div>
@@ -254,11 +264,8 @@
             </div>
         </div>
 
-        <script type="text/javascript">
-            function formatPrice(val, row) {
-
-
-            }
+        <script type="text/javascript"> 
+          
             function uploadpplot() {
                 var names = $("#pplotId").val().split(".");
 
@@ -306,7 +313,9 @@
                     //            $("#img").show();  
                 }
             }
+            
             function submitform() {
+                document.getElementById("hd3").value=id;
                 var require = $("#design_require").datagrid("getData");
                 document.getElementById("hd1").value = JSON.stringify(require);
                 var parameter = $("#design_para").datagrid("getData");
@@ -357,11 +366,11 @@
                     }
                 }
             }
-            var mycolumns = [[
+            var mycolumns = [[                   
                     {field: 'name', title: '设计参数', width: 100, sortable: true},
                     {field: 'value', title: '数值', width: 100, resizable: false, formatter: function (value, arr) {
                             if (value === '\"null\"') {
-                                return '';
+                                return null;
                             } else {
                                 return value;
                             }
@@ -377,21 +386,13 @@
                                 return value;
                         }}
                 ]];
-            function getChanges1() {
-                var require = $("#design_require").datagrid("getData");
-                document.getElementById("hd1").value = JSON.stringify(require);
-                var parameter = $("#design_para").datagrid("getData");
-                document.getElementById("hd2").value = JSON.stringify(parameter);
-                if (JSON.stringify(require).length === 1057) {
-                    alert(JSON.stringify(parameter).length);
-                }
-//                   
-//                    var s = '';
-//                    var rows = $('#design_require').propertygrid('getChanges');
-//                    for (var i = 0; i < rows.length; i++) {
-//                        s += rows[i].name + ':' + rows[i].value + ',';
-//                    }
-//                    alert(s);
+            function getChanges1() {  
+                    var s = '';
+                    var rows = $('#design_require').propertygrid('getChanges');
+                    for (var i = 0; i < rows.length; i++) {
+                        s += rows[i].name + ':' + rows[i].value + ',';
+                    }
+                    alert(s);
             }
             function getChanges2() {
                 var s = '';
@@ -401,6 +402,7 @@
                 }
                 alert(s);
             }
+             
             function addrow() {
                 var input = window.prompt("新建设计参数,格式：参数名/参数组名/参数类型(text或number)", "property/其他/text");
                 var slice = input.split("/");

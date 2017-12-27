@@ -72,13 +72,15 @@ public class DeleteDesign extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
          DesignAPI a = new DesignAPI();
-        
+        a.init();
+        //System.out.println("init");
         Integer designId=Integer.parseInt(request.getParameter("designId"));
         Integer result=a.deleteDesignById(designId);
         if(result==1){
         out.print("success");
         }else
            out.print("failure"); 
+        a.destroy();
         processRequest(request, response);
     }
 

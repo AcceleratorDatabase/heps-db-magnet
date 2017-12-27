@@ -35,9 +35,9 @@ public class NewDesign extends HttpServlet {
     private String type, family, require, parameter, designed_by, approved_by, remark, mplot, pplot;
 
     private ArrayList design, design_requirement, design_para, design_plot, design_others;
-    private int other_flag = 0;
+    private Integer other_flag = 0;
     private String result = "成功";
-
+  //  private Integer del_dup_pplot,del_dup_mplot;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -108,7 +108,14 @@ public class NewDesign extends HttpServlet {
         design.add(remark);
         mplot = request.getParameter("mplotn");
         pplot = request.getParameter("pplotn");
-
+        //del_dup_pplot=Integer.parseInt(request.getParameter("hd3"));
+       // del_dup_mplot=Integer.parseInt(request.getParameter("hd4"));
+//        if(del_dup_pplot==1){
+//        System.out.println("delp");
+//        }
+//         if(del_dup_mplot==1){
+//        System.out.println("delm");
+//        }
         design_plot.add(pplot);
         design_plot.add(mplot);
 
@@ -150,9 +157,11 @@ public class NewDesign extends HttpServlet {
         } else {
             other_flag = 0;
         }
-        //out.println("design_others= "+design_others+"flag"+other_flag); 
+        //out.println("design_re= "+design_requirement); 
         //try{
-         a.insertDesign(design, design_requirement, design_para, design_plot, other_flag, design_others);
+        a.init();
+        a.insertDesign(design, design_requirement, design_para, design_plot, other_flag, design_others);
+         a.destroy();
         // }catch(UnsupportedEncodingException e){
         // result="失败！"+e;
         // }

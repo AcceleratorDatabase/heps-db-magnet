@@ -161,7 +161,9 @@
                     <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
                         <input type="hidden" id="hd1" name="hd1"/>
-                        <input type="hidden" id="hd2" name="hd2"/>      
+                        <input type="hidden" id="hd2" name="hd2"/> 
+                        <input type="hidden" id="hd3" name="hd3"/>
+                        <input type="hidden" id="hd4" name="hd4"/> 
                         <input type="hidden" id="pplotn" name="pplotn"/>
                         <input type="hidden" id="mplotn" name="mplotn"/>
                     </div>
@@ -171,7 +173,7 @@
             <div  class="easyui-panel"   style=" position: absolute;left:450px; top:640px; width:404px;padding: 5px">  
                 <span >请上传物理设计文件（PDF格式）</span>  
                 <div style="margin:5px 0;"></div>
-                <form  id="formId1" action="IframeAjax?plottype=0" method="post"  
+                <form  id="formId1" action="UploadFile?plottype=0" method="post"  
                        target="hiddenFrameName1" enctype="multipart/form-data">                       
                     <div>                         
                         <input id="pplotId" type="file" class="a-upload" name="pplotName"  
@@ -187,7 +189,7 @@
 
                 <span >请上传机械设计文件（PDF格式）</span>  
                 <div style="margin:5px 0;"></div>
-                <form  id="formId2" action="IframeAjax?plottype=1" method="post"  
+                <form  id="formId2" action="UploadFile?plottype=1" method="post"  
                        target="hiddenFrameName2" enctype="multipart/form-data">                       
                     <div>                         
                         <input id="mplotId" type="file" class="a-upload" name="mplotName"  
@@ -204,11 +206,13 @@
             </div>
         </div>
 
-        <script type="text/javascript">
-          
+        <script type="text/javascript">    
+           var pplotnum=0;
+            var mplotnum=0;
+             document.getElementById("hd3").value=0;
+             document.getElementById("hd4").value=0;
             function uploadpplot() {
                 var names = $("#pplotId").val().split(".");
-
                 if (names[1] !== "pdf") {
                     $("#errorTip1").html("文件格式必须为PDF");
                     $("#errorTip1").show();
@@ -217,7 +221,6 @@
                 $("#formId1").submit();
             }
             function uploadmplot() {
-
                 var names = $("#mplotId").val().split(".");
                 if (names[1] !== "pdf") {
                     $("#errorTip2").html("文件格式必须为PDF");
@@ -236,6 +239,7 @@
                     $("#successTip1").html(message + url);
                     $("#successTip1").show();
                     document.getElementById("pplotn").value = url;
+                   pplotnum++;
                     //            $("#img").attr("src", "E:/plot/uploads/" + url);  
                     //            $("#img").show();  
                 }
@@ -249,11 +253,18 @@
                     $("#successTip2").html(message + url);
                     $("#successTip2").show();
                     document.getElementById("mplotn").value = url;
+                    mplotnum++;
                     //            $("#img").attr("src", "E:/plot/uploads/" + url);  
                     //            $("#img").show();  
                 }
             }
             function submitform() {
+                if(pplotnum>1){
+                    document.getElementById("hd3").value=1;                    
+                }
+                  if(mplotnum>1){
+                    document.getElementById("hd4").value=1;                    
+                }
                 var require = $("#design_require").datagrid("getData");
                 document.getElementById("hd1").value = JSON.stringify(require);
                 var parameter = $("#design_para").datagrid("getData");

@@ -286,7 +286,7 @@
                             $.ajax({
                                 type: 'POST',
                                 url: 'EditDesign',
-                                data: "magType=" + row.magtype + "&magFamily=" + row.magfamily + "&selData=" + document.getElementById("hd").value,
+                                data:  "designId=" + row.designid +"&magType=" + row.magtype + "&magFamily=" + row.magfamily + "&selData=" + document.getElementById("hd").value,
                                 success: function (data) {
                                     window.location.href = 'editdesign.jsp';
                                 }

@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URLEncoder;
 import javax.servlet.ServletOutputStream;
 
@@ -71,6 +68,7 @@ public class DownloadFile extends HttpServlet {
             throws ServletException, IOException {
          
        DesignAPI a = new DesignAPI();
+       a.init();
  String FilePath="E:/plot/mplot/";       
 Integer designId=Integer.parseInt(request.getParameter("designId"));
 String FileName=a.queryMplot(designId);
@@ -98,6 +96,7 @@ if(!FileName.equals("")){
            PrintWriter out = response.getWriter();
            out.print("<script language='javascript'>alert('File Not Found.');window.history.go(-1);;</script>");
 }
+a.destroy();
         processRequest(request, response);
     }
 

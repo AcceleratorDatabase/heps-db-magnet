@@ -13,24 +13,22 @@ import java.util.List;
 import javax.servlet.ServletException;  
 import javax.servlet.http.HttpServlet;  
 import javax.servlet.http.HttpServletRequest;  
-import javax.servlet.http.HttpServletResponse;  
-import javax.servlet.http.HttpSession;
-  
+import javax.servlet.http.HttpServletResponse;    
 import org.apache.commons.fileupload.FileItem;  
 import org.apache.commons.fileupload.FileItemFactory;  
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;  
 import org.apache.commons.fileupload.servlet.ServletFileUpload;  
   
 /** 
- * Servlet implementation class IframeAjax 
+ * Servlet implementation class UploadFile 
  */  
-public class IframeAjax extends HttpServlet {  
+public class UploadFile extends HttpServlet {  
     private static final long serialVersionUID = 1L;  
   public String mplotname,pplotname;
     /** 
      * Default constructor. 
      */  
-    public IframeAjax() {  
+    public UploadFile() {  
         // TODO Auto-generated constructor stub  
     }  
   
@@ -51,9 +49,7 @@ public class IframeAjax extends HttpServlet {
         
         String realPath = "E:/plot";  
         String plottype=request.getParameter("plottype");
-        String dir="";
-       
-        // 这里是为了方便管理上传的文件，因而在根目录下建立一个文件夹  
+        String dir="";      
         if(plottype.equals("0")){
            dir="pplot";
         }else if(plottype.equals("1")){

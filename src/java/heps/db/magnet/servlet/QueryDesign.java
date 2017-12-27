@@ -106,6 +106,7 @@ public class QueryDesign extends HttpServlet {
         Integer byintensity;
 
         DesignAPI a = new DesignAPI();
+        a.init();
         type = request.getParameter("magtype");
         family = precalcInt(request.getParameter("magfamily"));
         lengthmin = precalcDouble(request.getParameter("lengthmin"));
@@ -132,8 +133,7 @@ public class QueryDesign extends HttpServlet {
         if (intensity == -1) {
             byintensity = 0;
         } else {
-            byintensity = 1;
-          
+            byintensity = 1;          
             // System.out.println(intensitymin+"----"+intensitymax);
         }
        
@@ -170,6 +170,7 @@ public class QueryDesign extends HttpServlet {
         } else if (bytype == 1 && byfamily == 0 && bylength == 1 && byintensity == 1) {//query by type & family & length & intensity
             result=a.queryDesignbyTypeFamilyLengthIntensity(type, family, lengthmin, lengthmax, intensity, intensitymin, intensitymax);
         }
+        a.destroy();
         //System.out.println(bylength);
 //        if ((type.equals("none")) & (family == -1)) {
 //           result = "";

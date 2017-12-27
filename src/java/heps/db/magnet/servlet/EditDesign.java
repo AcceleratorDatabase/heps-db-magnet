@@ -79,9 +79,10 @@ public class EditDesign extends HttpServlet {
          response.setContentType("text/html;charset=UTF-8");
 //         sellist= new ArrayList();
          PrintWriter out = response.getWriter();
+         Integer designId=Integer.parseInt(request.getParameter("designId"));
          String magtype=request.getParameter("magType");
          Integer magfamily=Integer.parseInt(request.getParameter("magFamily"));
-         String seldata=request.getParameter("selData");
+         String seldata=request.getParameter("selData").replace(" ", "");
          //seldata=seldata.substring(9,seldata.length()-15);
          //String jsonMessage = "{\"语文\":\"88\",\"数学\":\"78\",\"计算机\":\"99\"}";
           JSONObject seljson = JSONObject.fromObject(seldata); 
@@ -94,7 +95,8 @@ public class EditDesign extends HttpServlet {
 //           }
 //        }
         
-        // System.out.println("servelt:"+seljson);
+         //System.out.println("servelt:"+seljson.toString());
+         request.getSession().setAttribute("designId", designId);
          request.getSession().setAttribute("magtype", magtype);
          request.getSession().setAttribute("magfamily", magfamily);
          request.getSession().setAttribute("seldata",seljson.toString());

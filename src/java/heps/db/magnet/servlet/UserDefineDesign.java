@@ -73,11 +73,13 @@ public class UserDefineDesign extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        DesignAPI a = new DesignAPI();        
+        DesignAPI a = new DesignAPI(); 
+        a.init();
         Integer designId=Integer.parseInt(request.getParameter("designId"));
         String result=a.queryDesignOthers(designId);
         //System.out.println(result); 
         out.print(result); 
+        a.destroy();
         processRequest(request, response);
     }
 

@@ -75,6 +75,7 @@ public class LoadFamily extends HttpServlet {
       request.setCharacterEncoding("UTF-8");      
       PrintWriter out = response.getWriter();
       DesignAPI a=new DesignAPI();
+      a.init();
       String re=a.queryAllFamilys();
      // System.out.println(re);
       out.print(re.replace(" ", ""));
