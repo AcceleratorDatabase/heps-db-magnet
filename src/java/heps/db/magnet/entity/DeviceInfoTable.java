@@ -6,6 +6,7 @@
 package heps.db.magnet.entity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -51,7 +52,7 @@ public class DeviceInfoTable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-   
+
     @Column(name = "device_id")
     private Integer deviceId;
     @Column(name = "number")
@@ -220,10 +221,16 @@ public class DeviceInfoTable implements Serializable {
         }
         return true;
     }
-
+  
+    public String DateToString(Date date) {      
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    return sdf.format(date);
+    }
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.DeviceInfoTable[ deviceId=" + deviceId + " ]";
+        return "{\"magid\":\"" + deviceId + "\"," + "\"magname\":\"" + deviceName + "\"," + "\"designid\":\"" + designId.getDesignId()
+                + "\"," + "\"weight\":\"" + weight + "\"," + "\"series\":\"" + series + "\"," + "\"manudate\":\"" + DateToString(dateOfManu) + "\","
+                + "\"designedby\":\"" + designedBy + "\"," + "\"manuby\":\"" + manuBy + "\"," + "\"description\":\"" + description + "\"}";
     }
-    
+
 }

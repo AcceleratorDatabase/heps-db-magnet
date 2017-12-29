@@ -303,7 +303,7 @@
                     handler: function () {
                         var row = $('#dg').datagrid('getSelected');
                         if (row) {
-                            var yn = window.confirm("确认删除此磁铁设计？");
+                            var yn = window.confirm("确认删除此磁铁设计？（删除后对应的磁铁设备需重新选择磁铁设计）");
                             if (yn) {
                                 $.ajax({
                                     type: 'POST',

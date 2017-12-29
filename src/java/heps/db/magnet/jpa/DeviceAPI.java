@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -56,20 +57,31 @@ public class DeviceAPI {
         }
     }
 
-    public void insertDevice(ArrayList maginfo, String type, Integer family) {
+    public void init() {
+        emf = Persistence.createEntityManagerFactory("heps-db-magnetPU");
+        em = emf.createEntityManager();
+        et = em.getTransaction();
         et.begin();
+    }
+
+    public void destroy() {
+        em.close();
+        emf.close();
+    }
+
+    public void insertDevice(ArrayList maginfo, String type, Integer family) {
         MagnetDesignTable design;
         Long num;
         Integer numnow;
         String name;
-        
+
         if (maginfo.get(5).toString().isEmpty()) {
             design = null;
             numnow = null;
             name = null;
         } else {
             design = (MagnetDesignTable) em.createNamedQuery("MagnetDesignTable.findByDesignId").setParameter("designId", Integer.parseInt(maginfo.get(5).toString())).getSingleResult();
-            num = Long.parseLong(em.createQuery("select count(d) from DeviceInfoTable d where d.designId=:designId").setParameter("designId", design).getSingleResult().toString());
+            num = Long.parseLong(em.createQuery("SELECT count(d) FROM DeviceInfoTable d WHERE d.designId=:designId").setParameter("designId", design).getSingleResult().toString());
             numnow = 1 + num.intValue();
             name = type + "-" + family + "-" + numnow;
         }
@@ -86,6 +98,14 @@ public class DeviceAPI {
         device.setNumber(numnow);
         em.persist(device);
         et.commit();
+    }
+    
+    public String queryMagnetByType(String type) {
+        Query query = em.createQuery(" SELECT d FROM DeviceInfoTable d WHERE d.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type) ");
+        query.setParameter("type", type);
+        List<DeviceInfoTable> re = query.getResultList();
+        System.out.println(re.toString());
+        return re.toString();
     }
 
 }

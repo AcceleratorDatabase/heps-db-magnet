@@ -52,6 +52,10 @@
         <servlet-name>UpdateDesign</servlet-name>
         <servlet-class>heps.db.magnet.servlet.UpdateDesign</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>QueryMagnet</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.QueryMagnet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadFile</servlet-name>
         <url-pattern>/UploadFile</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>UpdateDesign</servlet-name>
         <url-pattern>/UpdateDesign</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QueryMagnet</servlet-name>
+        <url-pattern>/QueryMagnet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
