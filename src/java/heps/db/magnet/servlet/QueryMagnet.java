@@ -7,7 +7,6 @@ package heps.db.magnet.servlet;
 
 import heps.db.magnet.jpa.DeviceAPI;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,10 +27,10 @@ public class QueryMagnet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     private String result = null;
-    private String type,datemin,datemax;
+    private String result = null;
+    private String type, datemin, datemax;
     private Integer family;
-    
+
     public static Integer precalcInt(Object obj) {
         if (obj.toString().isEmpty()) {
             return null;
@@ -39,14 +38,7 @@ public class QueryMagnet extends HttpServlet {
             return Integer.parseInt(obj.toString());
         }
     }
-      public static String precalcStr(Object obj) {
-        if (obj.toString().isEmpty()) {
-            return null;
-        } else {
-            return obj.toString();
-        }
-    }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -99,7 +91,7 @@ public class QueryMagnet extends HttpServlet {
         family = precalcInt(request.getParameter("magfamily"));
         datemin = request.getParameter("datemin");
         datemax = request.getParameter("datemax");
-         if (type.equals("none")) {
+        if (type.equals("none")) {
             bytype = 0;
         } else {
             bytype = 1;
@@ -109,22 +101,38 @@ public class QueryMagnet extends HttpServlet {
         } else {
             byfamily = 1;
         }
-        if (datemin.equals("")&&datemax.equals("")) {
+        //System.out.println("type:"+bytype+" family:"+byfamily+" date:"+datemin+":"+datemax);
+        if (datemin.equals("") && datemax.equals("")) {
             bydate = 0;
         } else {
             bydate = 1;
-        } 
-       // System.out.println("type:"+bytype+" family:"+byfamily+" date:"+datemin+":"+bydate);
-       if(bytype==0&&byfamily==0&&bydate==0){
-           result="";
-       }else if(bytype==1&&byfamily==0&&bydate==0){
-       result=a.queryMagnetByType(type);
-       }
-       a.destroy();
-       request.getSession().setAttribute("value", "{\"rows\":" + result + "}");
+        }
+
+        if (bytype == 0 && byfamily == 0 && bydate == 0) {
+            result = a.queryMagnetAll();
+        } else if (bytype == 1 && byfamily == 0 && bydate == 0) {
+            result = a.queryMagnetByType(type);
+        } else if (bytype == 0 && byfamily == 1 && bydate == 0) {
+            result = a.queryMagnetByFamily(family);
+        } else if (bytype == 1 && byfamily == 1 && bydate == 0) {
+            result = a.queryMagnetByTypeFamily(type, family);
+        } else if (bytype == 0 && byfamily == 0 && bydate == 1) {
+            result = a.queryMagnetByDate(datemin, datemax);
+        } else if (bytype == 1 && byfamily == 0 && bydate == 1) {
+            result = a.queryMagnetByTypeDate(type, datemin, datemax);
+        } else if (bytype == 0 && byfamily == 1 && bydate == 1) {
+            result = a.queryMagnetByFamilyDate(family, datemin, datemax);
+        } else if (bytype == 0 && byfamily == 1 && bydate == 1) {
+            result = a.queryMagnetByTypeFamilyDate(type, family, datemin, datemax);
+        }
+        a.destroy();
+        request.getSession().setAttribute("value", "{\"rows\":" + result + "}");
         request.getSession().setAttribute("magtype", type);
-         request.getRequestDispatcher("magnetresult.jsp").forward(request, response);
-       //processRequest(request, response);
+        request.getSession().setAttribute("magfamily", family);
+        request.getSession().setAttribute("datemin", datemin);
+        request.getSession().setAttribute("datemax", datemax);
+        request.getRequestDispatcher("magnetresult.jsp").forward(request, response);
+        //processRequest(request, response);
     }
 
     /**

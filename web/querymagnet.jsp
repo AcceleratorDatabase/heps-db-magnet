@@ -86,7 +86,7 @@
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >
                     </div> 
                 </form> 
-                <div style="position: absolute;left:250px;top:170px;width:800px">
+                <div style="position: absolute;left:220px;top:170px;width:900px">
                     <table class="easyui-datagrid"  title="查询结果"  data-options="singleSelect:true,toolbar:toolbar,collapsible:true">
                         <thead>
                             <tr>

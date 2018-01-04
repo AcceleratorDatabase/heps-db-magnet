@@ -16,10 +16,14 @@
         <script type="text/javascript">
              <%
                 String magtype = (String) session.getAttribute("magtype");
-                Integer magfamily = (Integer) session.getAttribute("magfamily");                         
+                Integer magfamily = (Integer) session.getAttribute("magfamily");   
+String datemin = (String) session.getAttribute("datemin");
+String datemax = (String) session.getAttribute("datemax");
             %>
             var tt = "<%=magtype%>";
             var ff = <%=magfamily%>;
+             var ddmin = "<%=datemin%>";
+              var ddmax = "<%=datemax%>";
             window.onload = function () {
                 $.ajax({
                     type: 'POST',
@@ -59,6 +63,8 @@
                          document.getElementById("magfamily").value = ff;
                     }
                 });
+                $('#datemin').datebox('setValue', ddmin);
+                $('#datemax').datebox('setValue', ddmax);
             };
         </script>
         <title>查询-磁铁信息</title>
@@ -84,46 +90,140 @@
                         <div style="margin:10px 0;"></div>
                         <div id="date" style="position:absolute;top: 50px;left: 400px" >                     
                             <label for="datemin">生产日期：</label>                                
-                            <input id="datemin" class="easyui-datebox"  style="width:35%;">
+                            <input id="datemin"  name="datemin" class="easyui-datebox"  style="width:35%;">
                             <span> - </span>                         
-                            <input id="datemax" class="easyui-datebox"  style="width:35%;">
+                            <input id="datemax" name="datemax" class="easyui-datebox"  style="width:35%;">
                         </div> 
                     </div>
                     <div style="position:absolute;top:100px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >
                     </div> 
                 </form> 
-                <div style="position: absolute;left:250px;top:170px;width:800px">
+                <div style="position: absolute;left:220px;top:170px;width:900px">
                     <table class="easyui-datagrid"  title="查询结果"  data-options="singleSelect:true, 
                            rownumbers: true,
-                           dataType:'json',
-                           toolbar:toolbar,
+                           dataType:'json',                           
+                           toolbar:toolbar,                          
                            url: 'MagnetResult',
                            method: 'get',
                            collapsible:true">
                         <thead>
                             <tr>
-                                <th data-options="field:'magid',width:100">ID</th>
+                                <th data-options="field:'magid',width:70">ID</th>
                                 <th data-options="field:'magname',width:100">名称</th>
-                                <th data-options="field:'designid',width:100">磁铁设计</th>                
+                                <th data-options="field:'designid',width:100,formatter:formatDesign">磁铁设计</th>                
                                 <th data-options="field:'weight',width:100">磁铁重量[Kg]</th>
                                 <th data-options="field:'series',width:100">生产序号</th>
                                 <th data-options="field:'manudate',width:100">生产日期</th>                
                                 <th data-options="field:'designedby',width:100">设计单位</th>
                                 <th data-options="field:'manuby',width:100">制造单位</th>
-                                <th data-options="field:'description',width:100">备注</th>                
+                                <th data-options="field:'description',width:98">备注</th>                
                             </tr>
                         </thead>
                     </table>
-
                 </div>  
+              <div id="dlg1" class="easyui-dialog" title="磁铁设计"  style="width:1200px;height:200px;padding:10px;text-align: center" data-options="iconCls:'icon-more',closed: true,resizable:true">
+                <table id="dg" name="dg" class="easyui-datagrid" align="center"
+                       data-options="
+                       toolbar:toolbarr                         
+                       ">
+                    <thead data-options="frozen:true">
+                        <tr>
+                            <th data-options="field:'designid',width:80,sortable:true">ID</th>
+                            <th data-options="field:'magtype',width:80">磁铁类型</th>
+                            <th data-options="field:'magfamily',width:80">磁铁型号</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr> 
+                            <th colspan="10"><span>设计要求</span></th>
+                            <th colspan="11"><span>主要参数</span></th>
+                            <th colspan="5"><span>水冷参数</span></th>
+                            <th colspan="4"><span>尺寸及重量</span></th>
+                            <th colspan="3"><span>其他</span></th>
+                        </tr>
+                        <tr>                           
+                            <th data-options="field:'length',width:70,formatter:formatPrice">有效长度</th>
+                            <th data-options="field:'aperture',width:70,formatter:formatPrice">磁铁孔径</th>
+                            <th data-options="field:'min_gap',width:120,formatter:formatPrice">相邻磁极最小间隙</th>
+                            <th data-options="field:'useful_field',width:80,formatter:formatPrice">好场区范围</th>
+                            <th data-options="field:'intensityB',width:70,formatter:formatPrice">二极分量</th>
+                            <th data-options="field:'intensityQ',width:70,formatter:formatPrice">四极分量</th>
+                            <th data-options="field:'intensityS',width:70,formatter:formatPrice">六极分量</th>
+                            <th data-options="field:'intensityO',width:70,formatter:formatPrice">八极分量</th>
+                            <th data-options="field:'sys',width:70,formatter:formatPrice">系统分量</th>
+                            <th data-options="field:'non_sys',width:80,formatter:formatPrice">非系统分量</th>
+
+                            <th data-options="field:'offset',width:100,formatter:formatPrice">偏置安装偏移量</th>
+                            <th data-options="field:'ampere_turns',width:80,formatter:formatPrice">励磁安匝数</th>
+                            <th data-options="field:'ampere_turns_each',width:100,formatter:formatPrice">每磁极线圈匝数</th>
+                            <th data-options="field:'current',width:70,formatter:formatPrice">励磁电流</th>
+                            <th data-options="field:'wire',width:70,formatter:formatPrice">导线规格</th>
+                            <th data-options="field:'current_density',width:70,formatter:formatPrice">电流密度</th>
+                            <th data-options="field:'wire_length',width:100,formatter:formatPrice">磁铁导线总长度</th>
+                            <th data-options="field:'resistence',width:80,formatter:formatPrice">磁铁总电阻</th>
+                            <th data-options="field:'inductance',width:70,formatter:formatPrice">磁铁电感</th>
+                            <th data-options="field:'voltage',width:70,formatter:formatPrice">励磁电压</th>
+                            <th data-options="field:'consumption',width:70,formatter:formatPrice">磁铁功耗</th>
+
+                            <th data-options="field:'c_pressure_drop',width:80,formatter:formatPrice">冷却水压降</th>
+                            <th data-options="field:'c_channel_num',width:80,formatter:formatPrice">并联水路数</th>
+                            <th data-options="field:'c_velocity',width:80,formatter:formatPrice">冷却水流速</th>
+                            <th data-options="field:'c_flow',width:80,formatter:formatPrice">冷却水流量</th>
+                            <th data-options="field:'c_temp',width:60,formatter:formatPrice">水温升</th>
+
+                            <th data-options="field:'core_length',width:70,formatter:formatPrice">铁芯长度</th>
+                            <th data-options="field:'core_section',width:80,formatter:formatPrice">铁芯截面尺寸</th>
+                            <th data-options="field:'core_weight',width:60,formatter:formatPrice">铁芯重</th>
+                            <th data-options="field:'copper_weight',width:60,formatter:formatPrice">铜重</th>
+                            <th data-options="field:'designedby',width:70">设计人</th>
+                            <th data-options="field:'approvedby',width:70">负责人</th>
+                            <th data-options="field:'remark',width:90">备注</th>
+                        </tr>
+                    </thead>
+                </table>                
+            </div>
                 <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
                     <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
                 </div>
             </div>
+        </div>
             <script type="text/javascript">
                 function submitform() {
 
+                }
+                function formatPrice(val, row) {
+                if (val === 'null') {
+                    return '';
+                } else {
+                    return val;
+                }
+            }
+                function formatDesign(val, row) {
+                return val+"<a href=\"#\" style=\"display:block;float:right\" onclick=\"checkDesign("+val+")\">*点击查看*</a>";
+                }
+               
+                function checkDesign(designid){
+                   
+                     $.ajax({
+                    type: 'POST',
+                    url: 'CheckDesign',
+                    scriptCharset: 'UTF-8',
+                    data: "designid=" + designid,
+                    success: function (data) {
+                        //alert(data);
+                        var str = '{"rows":' + data + '}';
+                        var s = $.parseJSON(str);
+                        $('#dg').datagrid('loadData', s);
+                        $('#dlg1').dialog('open');
+//                        $('#maginfo').datagrid('updateRow', {
+//                            index: 6,
+//                            row: {
+//                                value: data
+//                            }
+//                        });
+                    }
+                });
                 }
                 var toolbar = [{
                         text: '编辑',
@@ -138,6 +238,41 @@
                             alert('未查询');
                         }
                     }];
+                var toolbarr = [{
+                    text: '下载设计图纸',
+                    iconCls: 'icon-download',
+                    handler: function () {
+                        var row = $('#dg').datagrid('getSelected');
+                        if (row) {
+                            location.href = 'DownloadFile?designId=' + row.designid;
+                        } else {
+                            alert("请选择一条记录");
+                        }
+                    }
+                }, {
+                    text: '查看用户自定义参数',
+                    iconCls: 'icon-more',
+                    handler: function () {
+                        var row = $('#dg').datagrid('getSelected');
+                        if (row) {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'UserDefineDesign',
+                                scriptCharset: 'UTF-8',
+                                data: "designId=" + row.designid,
+                                success: function (data) {
+                                    var str = '{"total":2,"rows":' + data + '}';
+                                    var s = $.parseJSON(str);
+                                    $('#dg_other').datagrid('loadData', s);
+                                    $('#dlg2').dialog('open');
+                                    //$('#dlg').dialog('refresh', 'editdesign.jsp');                                   
+                                }
+                            });
+                        } else {
+                            alert("请选择一条记录");
+                        }
+                    }
+                }];
             </script>
     </body>
 </html>

@@ -233,7 +233,6 @@
                 </div>
             </div>            
             <div id="dlg" class="easyui-dialog" title="用户自定义参数"  style="width:390px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
-
                 <table id="dg_other" class="easyui-datagrid" align="center" data-options="">
                     <thead data-options="singleSelect: true,fitColumns:true">
                         <tr>
@@ -243,6 +242,26 @@
                         </tr>
                     </thead>
                 </table>
+            </div>
+            <div id="dlg1" class="easyui-dialog" title="用户自定义参数"  style="width:900px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
+                <table id="dg_magnet" class="easyui-datagrid"  title="查询结果"  data-options="singleSelect:true, 
+                           rownumbers: true,
+                           dataType:'json',
+                           collapsible:true">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'magid',width:70">ID</th>
+                                <th data-options="field:'magname',width:100">名称</th>
+                                <th data-options="field:'designid',width:100">磁铁设计</th>                
+                                <th data-options="field:'weight',width:100">磁铁重量[Kg]</th>
+                                <th data-options="field:'series',width:100">生产序号</th>
+                                <th data-options="field:'manudate',width:100">生产日期</th>                
+                                <th data-options="field:'designedby',width:100">设计单位</th>
+                                <th data-options="field:'manuby',width:100">制造单位</th>
+                                <th data-options="field:'description',width:98">备注</th>                
+                            </tr>
+                        </thead>
+                    </table>
             </div>
             <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
@@ -320,12 +339,23 @@
                         }
                     }
                 }, {
-                    text: '下载设计图纸',
+                    text: '下载机械设计图纸',
                     iconCls: 'icon-download',
                     handler: function () {
                         var row = $('#dg').datagrid('getSelected');
                         if (row) {
-                            location.href = 'DownloadFile?designId=' + row.designid;
+                            location.href = 'DownloadFile?designId=' + row.designid+'&filetype=m';
+                        } else {
+                            alert("请选择一条记录");
+                        }
+                    }
+                }, {
+                    text: '下载物理设计图纸',
+                    iconCls: 'icon-download',
+                    handler: function () {
+                        var row = $('#dg').datagrid('getSelected');
+                        if (row) {
+                            location.href = 'DownloadFile?designId=' + row.designid+'&filetype=p';
                         } else {
                             alert("请选择一条记录");
                         }
@@ -347,6 +377,32 @@
                                     $('#dg_other').datagrid('loadData',s);   
                                      $('#dlg').dialog('open');
                                     //$('#dlg').dialog('refresh', 'editdesign.jsp');                                   
+                                }
+                            });                         
+                          } else {
+                            alert("请选择一条记录");
+                        }
+                    }
+                },{
+                    text: '查看该设计下磁铁信息',
+                    iconCls: 'icon-more',
+                    handler: function () {
+                        var row = $('#dg').datagrid('getSelected');
+                        //alert(row.designid);
+                        if (row) {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'CheckMagnet',
+                                scriptCharset: 'UTF-8',
+                                data: "designId=" + row.designid,
+                                success: function (data) {
+                                    if(data==="[]"){
+                                        alert("该磁铁设计暂时没有磁铁设备");
+                                    }else{
+                                   var str = '{"total":2,"rows":'+data+'}';   
+                                    var s = $.parseJSON(str);
+                                    $('#dg_magnet').datagrid('loadData',s);   
+                                     $('#dlg1').dialog('open');}                                                                     
                                 }
                             });                         
                           } else {

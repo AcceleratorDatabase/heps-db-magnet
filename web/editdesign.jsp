@@ -21,12 +21,16 @@
                 Integer designId = (Integer) session.getAttribute("designId");
                 String magtype = (String) session.getAttribute("magtype");
                 Integer magfamily = (Integer) session.getAttribute("magfamily");
+                 String mplotname = (String) session.getAttribute("mplotname");
+                  String pplotname = (String) session.getAttribute("pplotname");
                 String seldata = (String) session.getAttribute("seldata");                
                 //JSONObject seljson = JSONObject.fromObject(seldata);
 //System.out.println("jsp json:"+seldata);
-            %>           
-            var id = <%=designId%>;
+            %>
             var tt = "<%=magtype%>";
+            var mp = "<%=mplotname%>";
+            var pp = "<%=pplotname%>";
+            var id = <%=designId%>;
             var ff = <%=magfamily%>;
             var ss =<%=seldata%>;
            // document.write(obj.length + "<br / >");
@@ -35,7 +39,7 @@
                 if(ss[p]==='"null"'){
                     ss[p]='';
                 }
-                document.write(p + ":" + ss[p] + "<br / >");
+                //document.write(p + ":" + ss[p] + "<br / >");
             }
             if (ss !== null) {                
                 rowr[0].value = ss["length"];
@@ -109,7 +113,10 @@
                     }
                 });
                 
-                
+                $("#successTip1").html("现有文件名："+mp);
+                $("#successTip1").show();
+                 $("#successTip2").html("现有文件名："+pp);
+                $("#successTip2").show();
                 if(ss!==null){
                 $('#designed_by').textbox('setValue',ss["designedby"]);
                  $('#approved_by').textbox('setValue',ss["approvedby"]);
@@ -229,7 +236,7 @@
             </div>
 
             <div  class="easyui-panel"   style=" position: absolute;left:450px; top:640px; width:404px;padding: 5px">  
-                <span >请上传物理设计文件（PDF格式）</span>  
+                <span >重新上传物理设计文件（PDF格式）</span>  
                 <div style="margin:5px 0;"></div>
                 <form  id="formId1" action="IframeAjax?plottype=0" method="post"  
                        target="hiddenFrameName1" enctype="multipart/form-data">                       
@@ -245,7 +252,7 @@
                 </form>  
                 <iframe style="display: none" name='hiddenFrameName1' id="hidden_frame1"></iframe>  
 
-                <span >请上传机械设计文件（PDF格式）</span>  
+                <span >重新上传机械设计文件（PDF格式）</span>  
                 <div style="margin:5px 0;"></div>
                 <form  id="formId2" action="IframeAjax?plottype=1" method="post"  
                        target="hiddenFrameName2" enctype="multipart/form-data">                       

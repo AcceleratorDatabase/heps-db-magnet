@@ -69,10 +69,19 @@ public class DownloadFile extends HttpServlet {
          
        DesignAPI a = new DesignAPI();
        a.init();
- String FilePath="E:/plot/mplot/";       
+       String FilePath=""; 
+       String FileName="";
 Integer designId=Integer.parseInt(request.getParameter("designId"));
-String FileName=a.queryMplot(designId);
-//System.out.println("dasd"+FileName);
+String filetype=request.getParameter("filetype");
+
+//System.out.println("file"+filetype);
+if(filetype.equals("m")){
+FilePath="E:/plot/mplot/"; 
+FileName=a.queryMplot(designId);
+}else if(filetype.equals("p")){
+FilePath="E:/plot/pplot/"; 
+FileName=a.queryPplot(designId);
+}
 if(!FileName.equals("")){
  File f = new File(FilePath+FileName);  
         if(f.exists()){  

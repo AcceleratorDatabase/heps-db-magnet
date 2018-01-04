@@ -241,7 +241,13 @@
                         alert('未查询');
                     }
                 }, {
-                    text: '下载设计图纸',
+                    text: '下载机械设计图纸',
+                    iconCls: 'icon-download',
+                    handler: function () {
+                        alert('未查询');
+                    }
+                },{
+                    text: '下载物理设计图纸',
                     iconCls: 'icon-download',
                     handler: function () {
                         alert('未查询');
