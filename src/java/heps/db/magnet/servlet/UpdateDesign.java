@@ -31,8 +31,7 @@ public class UpdateDesign extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     private String type, family, require, parameter, designed_by, approved_by, remark, mplot, pplot;
-
+    private String type, family, require, parameter, designed_by, approved_by, remark, mplot, pplot;
     private ArrayList design, design_requirement, design_para, design_plot, design_others;
     private int other_flag = 0;
     private String result = "成功";

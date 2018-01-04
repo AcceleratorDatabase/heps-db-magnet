@@ -5,33 +5,26 @@
  */
 package heps.db.magnet.servlet;
 
-import heps.db.magnet.jpa.DesignAPI;
+import heps.db.magnet.jpa.DeviceAPI;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.URLEncoder;
-import javax.servlet.ServletOutputStream;
 
 /**
  *
  * @author qiaoys
  */
-public class DownloadFile extends HttpServlet {
+public class DeleteMagnet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param filename
-     * @param saveRootPath
      * @param request servlet request
      * @param response servlet response
-     * @return
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -43,10 +36,10 @@ public class DownloadFile extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet DownloadFile</title>");            
+//            out.println("<title>Servlet DeleteMagnet</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet DownloadFile at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet DeleteMagnet at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -64,46 +57,6 @@ public class DownloadFile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        DesignAPI a = new DesignAPI();
-        a.init();
-        String FilePath = "";
-        String FileName = "";
-        Integer designId = Integer.parseInt(request.getParameter("designId"));
-        String filetype = request.getParameter("filetype");
-
-//System.out.println("file"+filetype);
-        if (filetype.equals("m")) {
-            FilePath = "E:/plot/mplot/";
-            FileName = a.queryMplot(designId);
-        } else if (filetype.equals("p")) {
-            FilePath = "E:/plot/pplot/";
-            FileName = a.queryPplot(designId);
-        }
-        if (!FileName.equals("")) {
-            File f = new File(FilePath + FileName);
-            if (f.exists()) {
-                FileInputStream fis = new FileInputStream(f);
-                String filename = URLEncoder.encode(f.getName(), "utf-8"); //解决中文文件名下载后乱码的问题  
-                byte[] b = new byte[fis.available()];
-                fis.read(b);
-                response.setCharacterEncoding("utf-8");
-                response.setHeader("Content-Disposition", "attachment; filename=" + filename + "");
-                //获取响应报文输出流对象  
-                ServletOutputStream out = response.getOutputStream();
-                //输出  
-                out.write(b);
-                out.flush();
-                out.close();
-            } else {
-                PrintWriter out = response.getWriter();
-                out.print("<script language='javascript'>alert('File Not Found.');window.history.go(-1);</script>");
-            }
-        } else {
-            PrintWriter out = response.getWriter();
-            out.print("<script language='javascript'>alert('File Not Found.');window.history.go(-1);;</script>");
-        }
-        a.destroy();
         processRequest(request, response);
     }
 
@@ -118,7 +71,19 @@ public class DownloadFile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        PrintWriter out = response.getWriter();
+         DeviceAPI a = new DeviceAPI();
+        a.init();
+        //System.out.println("init");
+        Integer magid=Integer.parseInt(request.getParameter("magid"));
+        Integer result=a.deleteMagnetById(magid);
+        if(result==1){
+        out.print("success");
+        }else
+           out.print("failure"); 
+        a.destroy();
+        
+        
         processRequest(request, response);
     }
 

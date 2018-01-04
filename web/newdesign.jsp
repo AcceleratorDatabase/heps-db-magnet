@@ -63,7 +63,7 @@
                
             };
         </script>
-        <title>录入-磁铁设计</title>
+        <title>录入-磁铁信息</title>
         <style type="text/css">       
             .a-upload {
                 padding: 4px 10px;

@@ -82,7 +82,9 @@ public class DeviceAPI {
             name = null;
         } else {
             design = (MagnetDesignTable) em.createNamedQuery("MagnetDesignTable.findByDesignId").setParameter("designId", Integer.parseInt(maginfo.get(5).toString())).getSingleResult();
-            num = Long.parseLong(em.createQuery("SELECT count(d) FROM DeviceInfoTable d WHERE d.designId=:designId").setParameter("designId", design).getSingleResult().toString());
+            //num = Long.parseLong(em.createQuery("SELECT count(d) FROM DeviceInfoTable d WHERE d.designId=:designId").setParameter("designId", design).getSingleResult().toString());
+            //numnow = 1 + num.intValue();
+            num=Long.parseLong(em.createQuery("SELECT count(d) FROM DeviceInfoTable d WHERE d.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family)").setParameter("type", type).setParameter("family", family).getSingleResult().toString());
             numnow = 1 + num.intValue();
             name = type + "-" + family + "-" + numnow;
         }
@@ -224,5 +226,18 @@ public class DeviceAPI {
         List<DeviceInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
+    }
+     public Integer deleteMagnetById(Integer magid) {
+        // et.begin();
+        DeviceInfoTable demag = em.find(DeviceInfoTable.class, magid);
+        //Query query = em.createNamedQuery("MagnetDesignTable.findByDesignId");
+        //query.setParameter("designId", designId);
+        //MagnetDesignTable re = (MagnetDesignTable)query.getSingleResult();
+        // System.out.println(re);
+        em.remove(demag);
+        et.commit();
+        //em.close();
+        //emf.close();
+        return 1;
     }
 }

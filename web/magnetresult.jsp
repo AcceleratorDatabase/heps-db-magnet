@@ -100,7 +100,7 @@ String datemax = (String) session.getAttribute("datemax");
                     </div> 
                 </form> 
                 <div style="position: absolute;left:220px;top:170px;width:900px">
-                    <table class="easyui-datagrid"  title="查询结果"  data-options="singleSelect:true, 
+                    <table id="dg_magnet" class="easyui-datagrid"  title="查询结果"  data-options="singleSelect:true, 
                            rownumbers: true,
                            dataType:'json',                           
                            toolbar:toolbar,                          
@@ -121,6 +121,7 @@ String datemax = (String) session.getAttribute("datemax");
                             </tr>
                         </thead>
                     </table>
+                    <input type="hidden" id="hd" name="hd"/>
                 </div>  
               <div id="dlg1" class="easyui-dialog" title="磁铁设计"  style="width:1200px;height:200px;padding:10px;text-align: center" data-options="iconCls:'icon-more',closed: true,resizable:true">
                 <table id="dg" name="dg" class="easyui-datagrid" align="center"
@@ -229,13 +230,48 @@ String datemax = (String) session.getAttribute("datemax");
                         text: '编辑',
                         iconCls: 'icon-edit',
                         handler: function () {
-                            alert('未查询');
+                            var row = $('#dg_magnet').datagrid('getSelected');
+                        var index = $('#dg_magnet').datagrid('getRowIndex', row);
+                        //alert(index);
+                        var seldata = $('#dg_magnet').datagrid('getData').rows[index];
+                        document.getElementById("hd").value = JSON.stringify(seldata);                        
+                        if (row) {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'EditMagnet',
+                                data:  "magid=" + row.magid +"&magname=" + row.magname + "&selData=" + document.getElementById("hd").value,
+                                success: function (data) {
+                                    window.location.href = 'editmagnet.jsp';
+                                }
+                            });
+                            //alert('Item ID:' + row.designid + "Price:" + row.length);
+                            //location.href = 'EditDesign?magType='+row.magtype+'&magFamily='+row.magfamily+'&selData='+document.getElementById("hd").value;
+                        } else {
+                            alert("请选择一条记录");
+                        } 
                         }
                     }, {
                         text: '删除',
                         iconCls: 'icon-clear',
                         handler: function () {
-                            alert('未查询');
+                            var row = $('#dg_magnet').datagrid('getSelected');
+                        if (row) {
+                            var yn = window.confirm("确认删除此磁铁信息？");
+                            if (yn) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'DeleteMagnet',
+                                    data: "magid=" + row.magid,
+                                    success: function (data) {
+                                        alert(data);
+                                        window.history.go(0);
+                                    }
+                                });
+                            } else
+                                return false;
+                        } else {
+                            alert("请选择一条记录");
+                        }
                         }
                     }];
                 var toolbarr = [{

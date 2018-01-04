@@ -330,6 +330,7 @@
                                     data: "designId=" + row.designid,
                                     success: function (data) {
                                         alert(data);
+                                        window.history.go(0);
                                     }
                                 });
                             } else

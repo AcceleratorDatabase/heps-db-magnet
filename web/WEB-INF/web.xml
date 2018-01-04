@@ -68,6 +68,18 @@
         <servlet-name>CheckMagnet</servlet-name>
         <servlet-class>heps.db.magnet.servlet.CheckMagnet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteMagnet</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.DeleteMagnet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditMagnet</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.EditMagnet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateMagnet</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.UpdateMagnet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadFile</servlet-name>
         <url-pattern>/UploadFile</url-pattern>
@@ -135,6 +147,18 @@
     <servlet-mapping>
         <servlet-name>CheckMagnet</servlet-name>
         <url-pattern>/CheckMagnet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteMagnet</servlet-name>
+        <url-pattern>/DeleteMagnet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditMagnet</servlet-name>
+        <url-pattern>/EditMagnet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateMagnet</servlet-name>
+        <url-pattern>/UpdateMagnet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
