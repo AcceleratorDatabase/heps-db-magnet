@@ -27,19 +27,19 @@
             var ss =<%=seldata%>;
             for (var p in ss)
             {
-                if(ss[p]==='"null"'){
-                    ss[p]='';
-                }               
+                if (ss[p] === '"null"') {
+                    ss[p] = '';
+                }
             }
-            if (ss !== null) {                
+            if (ss !== null) {
                 rowm[0].value = ss["weight"];
                 rowm[1].value = ss["series"];
                 rowm[2].value = ss["designedby"];
                 rowm[3].value = ss["manuby"];
-                var date=ss["manudate"].split("-");
-                rowm[4].value = date[1]+"/"+date[2]+"/"+date[0];              
-                rowm[5].value = ss["designid"]+"<a href=\"#\" style=\"display:block;float:right\" onclick=\"chooseDesign()\">*更改磁铁设计*</a>";
-                rowm[6].value = ss["description"];                
+                var date = ss["manudate"].split("-");
+                rowm[4].value = date[1] + "/" + date[2] + "/" + date[0];
+                rowm[5].value = ss["designid"] + "<a href=\"#\" style=\"display:block;float:right\" onclick=\"chooseDesign()\">*更改磁铁设计*</a>";
+                rowm[6].value = ss["description"];
             }
             window.onload = function () {
                 $.ajax({
@@ -82,13 +82,10 @@
                             }
                         }
                         document.getElementById("magfamily").value = ff;
-
                     }
                 });
-                $('#maginfo').propertygrid('loadData', rowm);
-                // document.getElementById('num').innerText = "当前编号：";
+                $('#maginfo').propertygrid('loadData', rowm);                
             };
-
         </script>
         <title>修改-磁铁信息</title>
     </head>
@@ -100,21 +97,16 @@
                     <div id="info1" >
                         <label for="magtype">磁铁种类: </label> 
                         <select  id="magtype" name="magtype" style="width:10%;height: 25px" >
-                            <option value="二极铁">二极铁</option>
-                            <!--                            <option value="四极铁">四极铁</option>
-                                                        <option value="六极铁">六极铁</option>
-                                                        <option value="八极铁">八极铁</option>-->
+                            <option value="二极铁">二极铁</option>                          
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 20px" onclick="newtype()">新建种类</a>
                         <label for="magfamily">磁铁型号: </label>
                         <select  id="magfamily" name="magfamily" style="width:10%;height: 25px" >
                             <option value="1">1</option>
-
                         </select>
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 20px" onclick="newfamily()">新建型号</a>
                         <span id="num"></span>                        
                     </div>
-                                      
                     <div id="table" style="position: absolute;top: 80px;width: 1200px;text-align: center">
                         <table id="maginfo" name="maginfo" class="easyui-propertygrid" style=" width: 800px;margin:auto" data-options="
                                method: 'get',
@@ -127,7 +119,8 @@
 
                     <div id="submit" style="position:absolute;top:380px;width: 800px;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
-                        <input type="hidden" id="hd1" name="hd1"/>                        
+                        <input type="hidden" id="hd1" name="hd1"/>  
+                        <input type="hidden" id="hd2" name="hd2"/>
                     </div>
                 </div>
             </form>
@@ -198,7 +191,6 @@
                 <a href="#" class="easyui-linkbutton" onclick="setDesign()" data-options="iconCls:'icon-save'">Save</a>
             </div>
             <div id="dlg2" class="easyui-dialog" title="用户自定义参数"  style="width:390px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
-
                 <table id="dg_other" class="easyui-datagrid" align="center" data-options="">
                     <thead data-options="singleSelect: true,fitColumns:true">
                         <tr>
@@ -213,12 +205,10 @@
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
             </div>
         </div>
-
         <script type="text/javascript">
             function setDesign() {
                 var row = $('#dg').datagrid('getSelected');
                 var design = row.designid;
-
                 $('#dlg1').dialog('close');
                 $('#maginfo').datagrid('updateRow', {
                     index: 5,
@@ -227,7 +217,6 @@
                     }
                 });
             }
-
             function formatPrice(val, row) {
                 if (val === 'null') {
                     return '';
@@ -235,32 +224,16 @@
                     return val;
                 }
             }
-           
-
             function submitform() {
+                document.getElementById("hd2").value = id;
                 var maginfo = $("#maginfo").datagrid("getData");
                 document.getElementById("hd1").value = JSON.stringify(maginfo);
-                    var yn = window.confirm("确认修改？");
-                    if (yn) {
-                        alert("已修改");
-                    } else {
-                        return false;
-                    }
-                
-
-//                var parameter = $("#design_para").datagrid("getData");
-//                document.getElementById("hd2").value = JSON.stringify(parameter);
-//                if (JSON.stringify(require).length === 1057 || JSON.stringify(parameter).length === 2048) {
-//                    alert("设计要求和基本参数未填写");
-//                    return false;
-//                } else {
-//                    var yn = window.confirm("确认提交？");
-//                    if (yn) {
-//                        alert("成功提交");
-//                    } else {
-//                        return false;
-//                    }
-//                }
+                var yn = window.confirm("确认修改？");
+                if (yn) {
+                    alert("已修改");
+                } else {
+                    return false;
+                }
             }
             function newtype()
             {
@@ -295,7 +268,6 @@
                 }
             }
             var mycolumns = [[
-
                     {field: 'name', title: '设备参数', width: 100, sortable: true},
                     {field: 'value', title: '设备信息', width: 100, resizable: false, formatter: function (value, arr) {
                             var editor = '';
@@ -308,7 +280,6 @@
                                 return Number(value);
                             } else
                                 return value;
-
                         }}
                 ]];
             function chooseDesign() {
@@ -325,12 +296,6 @@
                         var s = $.parseJSON(str);
                         $('#dg').datagrid('loadData', s);
                         $('#dlg1').dialog('open');
-//                        $('#maginfo').datagrid('updateRow', {
-//                            index: 6,
-//                            row: {
-//                                value: data
-//                            }
-//                        });
                     }
                 });
             }

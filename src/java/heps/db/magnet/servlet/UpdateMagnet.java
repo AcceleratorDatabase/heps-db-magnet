@@ -83,10 +83,8 @@ private Integer family;
         maginfo = new ArrayList();
         type=(String)request.getParameter("magtype");
         family=Integer.parseInt(request.getParameter("magfamily"));
-        
-        info=(String)request.getParameter("hd1");
-        DeviceAPI a = new DeviceAPI();
-        a.init();
+        Integer deleteId=Integer.parseInt(request.getParameter("hd2"));
+        info=(String)request.getParameter("hd1");      
         JSONObject info_jsonobj = JSONObject.fromObject(info);
         JSONArray info_jsonarray = info_jsonobj.getJSONArray("rows");
         if (info_jsonarray.size() > 0) {
@@ -98,9 +96,12 @@ private Integer family;
                 maginfo.add(job.get("value"));
             }
         }
-            
-        a.insertDevice(maginfo,type,family);
-        
+        DeviceAPI a = new DeviceAPI();
+        a.init();
+        a.deleteMagnetById(deleteId);    
+        a.destroy();
+        a.init();
+        a.insertDevice(maginfo,type,family);        
         a.destroy();
         out.println("<!DOCTYPE html>");
         out.println("<meta http-equiv=\"refresh\" content=\"3;url=index.html\">");

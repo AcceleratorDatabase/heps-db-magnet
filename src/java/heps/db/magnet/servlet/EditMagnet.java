@@ -85,6 +85,7 @@ public class EditMagnet extends HttpServlet {
         JSONObject seljson = JSONObject.fromObject(seldata); 
         request.getSession().setAttribute("magtype", magtype);
         request.getSession().setAttribute("magfamily", magfamily);
+        request.getSession().setAttribute("magid", magid);
         request.getSession().setAttribute("seldata",seljson.toString());        
         request.getRequestDispatcher("editmagnet.jsp").forward(request, response);
         processRequest(request, response);
