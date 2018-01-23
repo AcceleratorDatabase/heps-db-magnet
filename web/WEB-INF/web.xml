@@ -80,6 +80,10 @@
         <servlet-name>UpdateMagnet</servlet-name>
         <servlet-class>heps.db.magnet.servlet.UpdateMagnet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdExcel</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.UpdExcel</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadFile</servlet-name>
         <url-pattern>/UploadFile</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>UpdateMagnet</servlet-name>
         <url-pattern>/UpdateMagnet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdExcel</servlet-name>
+        <url-pattern>/UpdExcel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

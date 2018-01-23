@@ -5,19 +5,22 @@
  */
 package heps.db.magnet.servlet;
 
-import heps.db.magnet.jpa.DesignAPI;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 /**
  *
  * @author qiaoys
  */
-public class CheckDesign extends HttpServlet {
+public class UpdExcel extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +39,10 @@ public class CheckDesign extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet CheckDesign</title>");            
+//            out.println("<title>Servlet UpdExcel</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet CheckDesign at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet UpdExcel at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -71,15 +74,34 @@ public class CheckDesign extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        DesignAPI a = new DesignAPI();
-        a.init();       
-        Integer designid=Integer.parseInt(request.getParameter("designid"));         
-        String result=a.queryDesignById(designid);
-        //System.out.println(result); 
-        out.print(result); 
-        a.destroy();
+        FileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        upload.setHeaderEncoding(request.getCharacterEncoding());
+       // ExcelHelper helper = new ExcelHelper();
+        try {
+            List<FileItem> list = upload.parseRequest(request);
+            for (int i = 0; i < list.size(); i++) {
+                FileItem item = list.get(i);
+                if (item.getName().endsWith(".xls")||item.getName().endsWith(".xlsx")) {
+                    // 说明是文件,不过这里最好限制一下
+                    //helper.importXls(item.getInputStream());
+                    //helper.importXlsx(item.getInputStream());
+                    out.write("{\"result\":\"OK\"}");
+                } else {
+                    // 说明文件格式不符合要求
+                    out.write("{\"result\":\"Invalid\"}");
+                }
+            }
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         processRequest(request, response);
     }
 

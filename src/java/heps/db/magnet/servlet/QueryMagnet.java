@@ -7,6 +7,7 @@ package heps.db.magnet.servlet;
 
 import heps.db.magnet.jpa.DeviceAPI;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -82,15 +83,22 @@ public class QueryMagnet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer bydate;
-        Integer bytype;
-        Integer byfamily;
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        Integer bydate=0;
+        Integer bytype=0;
+        Integer byfamily=0;
         DeviceAPI a = new DeviceAPI();
         a.init();
         type = request.getParameter("magtype");
+       
         family = precalcInt(request.getParameter("magfamily"));
+        
         datemin = request.getParameter("datemin");
+       
         datemax = request.getParameter("datemax");
+         
         if (type.equals("none")) {
             bytype = 0;
         } else {
@@ -124,15 +132,22 @@ public class QueryMagnet extends HttpServlet {
             result = a.queryMagnetByFamilyDate(family, datemin, datemax);
         } else if (bytype == 0 && byfamily == 1 && bydate == 1) {
             result = a.queryMagnetByTypeFamilyDate(type, family, datemin, datemax);
-        }
+        }  
+        out.print(result);
         a.destroy();
+        String[] header_referer = request.getHeader("Referer").split("/");
+        String page=header_referer[header_referer.length-1];
+        //System.out.println(header_referer[header_referer.length-1]);
+        if(page.equals("newmeas.jsp")){
+        processRequest(request, response);
+        }else{
         request.getSession().setAttribute("value", "{\"rows\":" + result + "}");
         request.getSession().setAttribute("magtype", type);
         request.getSession().setAttribute("magfamily", family);
         request.getSession().setAttribute("datemin", datemin);
         request.getSession().setAttribute("datemax", datemax);
         request.getRequestDispatcher("magnetresult.jsp").forward(request, response);
-        //processRequest(request, response);
+        }
     }
 
     /**

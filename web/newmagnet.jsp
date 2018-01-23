@@ -68,7 +68,7 @@
         <h2>录入磁铁设备信息</h2> 
         <div class="easyui-panel" style="height:820px;padding:10px 60px" >            
             <form action="NewMagnet" method="post" target="" onsubmit="return submitform();">
-                <div style="width: 1200px;margin:1px 470px;font-size:14px;;position: relative;">
+                <div style="width: 1200px;margin:1px 470px;font-size:14px;position: relative;">
                     <div id="info1" >
                         <label for="magtype">磁铁种类: </label> 
                         <select  id="magtype" name="magtype" style="width:10%;height: 25px" >
