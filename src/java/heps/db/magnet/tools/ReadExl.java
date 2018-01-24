@@ -42,10 +42,10 @@ public class ReadExl {
 
     public void checkData(Workbook wb, String sheetName) {
         Sheet sheet = wb.getSheet(sheetName);
-        for (int i = 3; i <= sheet.getLastRowNum(); i++) {
+        for (int i = 0; i <= 20; i++) {
             if (sheet.getRow(i) != null) {
                 System.out.print("第" + (i + 1) + "行数据\t");
-                for (int j = 0; j < 16; j++) {
+                for (int j = 0; j < sheet.getRow(i).getPhysicalNumberOfCells()-1; j++) {
                     Cell cell = sheet.getRow(i).getCell(j);
                     if (sheet.getRow(i).getCell(j) != null) {
 
@@ -54,10 +54,10 @@ public class ReadExl {
                                 System.out.print("NUMERIC类型数据" + j + "\t");
                                 break;
                             case BLANK:
-                                System.out.print("空类型" + j + cell.getStringCellValue() + "\t");
+                                System.out.print("空类型" + j + "\t");
                                 break;
                             case STRING:
-                                System.out.print("字符串" + j + "\t");
+                                System.out.print("字符串" + j + cell.getStringCellValue()+ "\t");
                                 break;
                             case FORMULA:
                                 System.out.print("公式" + j + "\t");

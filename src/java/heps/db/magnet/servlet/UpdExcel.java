@@ -5,6 +5,7 @@
  */
 package heps.db.magnet.servlet;
 
+import heps.db.magnet.tools.ReadExl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.poi.ss.usermodel.Workbook;
 /**
  *
  * @author qiaoys
@@ -81,6 +83,7 @@ public class UpdExcel extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setHeaderEncoding(request.getCharacterEncoding());
        // ExcelHelper helper = new ExcelHelper();
+       ReadExl readexcel=new ReadExl();
         try {
             List<FileItem> list = upload.parseRequest(request);
             for (int i = 0; i < list.size(); i++) {
@@ -89,6 +92,8 @@ public class UpdExcel extends HttpServlet {
                     // 说明是文件,不过这里最好限制一下
                     //helper.importXls(item.getInputStream());
                     //helper.importXlsx(item.getInputStream());
+                   Workbook wb= ReadExl.getWorkbook("E:/2.xls");
+                   readexcel.checkData(wb, "1");
                     out.write("{\"result\":\"OK\"}");
                 } else {
                     // 说明文件格式不符合要求
