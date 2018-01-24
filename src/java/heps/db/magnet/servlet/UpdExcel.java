@@ -92,8 +92,11 @@ public class UpdExcel extends HttpServlet {
                     // 说明是文件,不过这里最好限制一下
                     //helper.importXls(item.getInputStream());
                     //helper.importXlsx(item.getInputStream());
-                   Workbook wb= ReadExl.getWorkbook("E:/2.xls");
-                   readexcel.checkData(wb, "1");
+                   Workbook wb= ReadExl.getWorkbook("E:/3.xls");
+                   if(wb==null){
+                       out.write("{\"result\":\"Invalid\"}");
+                   }else
+                   readexcel.checkData(wb, "3");
                     out.write("{\"result\":\"OK\"}");
                 } else {
                     // 说明文件格式不符合要求

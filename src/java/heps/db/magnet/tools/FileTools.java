@@ -31,14 +31,17 @@ public class FileTools {
     }
         
     public static Workbook getWorkbook(FileInputStream inp) {
+        
         Workbook wb=null;
         try {
             wb=WorkbookFactory.create(inp);
         } catch (IOException  ex) {
-            Logger.getLogger(FileTools.class.getName()).log(Level.SEVERE, null, ex);
-          
-        }catch(InvalidFormatException ex){
-           Logger.getLogger(FileTools.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileTools.class.getName()).log(Level.SEVERE, null, ex);          
+        }
+        catch(InvalidFormatException ex){
+            return null;
+           //Logger.getLogger(FileTools.class.getName()).log(Level.SEVERE, null, ex); 
+           
         }
         return wb;
     }
