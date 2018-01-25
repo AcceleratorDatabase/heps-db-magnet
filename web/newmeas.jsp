@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="jquery.form.js"></script>    
         <style type="text/css">
             label{
                 font-size: 16px
@@ -57,39 +58,39 @@
                     }
                 });
             };
-            $(function() {
+            $(function () {
 
-            $("#file_form").submit(
-                    function() {
-                        //首先验证文件格式
-                        var fileName = $('#file_input').val();
-                        if (fileName === '') {
-                            alert('请选择文件');
-                            return false;
-                        }
-                        var fileType = (fileName.substring(fileName
-                                .lastIndexOf(".") + 1, fileName.length))
-                                .toLowerCase();
-                        if (fileType !== 'xls' && fileType !== 'xlsx') {
-                            alert('文件格式不正确，excel文件！');
-                            return false;
-                        }
-
-                        $("#file_form").ajaxSubmit({
-                            dataType : "json",
-                            success : function(data, textStatus) {
-                                if (data['result'] === 'OK') {
-                                    console.log('上传文件成功');
-                                } else {
-                                    console.log('文件格式错误');
-                                }
+                $("#file_form").submit(
+                        function () {
+                            //首先验证文件格式
+                            var fileName = $('#file_input').val();
+                            if (fileName === '') {
+                                alert('请选择文件');
                                 return false;
                             }
-                        });
-                        return false;
-                    });
+                            var fileType = (fileName.substring(fileName
+                                    .lastIndexOf(".") + 1, fileName.length))
+                                    .toLowerCase();
+                            if (fileType !== 'xls' && fileType !== 'xlsx') {
+                                alert('文件格式不正确，excel文件！');
+                                return false;
+                            }
 
-        });
+                            $("#file_form").ajaxSubmit({
+                                dataType: "json",
+                                success: function (data, textStatus) {
+                                    if (data['result'] === 'OK') {                                       
+                                        alert('上传文件成功');
+                                    } else {
+                                        alert(data['result']);
+                                    }
+                                    return false;
+                                }
+                            });
+                            return false;
+                        });
+
+            });
         </script>
         <title>录入-磁测数据</title>
     </head>
@@ -115,10 +116,10 @@
             </div>            
             <div style="position: absolute;top:130px;left: 600px">
                 <form id="file_form" action="UpdExcel" enctype="multipart/form-data"
-        method="post">
-        <input type="file" name="file" id="file_input" /> 
-        <input type="submit" value="文件上传" id='upFile-btn'>
-    </form>
+                      method="post">
+                    <input type="file" name="file" id="file_input" /> 
+                    <input type="submit" value="文件上传" id='upFile-btn'>
+                </form>
             </div>
         </div>
         <div id="dlg" class="easyui-dialog" title="选择磁铁"  style="text-align: center;width:900px;height:500px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
@@ -145,8 +146,8 @@
                 var row = $('#dg').datagrid('getSelected');
                 var magname = row.magname;
                 $('#dlg').dialog('close');
-                document.getElementById("showmag").innerHTML="<font size='3px' color='red' >您已选择："+magname+"</font>";            
-    }
+                document.getElementById("showmag").innerHTML = "<font size='3px' color='red' >您已选择：" + magname + "</font>";
+            }
             function chooseMag() {
                 $.ajax({
                     type: 'POST',

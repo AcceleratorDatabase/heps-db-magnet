@@ -7,18 +7,21 @@ package heps.db.magnet.tools;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.poi.hpsf.MarkUnsupportedException;
 import org.apache.poi.hpsf.NoPropertySetStreamException;
 import org.apache.poi.hpsf.PropertySetFactory;
 import org.apache.poi.hpsf.SummaryInformation;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.poifs.eventfilesystem.POIFSReader;
 import org.apache.poi.poifs.eventfilesystem.POIFSReaderEvent;
 import org.apache.poi.poifs.eventfilesystem.POIFSReaderListener;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  *
@@ -28,16 +31,27 @@ import org.apache.poi.ss.usermodel.Workbook;
 public class ReadExl {
 
     private SummaryInformation si;
-
-    public static Workbook getWorkbook(String filePath) {
-        if (filePath == null || "".equals(filePath)) {
-            System.out.println("Warning: Please assign the specific path of the spreadsheet!");
+// get Workbook by local path
+//    public static Workbook getWorkbook(String filePath) {
+//        if (filePath == null || "".equals(filePath)) {
+//            System.out.println("Warning: Please assign the specific path of the spreadsheet!");
+//            return null;
+//        } else {
+//            FileInputStream inp = FileTools.getFileInputStream(filePath);
+//            Workbook wb = FileTools.getWorkbook(inp);
+//            return wb;
+//        }
+//    }
+    public static Workbook getWorkbook(InputStream inp) throws InvalidFormatException, IOException {
+        Workbook wb = null;
+        try {
+            wb = WorkbookFactory.create(inp);
+        } catch (InvalidFormatException ex) {
             return null;
-        } else {
-            FileInputStream inp = FileTools.getFileInputStream(filePath);
-            Workbook wb = FileTools.getWorkbook(inp);
-            return wb;
+        } catch (IOException ex) {
+            Logger.getLogger(FileTools.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return wb;
     }
 
     public void checkData(Workbook wb, String sheetName) {
@@ -45,7 +59,7 @@ public class ReadExl {
         for (int i = 0; i <= 20; i++) {
             if (sheet.getRow(i) != null) {
                 System.out.print("第" + (i + 1) + "行数据\t");
-                for (int j = 0; j < sheet.getRow(i).getPhysicalNumberOfCells()-1; j++) {
+                for (int j = 0; j < sheet.getRow(i).getPhysicalNumberOfCells() - 1; j++) {
                     Cell cell = sheet.getRow(i).getCell(j);
                     if (sheet.getRow(i).getCell(j) != null) {
 
@@ -57,7 +71,7 @@ public class ReadExl {
                                 System.out.print("空类型" + j + "\t");
                                 break;
                             case STRING:
-                                System.out.print("字符串" + j + cell.getStringCellValue()+ "\t");
+                                System.out.print("字符串" + j + cell.getStringCellValue() + "\t");
                                 break;
                             case FORMULA:
                                 System.out.print("公式" + j + "\t");
@@ -89,10 +103,10 @@ public class ReadExl {
 
     public static void checkBlankData(Workbook wb, String sheetName) {
         Sheet sheet = wb.getSheet(sheetName);
-        
+
         for (int i = 3; i <= sheet.getLastRowNum(); i++) {
             if (sheet.getRow(i) != null) {
-               int blank =0;
+                int blank = 0;
                 for (int j = 0; j < 16; j++) {
                     Cell cell = sheet.getRow(i).getCell(j);
                     if (sheet.getRow(i).getCell(j) != null) {
@@ -106,16 +120,16 @@ public class ReadExl {
                                 //System.out.print("空类型" + j + cell.getStringCellValue() + "\t");
                                 break;
                             case STRING:
-                               // System.out.print("字符串" + j + "\t");
+                                // System.out.print("字符串" + j + "\t");
                                 break;
                             case FORMULA:
                                 //System.out.print("公式" + j + "\t");
                                 break;
                             case BOOLEAN:
-                               // System.out.print("布尔型" + j + "\t");
+                                // System.out.print("布尔型" + j + "\t");
                                 break;
                             case ERROR:
-                               // System.out.print("错误" + j + "\t");
+                                // System.out.print("错误" + j + "\t");
                                 break;
                             case _NONE:
                                 blank++;
@@ -132,9 +146,9 @@ public class ReadExl {
                     }
                 }
                 //System.out.println();
-                if(blank == 16){
-               
-                System.out.println("第" + (i + 1) + "行的16个单元格都是BLANK or NULL or _NONE");
+                if (blank == 16) {
+
+                    System.out.println("第" + (i + 1) + "行的16个单元格都是BLANK or NULL or _NONE");
                 }
             } else {
                 System.out.println("第" + (i + 1) + "行是空行");
