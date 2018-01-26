@@ -60,7 +60,7 @@
             };
             $(function () {
 
-                $("#file_form").submit(
+                $("#file_form").submit(                       
                         function () {
                             //首先验证文件格式
                             var fileName = $('#file_input').val();
@@ -97,6 +97,8 @@
     <body>
         <h2>录入磁测数据</h2> 
         <div class="easyui-panel" style="height:820px;padding:10px 60px;position: relative;" > 
+           <form id="file_form" action="UpdExcel" enctype="multipart/form-data"
+                      method="post">
             <div style="position: absolute;left: 600px">
                 <label for="magtype">磁铁种类：</label> 
                 <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
@@ -113,14 +115,13 @@
                 <input type="radio" name="identity" id="sws" value="sws" checked="checked" /><label for="sws">张力线测磁</label> 
                 <input type="radio" name="identity" id="rcs" value="rcs" /><label for="rcs">旋转螺线圈测磁</label>
                 <input type="radio" name="identity" id="hall" value="hall" /><label for="hall">霍尔元件测磁</label>
-            </div>            
-            <div style="position: absolute;top:130px;left: 600px">
-                <form id="file_form" action="UpdExcel" enctype="multipart/form-data"
-                      method="post">
+            </div>              
+            <div style="position: absolute;top:130px;left: 600px">                
                     <input type="file" name="file" id="file_input" /> 
-                    <input type="submit" value="文件上传" id='upFile-btn'>
-                </form>
+                    <input type="submit" value="文件上传" id='upFile-btn'>               
             </div>
+            <input type="hidden" id="hd1" name="hd1"/>    
+ </form>
         </div>
         <div id="dlg" class="easyui-dialog" title="选择磁铁"  style="text-align: center;width:900px;height:500px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
             <table id="dg" class="easyui-datagrid"  data-options="singleSelect:true,collapsible:true">
@@ -145,8 +146,10 @@
             function setMagnet() {
                 var row = $('#dg').datagrid('getSelected');
                 var magname = row.magname;
+                 var magid = row.magid;
                 $('#dlg').dialog('close');
                 document.getElementById("showmag").innerHTML = "<font size='3px' color='red' >您已选择：" + magname + "</font>";
+                document.getElementById("hd1").value=magid;
             }
             function chooseMag() {
                 $.ajax({

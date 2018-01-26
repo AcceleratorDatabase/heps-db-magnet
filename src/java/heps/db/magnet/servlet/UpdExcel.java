@@ -5,7 +5,6 @@
  */
 package heps.db.magnet.servlet;
 
-
 import heps.db.magnet.tools.ReadExl;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +19,6 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.poi.ss.usermodel.Workbook;
-
 
 /**
  *
@@ -65,7 +63,7 @@ public class UpdExcel extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {       
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -80,37 +78,59 @@ public class UpdExcel extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         response.setCharacterEncoding("utf-8");        
+        response.setCharacterEncoding("utf-8");
+        request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setHeaderEncoding(request.getCharacterEncoding());
-        //String filename=request.getParameter("");
+//        String magtype=request.getParameter("magtype");
+//        System.out.println("magtype"+magtype);
         ArrayList sheetname = new ArrayList();
-        // ExcelHelper helper = new ExcelHelper();
         ReadExl readexcel = new ReadExl();
         try {
             List<FileItem> list = upload.parseRequest(request);
             for (int i = 0; i < list.size(); i++) {
                 FileItem item = list.get(i);
-                if (item.getName().endsWith(".xls") || item.getName().endsWith(".xlsx")) {                   
-                    //Workbook wb = ReadExl.getWorkbook("E:/2.xls");
-                   Workbook wb=ReadExl.getWorkbook(item.getInputStream());                    
-                    if (wb == null) {
-                        out.write("{\"result\":\"文件格式有误，请另存为xls或xlsx格式后再上传。\"}");
-                    } else {
-                        int sheetnum = wb.getNumberOfSheets();
-                        for (int j = 0; j < sheetnum; j++) {
-                            sheetname.add(wb.getSheetName(j));
+                if (!item.isFormField()) {
+                    if (item.getName().endsWith(".xls") || item.getName().endsWith(".xlsx")) {
+                        //Workbook wb = ReadExl.getWorkbook("E:/2.xls");
+                        Workbook wb = ReadExl.getWorkbook(item.getInputStream());
+                        if (wb == null) {
+                            out.write("{\"result\":\"文件格式有误，请另存为xls或xlsx格式后再上传。\"}");
+                        } else {
+                            int sheetnum = wb.getNumberOfSheets();
+                            for (int j = 0; j < sheetnum; j++) {
+                                sheetname.add(wb.getSheetName(j));
+                            }
+                            readexcel.getSWSCon(wb, sheetname.get(0).toString(), 9);
+                            //readexcel.checkData(wb, sheetname.get(0).toString());
+                            out.write("{\"result\":\"OK\"}");
                         }
-                        readexcel.checkData(wb, sheetname.get(0).toString());
-                        out.write("{\"result\":\"OK\"}");
+                    } else {
+                        // 说明文件格式不符合要求
+                        out.write("{\"result\":\"文件格式有误，请上传xls或xlsx格式文件\"}");
                     }
                 } else {
-                    // 说明文件格式不符合要求
-                    out.write("{\"result\":\"文件格式有误，请上传xls或xlsx格式文件\"}");
+                    // 不是file类型的话，就利用getFieldName判断name属性获取相应的值
+                    if ("magtype".equals(item.getFieldName())) {
+                        String magtype = item.getString();
+                        magtype = new String(magtype.getBytes("ISO-8859-1"), "utf-8");
+                        System.out.println("magtype:" + magtype);
+                    } else if (item.getFieldName().equals("magfamily")) {
+                        Integer magfamily = Integer.parseInt(item.getString());
+                        System.out.println("magfamily:" + magfamily);
+                    } else if (item.getFieldName().equals("identity")) {
+                        String filetype = item.getString();
+                        filetype = new String(filetype.getBytes("ISO-8859-1"), "utf-8");
+                        System.out.println("filetype:" + filetype);
+                    } else {
+                        Integer magid = Integer.parseInt(item.getString());
+                        System.out.println("magid:" + magid);
+                    }
                 }
+
             }
             out.flush();
             out.close();
@@ -119,7 +139,7 @@ public class UpdExcel extends HttpServlet {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-      
+
         processRequest(request, response);
     }
 
