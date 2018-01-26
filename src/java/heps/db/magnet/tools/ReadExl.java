@@ -4,6 +4,7 @@
  */
 package heps.db.magnet.tools;
 
+import heps.db.magnet.jpa.MeasureAPI;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -56,9 +57,9 @@ public class ReadExl {
         }
         return wb;
     }
-public ArrayList getSWSCon(Workbook wb, String sheetName, int row_num){
-    JSONObject Json = new JSONObject();  
-JSONArray JsonArray = new JSONArray();  
+public JSONObject getSWSCon(Workbook wb, String sheetName, int row_num){
+    
+    JSONObject sws_con_json = new JSONObject();  
     ArrayList sws_con=new ArrayList();
     String key="";
     Double value=0.0;
@@ -71,41 +72,41 @@ JSONArray JsonArray = new JSONArray();
                         switch (cell.getCellTypeEnum()) {
                             case NUMERIC:
                                 sws_con.add(cell.getNumericCellValue());
-                                value=cell.getNumericCellValue();
-                                //System.out.print("NUMERIC类型数据" + j + cell.getNumericCellValue()+"\t");
+                                value=cell.getNumericCellValue();                               
                                 break;
-                            case BLANK:
-                                //System.out.print("空类型" + j + "\t");
+                            case BLANK:                               
                                 break;
                             case STRING:
-                                key=cell.getStringCellValue();
-                               // System.out.print("字符串" + j + cell.getStringCellValue() + "\t");
+                                key=cell.getStringCellValue().trim();                             
                                 break;
-                            case FORMULA:
-                               // System.out.print("公式" + j + "\t");
+                            case FORMULA:                              
                                 break;
-                            case BOOLEAN:
-                               // System.out.print("布尔型" + j + "\t");
+                            case BOOLEAN:                              
                                 break;
-                            case ERROR:
-                               // System.out.print("错误" + j + "\t");
+                            case ERROR:                              
                                 break;
-                            case _NONE:
-                               // System.out.print("没有" + j + "\t");
+                            case _NONE:                             
                                 break;
-                            default:
-                                //System.out.print("其他类型的数据" + j + "\t");
+                            default:                               
                                 break;
                         }
-                        Json.put(key, value);
-                        System.out.println(Json.toString());
+                        sws_con_json.put(key, value);                        
                     } 
                 }               
-            } else {
-                //System.out.println("第" + (i + 1) + "行是空行");
-            }
+            } 
         }
-return sws_con;
+        //System.out.println(sws_con_json.toString());
+       // System.out.println(sws_con.toString());
+       
+return sws_con_json;
+}
+public void insertSWSData(Workbook wb, String sheetName, Integer row_num, Integer magid){
+MeasureAPI m = new MeasureAPI();
+m.init();
+JSONObject meascon;
+meascon = getSWSCon( wb, sheetName,row_num);
+m.insertSWSMeasCon(meascon, magid);
+m.destroy();
 }
     public void checkData(Workbook wb, String sheetName, int row_num) {
         Sheet sheet = wb.getSheet(sheetName);

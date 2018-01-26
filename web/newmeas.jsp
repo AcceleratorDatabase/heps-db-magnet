@@ -111,16 +111,18 @@
                 <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 20px" onclick="chooseMag()">选择磁铁</a>
             </div>
             <div id="showmag" style="position: absolute;top:50px;left: 600px"></div>
+            <input type="hidden" id="hd1" name="hd1"/>  
             <div style="position: absolute;top:80px;left: 600px">
                 <input type="radio" name="identity" id="sws" value="sws" checked="checked" /><label for="sws">张力线测磁</label> 
                 <input type="radio" name="identity" id="rcs" value="rcs" /><label for="rcs">旋转螺线圈测磁</label>
                 <input type="radio" name="identity" id="hall" value="hall" /><label for="hall">霍尔元件测磁</label>
-            </div>              
+            </div>   
+              
             <div style="position: absolute;top:130px;left: 600px">                
                     <input type="file" name="file" id="file_input" /> 
                     <input type="submit" value="文件上传" id='upFile-btn'>               
             </div>
-            <input type="hidden" id="hd1" name="hd1"/>    
+            
  </form>
         </div>
         <div id="dlg" class="easyui-dialog" title="选择磁铁"  style="text-align: center;width:900px;height:500px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
