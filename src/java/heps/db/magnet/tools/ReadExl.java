@@ -46,6 +46,7 @@ public class ReadExl {
 //            return wb;
 //        }
 //    }
+
     public static Workbook getWorkbook(InputStream inp) throws InvalidFormatException, IOException {
         Workbook wb = null;
         try {
@@ -57,101 +58,89 @@ public class ReadExl {
         }
         return wb;
     }
-public JSONObject getSWSCon(Workbook wb, String sheetName, int row_num){
-    
-    JSONObject sws_con_json = new JSONObject();  
-    ArrayList sws_con=new ArrayList();
-    String key="";
-    Double value=0.0;
-    Sheet sheet = wb.getSheet(sheetName);
+
+    public JSONObject getSWSCon(Workbook wb, String sheetName, int row_num) {
+        JSONObject sws_con_json = new JSONObject();
+        String key = "";
+        Double value = 0.0;
+        Sheet sheet = wb.getSheet(sheetName);
         for (int i = 0; i < row_num; i++) {
-            if (sheet.getRow(i) != null) {               
+            if (sheet.getRow(i) != null) {
+                for (int j = 0; j < sheet.getRow(i).getPhysicalNumberOfCells(); j++) {
+                    Cell cell = sheet.getRow(i).getCell(j);
+                    if (sheet.getRow(i).getCell(j) != null) {
+                        switch (cell.getCellTypeEnum()) {
+                            case NUMERIC:
+                                value = cell.getNumericCellValue();
+                                break;
+                            case BLANK:
+                                break;
+                            case STRING:
+                                key = cell.getStringCellValue().trim();
+                                break;
+                            case FORMULA:
+                                break;
+                            case BOOLEAN:
+                                break;
+                            case ERROR:
+                                break;
+                            case _NONE:
+                                break;
+                            default:
+                                break;
+                        }
+                        sws_con_json.put(key, value);
+                    }
+                }
+            }
+        }
+        return sws_con_json;
+    }
+
+    public ArrayList getSWSData(Workbook wb, String sheetName, int row_num) {
+        ArrayList sws_con = new ArrayList();
+        Sheet sheet = wb.getSheet(sheetName);
+        for (int i = row_num; i < sheet.getLastRowNum(); i++) {
+            if (sheet.getRow(i) != null) {
                 for (int j = 0; j < sheet.getRow(i).getPhysicalNumberOfCells(); j++) {
                     Cell cell = sheet.getRow(i).getCell(j);
                     if (sheet.getRow(i).getCell(j) != null) {
                         switch (cell.getCellTypeEnum()) {
                             case NUMERIC:
                                 sws_con.add(cell.getNumericCellValue());
-                                value=cell.getNumericCellValue();                               
-                                break;
-                            case BLANK:                               
-                                break;
-                            case STRING:
-                                key=cell.getStringCellValue().trim();                             
-                                break;
-                            case FORMULA:                              
-                                break;
-                            case BOOLEAN:                              
-                                break;
-                            case ERROR:                              
-                                break;
-                            case _NONE:                             
-                                break;
-                            default:                               
-                                break;
-                        }
-                        sws_con_json.put(key, value);                        
-                    } 
-                }               
-            } 
-        }
-        //System.out.println(sws_con_json.toString());
-       // System.out.println(sws_con.toString());
-       
-return sws_con_json;
-}
-public void insertSWSData(Workbook wb, String sheetName, Integer row_num, Integer magid){
-MeasureAPI m = new MeasureAPI();
-m.init();
-JSONObject meascon;
-meascon = getSWSCon( wb, sheetName,row_num);
-m.insertSWSMeasCon(meascon, magid);
-m.destroy();
-}
-    public void checkData(Workbook wb, String sheetName, int row_num) {
-        Sheet sheet = wb.getSheet(sheetName);
-        for (int i = 0; i <= row_num; i++) {
-            if (sheet.getRow(i) != null) {
-                System.out.print("第" + (i + 1) + "行数据\t");
-                for (int j = 0; j < sheet.getRow(i).getPhysicalNumberOfCells() - 1; j++) {
-                    Cell cell = sheet.getRow(i).getCell(j);
-                    if (sheet.getRow(i).getCell(j) != null) {
-
-                        switch (cell.getCellTypeEnum()) {
-                            case NUMERIC:
-                                System.out.print("NUMERIC类型数据" + j + "\t");
                                 break;
                             case BLANK:
-                                System.out.print("空类型" + j + "\t");
                                 break;
                             case STRING:
-                                System.out.print("字符串" + j + cell.getStringCellValue() + "\t");
                                 break;
                             case FORMULA:
-                                System.out.print("公式" + j + "\t");
                                 break;
                             case BOOLEAN:
-                                System.out.print("布尔型" + j + "\t");
                                 break;
                             case ERROR:
-                                System.out.print("错误" + j + "\t");
                                 break;
                             case _NONE:
-                                System.out.print("没有" + j + "\t");
                                 break;
                             default:
-                                System.out.print("其他类型的数据" + j + "\t");
                                 break;
                         }
-                    } else {
-                        System.out.print("空的" + j + "\t");
-                        continue;
                     }
                 }
-                System.out.println();
-            } else {
-                System.out.println("第" + (i + 1) + "行是空行");
+                sws_con.add("/");
             }
         }
-    }   
+        return sws_con;
+    }
+
+    public void insertSWSData(Workbook wb, String sheetName, Integer row_num, Integer magid, String measdate, String measby, String measat, String remark) {
+        JSONObject meascon;
+        ArrayList measdata;
+        MeasureAPI m = new MeasureAPI();
+        m.init();
+        meascon = getSWSCon(wb, sheetName, row_num);
+        measdata = getSWSData(wb, sheetName, row_num);
+        m.insertSWSMeas(meascon, magid, measdate, measby, measat, remark, measdata);
+        m.destroy();
+    }
+
 }

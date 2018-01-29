@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/metro/easyui.css">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
@@ -59,8 +59,7 @@
                 });
             };
             $(function () {
-
-                $("#file_form").submit(                       
+                $("#file_form").submit(
                         function () {
                             //首先验证文件格式
                             var fileName = $('#file_input').val();
@@ -75,11 +74,10 @@
                                 alert('文件格式不正确，excel文件！');
                                 return false;
                             }
-
                             $("#file_form").ajaxSubmit({
                                 dataType: "json",
                                 success: function (data, textStatus) {
-                                    if (data['result'] === 'OK') {                                       
+                                    if (data['result'] === 'OK') {
                                         alert('上传文件成功');
                                     } else {
                                         alert(data['result']);
@@ -89,7 +87,6 @@
                             });
                             return false;
                         });
-
             });
         </script>
         <title>录入-磁测数据</title>
@@ -97,33 +94,39 @@
     <body>
         <h2>录入磁测数据</h2> 
         <div class="easyui-panel" style="height:820px;padding:10px 60px;position: relative;" > 
-           <form id="file_form" action="UpdExcel" enctype="multipart/form-data"
-                      method="post">
-            <div style="position: absolute;left: 600px">
-                <label for="magtype">磁铁种类：</label> 
-                <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
-                    <option value="none">未选择</option>                                
-                </select>                                            
-                <label for="magfamily">磁铁型号：</label>
-                <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
-                    <option value="-1">未选择</option>                                
-                </select>
-                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 20px" onclick="chooseMag()">选择磁铁</a>
-            </div>
-            <div id="showmag" style="position: absolute;top:50px;left: 600px"></div>
-            <input type="hidden" id="hd1" name="hd1"/>  
-            <div style="position: absolute;top:80px;left: 600px">
-                <input type="radio" name="identity" id="sws" value="sws" checked="checked" /><label for="sws">张力线测磁</label> 
-                <input type="radio" name="identity" id="rcs" value="rcs" /><label for="rcs">旋转螺线圈测磁</label>
-                <input type="radio" name="identity" id="hall" value="hall" /><label for="hall">霍尔元件测磁</label>
-            </div>   
-              
-            <div style="position: absolute;top:130px;left: 600px">                
+            <form id="file_form" action="UpdExcel" enctype="multipart/form-data"
+                  method="post">
+                <div style="position: absolute;left: 600px">
+                    <label for="magtype">磁铁种类：</label> 
+                    <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
+                        <option value="none">未选择</option>                                
+                    </select>                                            
+                    <label for="magfamily">磁铁型号：</label>
+                    <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
+                        <option value="-1">未选择</option>                                
+                    </select>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 20px" onclick="chooseMag()">选择磁铁</a>
+                </div>
+                <div id="showmag" style="position: absolute;top:50px;left: 600px"></div>                       
+                <input type="hidden" id="hd1" name="hd1"/>  
+                <div style="position: absolute;top:80px;left: 600px"> <label>磁测方法：</label>
+                    <input type="radio" name="identity" id="sws" value="sws" checked="checked" /><label for="sws">张力线测磁</label> 
+                    <input type="radio" name="identity" id="rcs" value="rcs" /><label for="rcs">旋转螺线圈测磁</label>
+                    <input type="radio" name="identity" id="hall" value="hall" /><label for="hall">霍尔元件测磁</label>
+                </div>   
+                <div style="position: absolute;top:130px;left: 600px">
+                    <input name="measdate" class="easyui-datebox" label="磁测时间：" labelPosition="before" labelAlign="right" style="width:200px">
+                    <input name="measby"class="easyui-textbox" label="磁测人：" labelPosition="before"  labelAlign="right" style="width:200px" >            
+                </div> 
+                <div style="position: absolute;top:170px;left: 600px">            
+                    <input name="measat"class="easyui-textbox" label="磁测地点：" labelPosition="before" labelAlign="right" style="width:200px">            
+                    <input name="remark"class="easyui-textbox" label="备注：" labelPosition="before"labelAlign="right" style="width:200px">
+                </div> 
+                <div style="position: absolute;top:220px;left: 600px">                
                     <input type="file" name="file" id="file_input" /> 
                     <input type="submit" value="文件上传" id='upFile-btn'>               
-            </div>
-            
- </form>
+                </div>
+            </form>
         </div>
         <div id="dlg" class="easyui-dialog" title="选择磁铁"  style="text-align: center;width:900px;height:500px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
             <table id="dg" class="easyui-datagrid"  data-options="singleSelect:true,collapsible:true">
@@ -148,10 +151,10 @@
             function setMagnet() {
                 var row = $('#dg').datagrid('getSelected');
                 var magname = row.magname;
-                 var magid = row.magid;
+                var magid = row.magid;
                 $('#dlg').dialog('close');
                 document.getElementById("showmag").innerHTML = "<font size='3px' color='red' >您已选择：" + magname + "</font>";
-                document.getElementById("hd1").value=magid;
+                document.getElementById("hd1").value = magid;
             }
             function chooseMag() {
                 $.ajax({

@@ -37,8 +37,12 @@ public class UpdExcel extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     Integer magid;
-     String filetype;
+    static Integer swscon_row = 13;
+    static Integer rcscon_row = 13;
+    static Integer hallcon_row = 13;
+    Integer magid;
+    String filetype, measdate, measby, measat, remark;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -96,39 +100,54 @@ public class UpdExcel extends HttpServlet {
             for (int i = 0; i < list.size(); i++) {
                 FileItem item = list.get(i);
                 if (!item.isFormField()) {
-                   // if (item.getName().endsWith(".xls") || item.getName().endsWith(".xlsx")) {                        
-                        Workbook wb = ReadExl.getWorkbook(item.getInputStream());
-                        if (wb == null) {
-                            out.write("{\"result\":\"文件格式有误，请另存为xls或xlsx格式后再上传。\"}");
-                        } else {
-                            int sheetnum = wb.getNumberOfSheets();
-                            for (int j = 0; j < sheetnum; j++) {
-                                sheetname.add(wb.getSheetName(j));
-                            }
-                            //readexcel.getSWSCon(wb, sheetname.get(0).toString(), 9);                           
-                           readexcel.insertSWSData(wb, sheetname.get(0).toString(), 9,magid);  
-                            out.write("{\"result\":\"OK\"}");
+                    // if (item.getName().endsWith(".xls") || item.getName().endsWith(".xlsx")) {                        
+                    Workbook wb = ReadExl.getWorkbook(item.getInputStream());
+                    if (wb == null) {
+                        out.write("{\"result\":\"文件格式有误，请另存为xls或xlsx格式后再上传。\"}");
+                    } else {
+                        int sheetnum = wb.getNumberOfSheets();
+                        for (int j = 0; j < sheetnum; j++) {
+                            sheetname.add(wb.getSheetName(j));
                         }
+                        if (filetype.equals("sws")) {
+                            readexcel.insertSWSData(wb, sheetname.get(0).toString(), swscon_row, magid, measdate, measby, measat, remark);
+                        } else if (filetype.equals("rcs")) {
+                            System.out.println("rcs");
+                        } else if (filetype.equals("hall")) {
+
+                        } else {
+                            out.write("{\"result\":\"wrong meas type\"}");
+                        }
+                        out.write("{\"result\":\"OK\"}");
+                    }
 //                    } else {
 //                        // 说明文件格式不符合要求
 //                        out.write("{\"result\":\"文件格式有误，请上传xls或xlsx格式文件\"}");
 //                    }
                 } else {
                     // 不是file类型的话，就利用getFieldName判断name属性获取相应的值
-                        if (item.getFieldName().equals("identity")) {
+                    if (item.getFieldName().equals("identity")) {
                         filetype = item.getString();
                         filetype = new String(filetype.getBytes("ISO-8859-1"), "utf-8");
-                        System.out.println("filetype:" + filetype);
-                    } else if(item.getFieldName().equals("hd1")) {
+                        // System.out.println("filetype:" + filetype);
+                    } else if (item.getFieldName().equals("hd1")) {
                         magid = Integer.parseInt(item.getString());
-                        System.out.println("magid:" + magid);
+                    } else if (item.getFieldName().equals("measdate")) {
+                        measdate = item.getString();
+                    } else if (item.getFieldName().equals("measby")) {
+                        measby = item.getString();
+                        measby = new String(measby.getBytes("ISO-8859-1"), "utf-8");
+                    } else if (item.getFieldName().equals("measat")) {
+                        measat = item.getString();
+                        measat = new String(measat.getBytes("ISO-8859-1"), "utf-8");
+                    } else if (item.getFieldName().equals("remark")) {
+                        remark = item.getString();
+                        remark = new String(remark.getBytes("ISO-8859-1"), "utf-8");
                     }
                 }
-
             }
             out.flush();
             out.close();
-
         } catch (IOException | NumberFormatException | FileUploadException | InvalidFormatException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
