@@ -5,14 +5,14 @@
 package heps.db.magnet.tools;
 
 import heps.db.magnet.jpa.MeasureAPI;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.json.JSONArray;
+
 import net.sf.json.JSONObject;
 import org.apache.poi.hpsf.MarkUnsupportedException;
 import org.apache.poi.hpsf.NoPropertySetStreamException;
@@ -33,8 +33,6 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  * @author chu
  */
 public class ReadExl {
-
-    private SummaryInformation si;
 // get Workbook by local path
 //    public static Workbook getWorkbook(String filePath) {
 //        if (filePath == null || "".equals(filePath)) {
@@ -59,7 +57,7 @@ public class ReadExl {
         return wb;
     }
 
-    public JSONObject getSWSCon(Workbook wb, String sheetName, int row_num) {
+    public JSONObject getCon(Workbook wb, String sheetName, int row_num) {
         JSONObject sws_con_json = new JSONObject();
         String key = "";
         Double value = 0.0;
@@ -97,7 +95,7 @@ public class ReadExl {
         return sws_con_json;
     }
 
-    public ArrayList getSWSData(Workbook wb, String sheetName, int row_num) {
+    public ArrayList getSWSRawData(Workbook wb, String sheetName, int row_num) {
         ArrayList sws_con = new ArrayList();
         Sheet sheet = wb.getSheet(sheetName);
         for (int i = row_num; i < sheet.getLastRowNum(); i++) {
@@ -134,12 +132,23 @@ public class ReadExl {
 
     public void insertSWSData(Workbook wb, String sheetName, Integer row_num, Integer magid, String measdate, String measby, String measat, String remark) {
         JSONObject meascon;
-        ArrayList measdata;
+        ArrayList measrawdata=new ArrayList();
         MeasureAPI m = new MeasureAPI();
         m.init();
-        meascon = getSWSCon(wb, sheetName, row_num);
-        measdata = getSWSData(wb, sheetName, row_num);
-        m.insertSWSMeas(meascon, magid, measdate, measby, measat, remark, measdata);
+        meascon = getCon(wb, sheetName, row_num);
+        measrawdata = getSWSRawData(wb, sheetName, row_num);
+        m.insertSWSMeas(meascon, magid, measdate, measby, measat, remark, measrawdata);
+        m.destroy();
+    }
+    public void insertRCSData(Workbook wb, String sheetName, Integer row_num, Integer magid, String measdate, String measby, String measat, String remark) {
+        JSONObject meascon;
+        ArrayList measrawdata=new ArrayList();
+        MeasureAPI m = new MeasureAPI();
+        m.init();
+        meascon = getCon(wb, sheetName, row_num);
+        //System.out.println(meascon.toString());
+        //measrawdata = getSWSRawData(wb, sheetName, row_num);
+        m.insertRCSMeas(meascon, magid, measdate, measby, measat, remark, measrawdata);
         m.destroy();
     }
 

@@ -112,9 +112,10 @@ public class UpdExcel extends HttpServlet {
                         if (filetype.equals("sws")) {
                             readexcel.insertSWSData(wb, sheetname.get(0).toString(), swscon_row, magid, measdate, measby, measat, remark);
                         } else if (filetype.equals("rcs")) {
-                            System.out.println("rcs");
+                            readexcel.insertRCSData(wb, sheetname.get(0).toString(), rcscon_row, magid, measdate, measby, measat, remark);
+                           // System.out.println("rcs");
                         } else if (filetype.equals("hall")) {
-
+                            System.out.println("hall");    
                         } else {
                             out.write("{\"result\":\"wrong meas type\"}");
                         }

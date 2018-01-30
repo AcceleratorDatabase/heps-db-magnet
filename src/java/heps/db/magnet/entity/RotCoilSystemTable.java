@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "RotCoilSystemTable.findAll", query = "SELECT r FROM RotCoilSystemTable r")
     , @NamedQuery(name = "RotCoilSystemTable.findByRotCoilRunId", query = "SELECT r FROM RotCoilSystemTable r WHERE r.rotCoilRunId = :rotCoilRunId")
     , @NamedQuery(name = "RotCoilSystemTable.findByPolarity", query = "SELECT r FROM RotCoilSystemTable r WHERE r.polarity = :polarity")
-    , @NamedQuery(name = "RotCoilSystemTable.findByFilename", query = "SELECT r FROM RotCoilSystemTable r WHERE r.filename = :filename")
     , @NamedQuery(name = "RotCoilSystemTable.findByGivenCurrent", query = "SELECT r FROM RotCoilSystemTable r WHERE r.givenCurrent = :givenCurrent")
     , @NamedQuery(name = "RotCoilSystemTable.findByActualCurrent", query = "SELECT r FROM RotCoilSystemTable r WHERE r.actualCurrent = :actualCurrent")
     , @NamedQuery(name = "RotCoilSystemTable.findByGain", query = "SELECT r FROM RotCoilSystemTable r WHERE r.gain = :gain")
@@ -46,8 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "RotCoilSystemTable.findByRRef", query = "SELECT r FROM RotCoilSystemTable r WHERE r.rRef = :rRef")
     , @NamedQuery(name = "RotCoilSystemTable.findByDx", query = "SELECT r FROM RotCoilSystemTable r WHERE r.dx = :dx")
     , @NamedQuery(name = "RotCoilSystemTable.findByDy", query = "SELECT r FROM RotCoilSystemTable r WHERE r.dy = :dy")
-    , @NamedQuery(name = "RotCoilSystemTable.findByDz", query = "SELECT r FROM RotCoilSystemTable r WHERE r.dz = :dz")
-    , @NamedQuery(name = "RotCoilSystemTable.findByMeasureContent", query = "SELECT r FROM RotCoilSystemTable r WHERE r.measureContent = :measureContent")
+    , @NamedQuery(name = "RotCoilSystemTable.findByDr", query = "SELECT r FROM RotCoilSystemTable r WHERE r.dr = :dr")
     , @NamedQuery(name = "RotCoilSystemTable.findByMeasDate", query = "SELECT r FROM RotCoilSystemTable r WHERE r.measDate = :measDate")
     , @NamedQuery(name = "RotCoilSystemTable.findByMeasBy", query = "SELECT r FROM RotCoilSystemTable r WHERE r.measBy = :measBy")
     , @NamedQuery(name = "RotCoilSystemTable.findByMeasAt", query = "SELECT r FROM RotCoilSystemTable r WHERE r.measAt = :measAt")
@@ -60,19 +58,16 @@ public class RotCoilSystemTable implements Serializable {
     @Basic(optional = false)
     @Column(name = "rot_coil_run_id")
     private Integer rotCoilRunId;
+     @Size(max = 45)
     @Column(name = "polarity")
-    private Integer polarity;
-    @Size(max = 45)
-    @Column(name = "filename")
-    private String filename;
+    private String polarity;    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "given_current")
     private Double givenCurrent;
     @Column(name = "actual_current")
-    private Double actualCurrent;
-    @Size(max = 45)
+    private Double actualCurrent;   
     @Column(name = "gain")
-    private String gain;
+    private Double gain;
     @Column(name = "start_position")
     private Double startPosition;
     @Column(name = "rotation_rate")
@@ -83,11 +78,8 @@ public class RotCoilSystemTable implements Serializable {
     private Double dx;
     @Column(name = "dy")
     private Double dy;
-    @Column(name = "dz")
-    private Double dz;
-    @Size(max = 45)
-    @Column(name = "measure_content")
-    private String measureContent;
+    @Column(name = "dr")
+    private Double dr;    
     @Column(name = "meas_date")
     @Temporal(TemporalType.DATE)
     private Date measDate;
@@ -123,21 +115,13 @@ public class RotCoilSystemTable implements Serializable {
         this.rotCoilRunId = rotCoilRunId;
     }
 
-    public Integer getPolarity() {
+    public String getPolarity() {
         return polarity;
     }
 
-    public void setPolarity(Integer polarity) {
+    public void setPolarity(String polarity) {
         this.polarity = polarity;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
+    }    
 
     public Double getGivenCurrent() {
         return givenCurrent;
@@ -155,11 +139,11 @@ public class RotCoilSystemTable implements Serializable {
         this.actualCurrent = actualCurrent;
     }
 
-    public String getGain() {
+    public Double getGain() {
         return gain;
     }
 
-    public void setGain(String gain) {
+    public void setGain(Double gain) {
         this.gain = gain;
     }
 
@@ -203,20 +187,12 @@ public class RotCoilSystemTable implements Serializable {
         this.dy = dy;
     }
 
-    public Double getDz() {
-        return dz;
+    public Double getDr() {
+        return dr;
     }
 
-    public void setDz(Double dz) {
-        this.dz = dz;
-    }
-
-    public String getMeasureContent() {
-        return measureContent;
-    }
-
-    public void setMeasureContent(String measureContent) {
-        this.measureContent = measureContent;
+    public void setDr(Double dr) {
+        this.dr = dr;
     }
 
     public Date getMeasDate() {
