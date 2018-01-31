@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "RcsDataTable.findByDataId", query = "SELECT r FROM RcsDataTable r WHERE r.dataId = :dataId")
     , @NamedQuery(name = "RcsDataTable.findByPhi", query = "SELECT r FROM RcsDataTable r WHERE r.phi = :phi")
     , @NamedQuery(name = "RcsDataTable.findByAngle", query = "SELECT r FROM RcsDataTable r WHERE r.angle = :angle")
-    , @NamedQuery(name = "RcsDataTable.findByB2", query = "SELECT r FROM RcsDataTable r WHERE r.b2 = :b2")
+    , @NamedQuery(name = "RcsDataTable.findByBnB2", query = "SELECT r FROM RcsDataTable r WHERE r.bnb2 = :bnb2")
     , @NamedQuery(name = "RcsDataTable.findByBn", query = "SELECT r FROM RcsDataTable r WHERE r.bn = :bn")
     , @NamedQuery(name = "RcsDataTable.findByAn", query = "SELECT r FROM RcsDataTable r WHERE r.an = :an")})
 public class RcsDataTable implements Serializable {
@@ -47,8 +47,8 @@ public class RcsDataTable implements Serializable {
     private Double phi;
     @Column(name = "angle")
     private Double angle;
-    @Column(name = "b2")
-    private Double b2;
+    @Column(name = "bnb2")
+    private Double bnb2;
     @Column(name = "bn")
     private Double bn;
     @Column(name = "an")
@@ -88,12 +88,12 @@ public class RcsDataTable implements Serializable {
         this.angle = angle;
     }
 
-    public Double getB2() {
-        return b2;
+    public Double getBnB2() {
+        return bnb2;
     }
 
-    public void setB2(Double b2) {
-        this.b2 = b2;
+    public void setBnB2(Double bnb2) {
+        this.bnb2 = bnb2;
     }
 
     public Double getBn() {

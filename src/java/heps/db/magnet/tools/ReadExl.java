@@ -9,6 +9,7 @@ import heps.db.magnet.jpa.MeasureAPI;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -95,7 +96,7 @@ public class ReadExl {
         return sws_con_json;
     }
 
-    public ArrayList getSWSRawData(Workbook wb, String sheetName, int row_num) {
+    public ArrayList getData(Workbook wb, String sheetName, int row_num) {
         ArrayList sws_con = new ArrayList();
         Sheet sheet = wb.getSheet(sheetName);
         for (int i = row_num; i < sheet.getLastRowNum(); i++) {
@@ -110,6 +111,7 @@ public class ReadExl {
                             case BLANK:
                                 break;
                             case STRING:
+                                sws_con.add(cell.getStringCellValue().trim());
                                 break;
                             case FORMULA:
                                 break;
@@ -124,31 +126,38 @@ public class ReadExl {
                         }
                     }
                 }
-                sws_con.add("/");
+                sws_con.add("//");
             }
         }
         return sws_con;
-    }
-
+    }       
+        
     public void insertSWSData(Workbook wb, String sheetName, Integer row_num, Integer magid, String measdate, String measby, String measat, String remark) {
         JSONObject meascon;
-        ArrayList measrawdata=new ArrayList();
+        ArrayList measrawdata;
         MeasureAPI m = new MeasureAPI();
         m.init();
         meascon = getCon(wb, sheetName, row_num);
-        measrawdata = getSWSRawData(wb, sheetName, row_num);
+        measrawdata = getData(wb, sheetName, row_num);
         m.insertSWSMeas(meascon, magid, measdate, measby, measat, remark, measrawdata);
         m.destroy();
     }
     public void insertRCSData(Workbook wb, String sheetName, Integer row_num, Integer magid, String measdate, String measby, String measat, String remark) {
         JSONObject meascon;
-        ArrayList measrawdata=new ArrayList();
+        ArrayList measdata;
+        List<Object> measanadata;
+        List<Object> measrawdata;
+        Integer splitIndex;
+        String[] analysis;
         MeasureAPI m = new MeasureAPI();
         m.init();
-        meascon = getCon(wb, sheetName, row_num);
-        //System.out.println(meascon.toString());
-        //measrawdata = getSWSRawData(wb, sheetName, row_num);
-        m.insertRCSMeas(meascon, magid, measdate, measby, measat, remark, measrawdata);
+        meascon = getCon(wb, sheetName, row_num);        
+        measdata = getData(wb, sheetName, row_num);      
+        splitIndex=measdata.indexOf("原始数据");         
+        measanadata= measdata.subList(0, splitIndex);
+        analysis=measanadata.toString().split("//");
+        measrawdata= measdata.subList(splitIndex+1,measdata.size() );
+        m.insertRCSMeas(meascon, magid, measdate, measby, measat, remark, measanadata,measrawdata,analysis);
         m.destroy();
     }
 

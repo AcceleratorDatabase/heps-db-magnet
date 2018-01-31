@@ -6,6 +6,8 @@
 package heps.db.magnet.jpa;
 
 import heps.db.magnet.entity.DeviceInfoTable;
+import heps.db.magnet.entity.RcsDataAllTable;
+import heps.db.magnet.entity.RcsDataTable;
 import heps.db.magnet.entity.RotCoilSystemTable;
 import heps.db.magnet.entity.StretchedWireSystemTable;
 import heps.db.magnet.entity.SwsDataTable;
@@ -13,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -93,6 +96,7 @@ public class MeasureAPI {
         sws.setStartEY0(Double.parseDouble(meascon.getString("起始点EY0(mm)")));
         sws.setStrain(Double.parseDouble(meascon.getString("张力（kg）：")));
         sws.setCurrent(Double.parseDouble(meascon.getString("I(A)")));
+        sws.setCutOffFrequency(Double.parseDouble(meascon.getString("截止频率(Hz)")));
         sws.setMeasBy(measby);
         sws.setMeasAt(measat);
         sws.setDescription(remark);
@@ -109,7 +113,8 @@ public class MeasureAPI {
         et.commit();
     }
 
-    public void insertRCSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, ArrayList rawdata) {
+    public void insertRCSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark,List<Object> anadata,List<Object> rawdata,String[] analysis) {
+       String[] analysis_piece;
         RotCoilSystemTable rcs = new RotCoilSystemTable();
         DeviceInfoTable device;
         device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
@@ -131,13 +136,28 @@ public class MeasureAPI {
         rcs.setMeasDate(strToDate(measdate));
         em.persist(rcs);
         et.commit();
-//       Integer id=sws.getSwRunId();
-//       System.out.println(id);
-//        et.begin();
-//        SwsDataTable swsdata=new SwsDataTable();
-//        swsdata.setRunId(sws);
-//        swsdata.setRawData(rawdata.toString().trim());
-//        em.persist(swsdata);
-//        et.commit();
+
+        et.begin();
+        RcsDataAllTable rcsdataall=new RcsDataAllTable();
+        rcsdataall.setRunId(rcs);
+        rcsdataall.setAnalysisData(anadata.toString());
+        rcsdataall.setRawData(rawdata.toString());
+        em.persist(rcsdataall);
+        et.commit();       
+        
+        for(int i=3;i<analysis.length-1;i++){
+           analysis_piece=analysis[i].split(",");       
+            et.begin();
+        RcsDataTable rcsdata=new RcsDataTable();                 
+        rcsdata.setRunId(rcs);
+        rcsdata.setPhi(Double.parseDouble(analysis_piece[2]));
+        rcsdata.setAngle(Double.parseDouble(analysis_piece[3]));
+         rcsdata.setBnB2(Double.parseDouble(analysis_piece[4]));
+        rcsdata.setBn(Double.parseDouble(analysis_piece[5]));
+        rcsdata.setAn(Double.parseDouble(analysis_piece[6]));   
+        em.persist(rcsdata);
+        et.commit();
+        }
+        
     }
 }
