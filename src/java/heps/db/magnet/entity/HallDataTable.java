@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "HallDataTable.findByX", query = "SELECT h FROM HallDataTable h WHERE h.x = :x")
     , @NamedQuery(name = "HallDataTable.findByY", query = "SELECT h FROM HallDataTable h WHERE h.y = :y")
     , @NamedQuery(name = "HallDataTable.findByGl", query = "SELECT h FROM HallDataTable h WHERE h.gl = :gl")
-    , @NamedQuery(name = "HallDataTable.findByBl", query = "SELECT h FROM HallDataTable h WHERE h.bl = :bl")})
+    , @NamedQuery(name = "HallDataTable.findByB", query = "SELECT h FROM HallDataTable h WHERE h.b = :b")})
 public class HallDataTable implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,8 +51,8 @@ public class HallDataTable implements Serializable {
     private Double y;
     @Column(name = "gl")
     private Double gl;
-    @Column(name = "bl")
-    private Double bl;
+    @Column(name = "b")
+    private Double b;
     @JoinColumn(name = "run_id", referencedColumnName = "hall_probe_run_id")
     @ManyToOne
     private HallProbeSystemTable runId;
@@ -104,12 +104,12 @@ public class HallDataTable implements Serializable {
         this.gl = gl;
     }
 
-    public Double getBl() {
-        return bl;
+    public Double getB() {
+        return b;
     }
 
-    public void setBl(Double bl) {
-        this.bl = bl;
+    public void setB(Double b) {
+        this.b = b;
     }
 
     public HallProbeSystemTable getRunId() {

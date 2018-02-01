@@ -43,6 +43,13 @@ public class UpdExcel extends HttpServlet {
     Integer magid,status;
     String filetype, measdate, measby, measat, remark;
 Double hall_current,hall_gage;
+public static Double precalc(Object obj) {
+        if (obj.toString().isEmpty()) {
+            return null;
+        } else {
+            return Double.parseDouble(obj.toString());
+        }
+    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -117,8 +124,8 @@ Double hall_current,hall_gage;
                                 status=readexcel.insertRCSData(wb, sheetname.get(0).toString(), rcscon_row, magid, measdate, measby, measat, remark);
                                 break; 
                             case "hall":
-                                System.out.println("hall"+hall_current+"---"+hall_gage);
-                                status=1;
+                                //System.out.println("hall"+hall_current+"---"+hall_gage);
+                                status=readexcel.insertHallData(wb, sheetname, swscon_row, magid, hall_current,hall_gage,measdate, measby, measat, remark);
                                 break;
                             default:
                                 break;
@@ -137,15 +144,14 @@ Double hall_current,hall_gage;
                     // 不是file类型的话，就利用getFieldName判断name属性获取相应的值
                     if (item.getFieldName().equals("identity")) {
                         filetype = item.getString();
-                        filetype = new String(filetype.getBytes("ISO-8859-1"), "utf-8");
-                        // System.out.println("filetype:" + filetype);
-                    } else if (item.getFieldName().equals("hd1")) {
+                        filetype = new String(filetype.getBytes("ISO-8859-1"), "utf-8");   
+                    }else if (item.getFieldName().equals("hd1")) {
                         magid = Integer.parseInt(item.getString());
-                    } else if (item.getFieldName().equals("current")) {
-                         hall_current= Double.parseDouble(item.getString());
+                    }else if (item.getFieldName().equals("current")) {
+                         hall_current= precalc(item.getString());
                     }else if (item.getFieldName().equals("watergage")) {
-                       hall_gage = Double.parseDouble(item.getString());
-                    }else if (item.getFieldName().equals("measdate")) {
+                       hall_gage = precalc(item.getString());
+                    } else if (item.getFieldName().equals("measdate")) {
                         measdate = item.getString();
                     } else if (item.getFieldName().equals("measby")) {
                         measby = item.getString();
@@ -157,6 +163,10 @@ Double hall_current,hall_gage;
                         remark = item.getString();
                         remark = new String(remark.getBytes("ISO-8859-1"), "utf-8");
                     }
+                   
+                             
+                     
+                    
                 }
             }
             out.flush();

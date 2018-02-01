@@ -14,7 +14,7 @@
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="jquery.form.js"></script>    
-         <script type="text/javascript" src="dhall.js?<%=Math.random()%>"></script>
+<!--         <script type="text/javascript" src="dhall.js?"></script>-->
         <style type="text/css">
             label{
                 font-size: 16px

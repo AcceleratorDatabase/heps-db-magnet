@@ -6,6 +6,8 @@
 package heps.db.magnet.jpa;
 
 import heps.db.magnet.entity.DeviceInfoTable;
+import heps.db.magnet.entity.HallDataTable;
+import heps.db.magnet.entity.HallProbeSystemTable;
 import heps.db.magnet.entity.RcsDataAllTable;
 import heps.db.magnet.entity.RcsDataTable;
 import heps.db.magnet.entity.RotCoilSystemTable;
@@ -168,4 +170,39 @@ public class MeasureAPI {
         return 0;
         }
     }
+     public Integer insertHallMeas(Integer magid,  Double current, Double pressure,String measdate, String measby, String measat, String remark, ArrayList anadata, String[] analysis) {
+        String[] analysis_piece;
+        HallProbeSystemTable hall = new HallProbeSystemTable();
+        DeviceInfoTable device;
+        try{
+        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
+        hall.setDeviceId(device);
+        hall.setCurrent(current);
+        hall.setWaterGage(pressure);
+        hall.setMeasAt(measat);
+        hall.setMeasBy(measby);
+        hall.setMeasDate(strToDate(measdate));
+        hall.setDescription(remark);
+        em.persist(hall);
+        et.commit();
+        
+        for (int i = 2; i < analysis.length - 1; i++) {
+            analysis_piece = analysis[i].split(",");
+            et.begin();
+            HallDataTable halldata=new HallDataTable();
+            halldata.setRunId(hall);
+            halldata.setCurrent(Double.parseDouble(analysis_piece[0]));
+            halldata.setB(Double.parseDouble(analysis_piece[1]));            
+            em.persist(halldata);
+            et.commit();
+        }
+        
+        return 1;
+        }catch(JSONException e){
+        return 0;
+        }
+        
+         
+     }
+    
 }

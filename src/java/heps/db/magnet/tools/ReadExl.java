@@ -89,19 +89,23 @@ public class ReadExl {
         Sheet sheet = wb.getSheet(sheetName);
         for (int i = row_num; i < sheet.getLastRowNum(); i++) {
             if (sheet.getRow(i) != null) {
-                for (int j = 0; j < sheet.getRow(i).getPhysicalNumberOfCells(); j++) {
+               // System.out.println("row"+(i+1)+"not null");
+                for (int j = 0; j < sheet.getRow(i).getLastCellNum(); j++) {
+                    //System.out.println("cell num:"+sheet.getRow(i).getPhysicalNumberOfCells());
                     Cell cell = sheet.getRow(i).getCell(j);
-                    if (sheet.getRow(i).getCell(j) != null) {
+                    if (cell != null) {
                         switch (cell.getCellTypeEnum()) {
                             case NUMERIC:
                                 sws_con.add(cell.getNumericCellValue());
                                 break;
                             case BLANK:
+                                //sws_con.add("blank");
                                 break;
                             case STRING:
                                 sws_con.add(cell.getStringCellValue().trim());
                                 break;
-                            case FORMULA:
+                            case FORMULA:  
+                                // sws_con.add("fomula");
                                 break;
                             case BOOLEAN:
                                 break;
@@ -114,7 +118,7 @@ public class ReadExl {
                         }
                     }
                 }
-                sws_con.add("//");
+                sws_con.add("\n");
             }
         }
         return sws_con;
@@ -147,12 +151,25 @@ public class ReadExl {
         if(measdata.contains("原始数据")){
         splitIndex=measdata.indexOf("原始数据"); 
         measanadata= measdata.subList(0, splitIndex);
-        analysis=measanadata.toString().split("//");
+        analysis=measanadata.toString().split("\n");
         measrawdata= measdata.subList(splitIndex+1,measdata.size() );
         status=m.insertRCSMeas(meascon, magid, measdate, measby, measat, remark, measanadata,measrawdata,analysis);
         m.destroy();
         }
         return status;
+    }
+    public Integer insertHallData(Workbook wb, ArrayList sheetName, Integer row_num, Integer magid, Double current, Double pressure,String measdate, String measby, String measat, String remark) {
+        Integer status;
+        ArrayList measdata;
+        String[] analysis;
+        MeasureAPI m = new MeasureAPI();
+        m.init();
+        measdata=getData(wb, sheetName.get(0).toString(), 0);
+        //System.out.println(measrawdata);
+        analysis=measdata.toString().split("\n");
+        status=m.insertHallMeas( magid,current,pressure, measdate, measby, measat, remark,measdata,analysis);
+        m.destroy();
+        return 1;
     }
 
 }
