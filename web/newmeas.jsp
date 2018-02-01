@@ -14,6 +14,7 @@
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="jquery.form.js"></script>    
+         <script type="text/javascript" src="dhall.js?<%=Math.random()%>"></script>
         <style type="text/css">
             label{
                 font-size: 16px
@@ -57,11 +58,17 @@
                         }
                     }
                 });
+                $('#hall_con').hide();
+
             };
             $(function () {
                 $("#file_form").submit(
                         function () {
-                            //首先验证文件格式
+                            if(document.getElementById("hd1").value===""){
+                                alert("未选择磁铁！");
+                                return false;
+                            }else{
+                            //验证文件格式
                             var fileName = $('#file_input').val();
                             if (fileName === '') {
                                 alert('请选择文件');
@@ -86,7 +93,7 @@
                                 }
                             });
                             return false;
-                        });
+                        }});
             });
         </script>
         <title>录入-磁测数据</title>
@@ -110,19 +117,23 @@
                 <div id="showmag" style="position: absolute;top:50px;left: 600px"></div>                       
                 <input type="hidden" id="hd1" name="hd1"/>  
                 <div style="position: absolute;top:80px;left: 600px"> <label>磁测方法：</label>
-                    <input type="radio" name="identity" id="sws" value="sws" checked="checked" /><label for="sws">张力线测磁</label> 
-                    <input type="radio" name="identity" id="rcs" value="rcs" /><label for="rcs">旋转螺线圈测磁</label>
-                    <input type="radio" name="identity" id="hall" value="hall" /><label for="hall">霍尔元件测磁</label>
-                </div>   
-                <div style="position: absolute;top:130px;left: 600px">
+                    <input type="radio" name="identity" id="sws" value="sws" onclick="hidehallcon()" checked="checked" /><label for="sws">张力线测磁</label> 
+                    <input type="radio" name="identity" id="rcs" value="rcs" onclick="hidehallcon()" /><label for="rcs">旋转螺线圈测磁</label>
+                    <input type="radio" name="identity" id="hall" value="hall" onclick="showhallcon()" /><label for="hall">霍尔元件测磁</label>
+                </div>  
+                <div  name="hall_con" id="hall_con" style="position: absolute;top:110px;left: 600px">                        
+                    <input  name="current"class="easyui-numberbox" precision="3" label="测量电流：" labelPosition="before" labelAlign="right" style="width:200px">            
+                    <input  name="watergage"class="easyui-numberbox" precision="3"label="测量电压：" labelPosition="before"labelAlign="right" style="width:200px">
+                 </div>
+                <div style="position: absolute;top:150px;left: 600px">
                     <input name="measdate" class="easyui-datebox" label="磁测时间：" labelPosition="before" labelAlign="right" style="width:200px">
-                    <input name="measby"class="easyui-textbox" label="磁测人：" labelPosition="before"  labelAlign="right" style="width:200px" >            
+                    <input name="measby"class="easyui-textbox" label="磁测人：" labelPosition="before"  labelAlign="right" style="width:200px" >                      
                 </div> 
-                <div style="position: absolute;top:170px;left: 600px">            
+                <div style="position: absolute;top:190px;left: 600px">                    
                     <input name="measat"class="easyui-textbox" label="磁测地点：" labelPosition="before" labelAlign="right" style="width:200px">            
-                    <input name="remark"class="easyui-textbox" label="备注：" labelPosition="before"labelAlign="right" style="width:200px">
+                    <input name="remark"class="easyui-textbox" label="备注：" labelPosition="before"labelAlign="right" style="width:200px">                    
                 </div> 
-                <div style="position: absolute;top:220px;left: 600px">                
+                <div style="position: absolute;top:240px;left: 600px">                
                     <input type="file" name="file" id="file_input" /> 
                     <input type="submit" value="文件上传" id='upFile-btn'>               
                 </div>
@@ -147,7 +158,24 @@
             <div style="margin:5px 0;"></div>
             <a href="#" class="easyui-linkbutton" onclick="setMagnet()" data-options="iconCls:'icon-save'">Save</a>
         </div>
+<!--        <div id="dlg1" class="easyui-dialog" title="录入霍尔元件测磁测试条件"  style="text-align: center;width:440px;height:500px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
+            <table id="hall_con1" name="hall_con1" class="easyui-propertygrid" style="width:400px" data-options="
+                                   method: 'get',
+                                   showGroup: true,
+                                   scrollbarSize: 0,                                  
+                                   columns: mycolumns                           
+                                   ">
+                            </table> 
+        </div>-->
         <script type="text/javascript">
+             function hidehallcon(){                
+               $('#hall_con').hide();
+            }
+            function showhallcon(){
+                //$('#hall_con').propertygrid('loadData', rowhall);
+               //$('#dlg1').dialog('open');
+               $('#hall_con').show();
+            }
             function setMagnet() {
                 var row = $('#dg').datagrid('getSelected');
                 var magname = row.magname;
@@ -170,6 +198,22 @@
                     }
                 });
             }
+            //for hidden propertygrid
+//            var mycolumns = [[
+//                    {field: 'name', title: '设计参数'},
+//                    {field: 'value', title: '数值', width: 100, resizable: false, formatter: function (value, arr) {
+//                            var editor = '';
+//                            if (typeof arr.editor === 'object') {
+//                                editor = arr.editor.type;
+//                            } else {
+//                                editor = arr.editor;
+//                            }
+//                            if (editor === "numberbox" && value !== '') {
+//                                return Number(value);
+//                            } else
+//                                return value;
+//                        }}
+//                ]];
         </script>
     </body>
 </html>

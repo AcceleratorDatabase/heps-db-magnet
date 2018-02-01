@@ -16,11 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
@@ -83,40 +83,45 @@ public class MeasureAPI {
         emf.close();
     }
 
-    public void insertSWSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, ArrayList rawdata) {
+    public Integer insertSWSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, ArrayList rawdata) {
         StretchedWireSystemTable sws = new StretchedWireSystemTable();
         DeviceInfoTable device;
-        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
-        sws.setDeviceId(device);
-        sws.setSamplingRate(Double.parseDouble(meascon.getString("采样率（Hz）：")));
-        sws.setSpeed(Double.parseDouble(meascon.getString("移动速度（m/s）：")));
-        sws.setAcceleratedSpeed(Double.parseDouble(meascon.getString("a加速度（m/s2）：")));
-        sws.setDistance(Double.parseDouble(meascon.getString("移动距离（mm）：")));
-        sws.setStartEX0(Double.parseDouble(meascon.getString("起始点EX0（mm）：")));
-        sws.setStartEY0(Double.parseDouble(meascon.getString("起始点EY0(mm)")));
-        sws.setStrain(Double.parseDouble(meascon.getString("张力（kg）：")));
-        sws.setCurrent(Double.parseDouble(meascon.getString("I(A)")));
-        sws.setCutOffFrequency(Double.parseDouble(meascon.getString("截止频率(Hz)")));
-        sws.setMeasBy(measby);
-        sws.setMeasAt(measat);
-        sws.setDescription(remark);
-        sws.setMeasDate(strToDate(measdate));
-        em.persist(sws);
-        et.commit();
-//       Integer id=sws.getSwRunId();
-//       System.out.println(id);
-        et.begin();
-        SwsDataTable swsdata = new SwsDataTable();
-        swsdata.setRunId(sws);
-        swsdata.setRawData(rawdata.toString());
-        em.persist(swsdata);
-        et.commit();
+        try {
+            device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
+            sws.setDeviceId(device);
+            sws.setSamplingRate(Double.parseDouble(meascon.getString("采样率（Hz）：")));
+            sws.setSpeed(Double.parseDouble(meascon.getString("移动速度（m/s）：")));
+            sws.setAcceleratedSpeed(Double.parseDouble(meascon.getString("a加速度（m/s2）：")));
+            sws.setDistance(Double.parseDouble(meascon.getString("移动距离（mm）：")));
+            sws.setStartEX0(Double.parseDouble(meascon.getString("起始点EX0（mm）：")));
+            sws.setStartEY0(Double.parseDouble(meascon.getString("起始点EY0(mm)")));
+            sws.setStrain(Double.parseDouble(meascon.getString("张力（kg）：")));
+            sws.setCurrent(Double.parseDouble(meascon.getString("I(A)")));
+            sws.setCutOffFrequency(Double.parseDouble(meascon.getString("截止频率(Hz)")));
+            sws.setMeasBy(measby);
+            sws.setMeasAt(measat);
+            sws.setDescription(remark);
+            sws.setMeasDate(strToDate(measdate));
+            em.persist(sws);
+            et.commit();
+
+            et.begin();
+            SwsDataTable swsdata = new SwsDataTable();
+            swsdata.setRunId(sws);
+            swsdata.setRawData(rawdata.toString());
+            em.persist(swsdata);
+            et.commit();
+            return 1;
+        } catch (JSONException e) {            
+            return 0;
+        }
     }
 
-    public void insertRCSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark,List<Object> anadata,List<Object> rawdata,String[] analysis) {
-       String[] analysis_piece;
+    public Integer insertRCSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, List<Object> anadata, List<Object> rawdata, String[] analysis) {
+        String[] analysis_piece;
         RotCoilSystemTable rcs = new RotCoilSystemTable();
         DeviceInfoTable device;
+        try{
         device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
         rcs.setDeviceId(device);
         String po = getObjectKey(meascon, "Polarity：");
@@ -138,26 +143,29 @@ public class MeasureAPI {
         et.commit();
 
         et.begin();
-        RcsDataAllTable rcsdataall=new RcsDataAllTable();
+        RcsDataAllTable rcsdataall = new RcsDataAllTable();
         rcsdataall.setRunId(rcs);
         rcsdataall.setAnalysisData(anadata.toString());
         rcsdataall.setRawData(rawdata.toString());
         em.persist(rcsdataall);
-        et.commit();       
-        
-        for(int i=3;i<analysis.length-1;i++){
-           analysis_piece=analysis[i].split(",");       
-            et.begin();
-        RcsDataTable rcsdata=new RcsDataTable();                 
-        rcsdata.setRunId(rcs);
-        rcsdata.setPhi(Double.parseDouble(analysis_piece[2]));
-        rcsdata.setAngle(Double.parseDouble(analysis_piece[3]));
-         rcsdata.setBnB2(Double.parseDouble(analysis_piece[4]));
-        rcsdata.setBn(Double.parseDouble(analysis_piece[5]));
-        rcsdata.setAn(Double.parseDouble(analysis_piece[6]));   
-        em.persist(rcsdata);
         et.commit();
+
+        for (int i = 3; i < analysis.length - 1; i++) {
+            analysis_piece = analysis[i].split(",");
+            et.begin();
+            RcsDataTable rcsdata = new RcsDataTable();
+            rcsdata.setRunId(rcs);
+            rcsdata.setPhi(Double.parseDouble(analysis_piece[2]));
+            rcsdata.setAngle(Double.parseDouble(analysis_piece[3]));
+            rcsdata.setBnB2(Double.parseDouble(analysis_piece[4]));
+            rcsdata.setBn(Double.parseDouble(analysis_piece[5]));
+            rcsdata.setAn(Double.parseDouble(analysis_piece[6]));
+            em.persist(rcsdata);
+            et.commit();
         }
-        
+        return 1;
+        }catch(JSONException e){
+        return 0;
+        }
     }
 }

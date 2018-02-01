@@ -40,9 +40,9 @@ public class UpdExcel extends HttpServlet {
     static Integer swscon_row = 13;
     static Integer rcscon_row = 13;
     static Integer hallcon_row = 13;
-    Integer magid;
+    Integer magid,status;
     String filetype, measdate, measby, measat, remark;
-
+Double hall_current,hall_gage;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -109,17 +109,25 @@ public class UpdExcel extends HttpServlet {
                         for (int j = 0; j < sheetnum; j++) {
                             sheetname.add(wb.getSheetName(j));
                         }
-                        if (filetype.equals("sws")) {
-                            readexcel.insertSWSData(wb, sheetname.get(0).toString(), swscon_row, magid, measdate, measby, measat, remark);
-                        } else if (filetype.equals("rcs")) {
-                            readexcel.insertRCSData(wb, sheetname.get(0).toString(), rcscon_row, magid, measdate, measby, measat, remark);
-                           // System.out.println("rcs");
-                        } else if (filetype.equals("hall")) {
-                            System.out.println("hall");    
-                        } else {
-                            out.write("{\"result\":\"wrong meas type\"}");
+                        switch (filetype) {
+                            case "sws":
+                                status=readexcel.insertSWSData(wb, sheetname.get(0).toString(), swscon_row, magid, measdate, measby, measat, remark);
+                                break;
+                            case "rcs":
+                                status=readexcel.insertRCSData(wb, sheetname.get(0).toString(), rcscon_row, magid, measdate, measby, measat, remark);
+                                break; 
+                            case "hall":
+                                System.out.println("hall"+hall_current+"---"+hall_gage);
+                                status=1;
+                                break;
+                            default:
+                                break;
                         }
+                        if(status==1){
                         out.write("{\"result\":\"OK\"}");
+                        }else{
+                         out.write("{\"result\":\"文件格式有误\"}");
+                        }
                     }
 //                    } else {
 //                        // 说明文件格式不符合要求
@@ -133,7 +141,11 @@ public class UpdExcel extends HttpServlet {
                         // System.out.println("filetype:" + filetype);
                     } else if (item.getFieldName().equals("hd1")) {
                         magid = Integer.parseInt(item.getString());
-                    } else if (item.getFieldName().equals("measdate")) {
+                    } else if (item.getFieldName().equals("current")) {
+                         hall_current= Double.parseDouble(item.getString());
+                    }else if (item.getFieldName().equals("watergage")) {
+                       hall_gage = Double.parseDouble(item.getString());
+                    }else if (item.getFieldName().equals("measdate")) {
                         measdate = item.getString();
                     } else if (item.getFieldName().equals("measby")) {
                         measby = item.getString();

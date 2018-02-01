@@ -3,26 +3,15 @@
  * and open the template in the editor.
  */
 package heps.db.magnet.tools;
-
 import heps.db.magnet.jpa.MeasureAPI;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import net.sf.json.JSONObject;
-import org.apache.poi.hpsf.MarkUnsupportedException;
-import org.apache.poi.hpsf.NoPropertySetStreamException;
-import org.apache.poi.hpsf.PropertySetFactory;
-import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.poifs.eventfilesystem.POIFSReader;
-import org.apache.poi.poifs.eventfilesystem.POIFSReaderEvent;
-import org.apache.poi.poifs.eventfilesystem.POIFSReaderListener;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -30,8 +19,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  *
- * @author lv
- * @author chu
+ * @author qiaoys
  */
 public class ReadExl {
 // get Workbook by local path
@@ -132,17 +120,20 @@ public class ReadExl {
         return sws_con;
     }       
         
-    public void insertSWSData(Workbook wb, String sheetName, Integer row_num, Integer magid, String measdate, String measby, String measat, String remark) {
+    public Integer insertSWSData(Workbook wb, String sheetName, Integer row_num, Integer magid, String measdate, String measby, String measat, String remark) {
+        Integer status;
         JSONObject meascon;
         ArrayList measrawdata;
         MeasureAPI m = new MeasureAPI();
         m.init();
         meascon = getCon(wb, sheetName, row_num);
         measrawdata = getData(wb, sheetName, row_num);
-        m.insertSWSMeas(meascon, magid, measdate, measby, measat, remark, measrawdata);
+        status=m.insertSWSMeas(meascon, magid, measdate, measby, measat, remark, measrawdata);
         m.destroy();
+        return status;
     }
-    public void insertRCSData(Workbook wb, String sheetName, Integer row_num, Integer magid, String measdate, String measby, String measat, String remark) {
+    public Integer insertRCSData(Workbook wb, String sheetName, Integer row_num, Integer magid, String measdate, String measby, String measat, String remark) {
+        Integer status=0;
         JSONObject meascon;
         ArrayList measdata;
         List<Object> measanadata;
@@ -152,13 +143,16 @@ public class ReadExl {
         MeasureAPI m = new MeasureAPI();
         m.init();
         meascon = getCon(wb, sheetName, row_num);        
-        measdata = getData(wb, sheetName, row_num);      
-        splitIndex=measdata.indexOf("原始数据");         
+        measdata = getData(wb, sheetName, row_num);     
+        if(measdata.contains("原始数据")){
+        splitIndex=measdata.indexOf("原始数据"); 
         measanadata= measdata.subList(0, splitIndex);
         analysis=measanadata.toString().split("//");
         measrawdata= measdata.subList(splitIndex+1,measdata.size() );
-        m.insertRCSMeas(meascon, magid, measdate, measby, measat, remark, measanadata,measrawdata,analysis);
+        status=m.insertRCSMeas(meascon, magid, measdate, measby, measat, remark, measanadata,measrawdata,analysis);
         m.destroy();
+        }
+        return status;
     }
 
 }
