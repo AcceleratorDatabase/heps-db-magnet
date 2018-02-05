@@ -47,6 +47,9 @@ public class HallDataAllTable implements Serializable {
     @Size(max = 16777215)
     @Column(name = "analysis_data")
     private String analysisData;
+    @Size(max = 45)
+    @Column(name = "content")
+    private String content;
     @JoinColumn(name = "run_id", referencedColumnName = "hall_probe_run_id")
     @ManyToOne
     private HallProbeSystemTable runId;
@@ -82,6 +85,14 @@ public class HallDataAllTable implements Serializable {
         this.analysisData = analysisData;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public HallProbeSystemTable getRunId() {
         return runId;
     }
@@ -114,5 +125,5 @@ public class HallDataAllTable implements Serializable {
     public String toString() {
         return "heps.db.magnet.entity.HallDataAllTable[ dataId=" + dataId + " ]";
     }
-    
+
 }

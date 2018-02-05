@@ -6,6 +6,7 @@
 package heps.db.magnet.jpa;
 
 import heps.db.magnet.entity.DeviceInfoTable;
+import heps.db.magnet.entity.HallDataAllTable;
 import heps.db.magnet.entity.HallDataTable;
 import heps.db.magnet.entity.HallProbeSystemTable;
 import heps.db.magnet.entity.RcsDataAllTable;
@@ -18,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -85,6 +88,17 @@ public class MeasureAPI {
         emf.close();
     }
 
+    public JSONObject combine2Json(ArrayList sheetNames, ArrayList alldata) {
+        JSONObject json = new JSONObject();
+        String[] alldata_piece = alldata.toString().split("//");
+
+        for (int i = 0; i < sheetNames.size(); i++) {
+            json.put(sheetNames.get(i), alldata_piece[i]);
+        }
+        //System.out.println(json.get("横向场").toString());
+        return json;
+    }
+
     public Integer insertSWSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, ArrayList rawdata) {
         StretchedWireSystemTable sws = new StretchedWireSystemTable();
         DeviceInfoTable device;
@@ -114,7 +128,7 @@ public class MeasureAPI {
             em.persist(swsdata);
             et.commit();
             return 1;
-        } catch (JSONException e) {            
+        } catch (JSONException e) {
             return 0;
         }
     }
@@ -123,58 +137,218 @@ public class MeasureAPI {
         String[] analysis_piece;
         RotCoilSystemTable rcs = new RotCoilSystemTable();
         DeviceInfoTable device;
-        try{
-        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
-        rcs.setDeviceId(device);
-        String po = getObjectKey(meascon, "Polarity：");
-        rcs.setPolarity(po);
-        rcs.setGivenCurrent(Double.parseDouble(meascon.getString("给定电流(A):")));
-        rcs.setActualCurrent(Double.parseDouble(meascon.getString("实际电流(A):")));
-        rcs.setGain(Double.parseDouble(meascon.getString("Gain：")));
-        rcs.setStartPosition(Double.parseDouble(meascon.getString("start position：")));
-        rcs.setRotationRate(Double.parseDouble(meascon.getString("转速：")));
-        rcs.setRRef(Double.parseDouble(meascon.getString("Rref(mm)：")));
-        rcs.setDx(Double.parseDouble(meascon.getString("dx=")));
-        rcs.setDy(Double.parseDouble(meascon.getString("dy=")));
-        rcs.setDr(Double.parseDouble(meascon.getString("dr=")));
-        rcs.setMeasBy(measby);
-        rcs.setMeasAt(measat);
-        rcs.setDescription(remark);
-        rcs.setMeasDate(strToDate(measdate));
-        em.persist(rcs);
-        et.commit();
-
-        et.begin();
-        RcsDataAllTable rcsdataall = new RcsDataAllTable();
-        rcsdataall.setRunId(rcs);
-        rcsdataall.setAnalysisData(anadata.toString());
-        rcsdataall.setRawData(rawdata.toString());
-        em.persist(rcsdataall);
-        et.commit();
-
-        for (int i = 3; i < analysis.length - 1; i++) {
-            analysis_piece = analysis[i].split(",");
-            et.begin();
-            RcsDataTable rcsdata = new RcsDataTable();
-            rcsdata.setRunId(rcs);
-            rcsdata.setPhi(Double.parseDouble(analysis_piece[2]));
-            rcsdata.setAngle(Double.parseDouble(analysis_piece[3]));
-            rcsdata.setBnB2(Double.parseDouble(analysis_piece[4]));
-            rcsdata.setBn(Double.parseDouble(analysis_piece[5]));
-            rcsdata.setAn(Double.parseDouble(analysis_piece[6]));
-            em.persist(rcsdata);
+        try {
+            device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
+            rcs.setDeviceId(device);
+            String po = getObjectKey(meascon, "Polarity：");
+            rcs.setPolarity(po);
+            rcs.setGivenCurrent(Double.parseDouble(meascon.getString("给定电流(A):")));
+            rcs.setActualCurrent(Double.parseDouble(meascon.getString("实际电流(A):")));
+            rcs.setGain(Double.parseDouble(meascon.getString("Gain：")));
+            rcs.setStartPosition(Double.parseDouble(meascon.getString("start position：")));
+            rcs.setRotationRate(Double.parseDouble(meascon.getString("转速：")));
+            rcs.setRRef(Double.parseDouble(meascon.getString("Rref(mm)：")));
+            rcs.setDx(Double.parseDouble(meascon.getString("dx=")));
+            rcs.setDy(Double.parseDouble(meascon.getString("dy=")));
+            rcs.setDr(Double.parseDouble(meascon.getString("dr=")));
+            rcs.setMeasBy(measby);
+            rcs.setMeasAt(measat);
+            rcs.setDescription(remark);
+            rcs.setMeasDate(strToDate(measdate));
+            em.persist(rcs);
             et.commit();
-        }
-        return 1;
-        }catch(JSONException e){
-        return 0;
+
+            et.begin();
+            RcsDataAllTable rcsdataall = new RcsDataAllTable();
+            rcsdataall.setRunId(rcs);
+            rcsdataall.setAnalysisData(anadata.toString());
+            rcsdataall.setRawData(rawdata.toString());
+            em.persist(rcsdataall);
+            et.commit();
+
+            for (int i = 3; i < analysis.length - 1; i++) {
+                analysis_piece = analysis[i].split(",");
+                et.begin();
+                RcsDataTable rcsdata = new RcsDataTable();
+                rcsdata.setRunId(rcs);
+                rcsdata.setPhi(Double.parseDouble(analysis_piece[2]));
+                rcsdata.setAngle(Double.parseDouble(analysis_piece[3]));
+                rcsdata.setBnB2(Double.parseDouble(analysis_piece[4]));
+                rcsdata.setBn(Double.parseDouble(analysis_piece[5]));
+                rcsdata.setAn(Double.parseDouble(analysis_piece[6]));
+                em.persist(rcsdata);
+                et.commit();
+            }
+            return 1;
+        } catch (JSONException e) {
+            return 0;
         }
     }
-     public Integer insertHallMeas(Integer magid,  Double current, Double pressure,String measdate, String measby, String measat, String remark, ArrayList anadata, String[] analysis) {
+
+    public Integer insertHallMotiCurve(HallProbeSystemTable hall, String content, String measdata) {
+        String[] analysis;
         String[] analysis_piece;
+        analysis = measdata.split("\n");
+        try {
+            for (int i = 2; i < analysis.length - 1; i++) {
+                analysis_piece = analysis[i].split(",");
+                et.begin();
+                HallDataTable halldata = new HallDataTable();
+                halldata.setRunId(hall);
+                halldata.setCurrent(Double.parseDouble(analysis_piece[1]));
+                halldata.setB(Double.parseDouble(analysis_piece[2]));
+                em.persist(halldata);
+                et.commit();
+
+            }
+            et.begin();
+            HallDataAllTable halldataall = new HallDataAllTable();
+            halldataall.setRunId(hall);
+            halldataall.setContent(content);
+            halldataall.setAnalysisData(measdata);
+            em.persist(halldataall);
+            et.commit();
+            return 1;
+        } catch (JSONException e) {
+            return 0;
+        }
+    }
+
+    public Integer insertHallXFiled(HallProbeSystemTable hall, String content, Double current, String measdata) {
+        String[] analysis;
+        String[] analysis_piece;
+        analysis = measdata.split("\n");
+        try {
+            for (int i = 3; i < analysis.length - 1; i++) {
+                analysis_piece = analysis[i].split(",");
+                et.begin();
+                HallDataTable halldata = new HallDataTable();
+                halldata.setRunId(hall);
+                halldata.setCurrent(current);
+                halldata.setX(Double.parseDouble(analysis_piece[1]));
+                halldata.setB(Double.parseDouble(analysis_piece[2]));
+                em.persist(halldata);
+                et.commit();
+            }
+            for (int i = 3; i < analysis.length - 1; i++) {
+                analysis_piece = analysis[i].split(",");
+                et.begin();
+                HallDataTable halldata = new HallDataTable();
+                halldata.setRunId(hall);
+                halldata.setCurrent(current);
+                halldata.setY(Double.parseDouble(analysis_piece[4]));
+                halldata.setB(Double.parseDouble(analysis_piece[5]));
+                em.persist(halldata);
+                et.commit();
+            }
+            et.begin();
+            HallDataAllTable halldataall = new HallDataAllTable();
+            halldataall.setRunId(hall);
+            halldataall.setContent(content);
+            halldataall.setAnalysisData(measdata);
+            em.persist(halldataall);
+            et.commit();
+            return 1;
+        } catch (JSONException e) {
+            return 0;
+        }
+
+    }
+
+    public Integer insertHallIntegMC(HallProbeSystemTable hall, String content, String measdata) {
+        String[] analysis;
+        String[] analysis_piece;
+        analysis = measdata.split("\n");
+        try {
+            for (int i = 2; i < analysis.length - 1; i++) {
+                analysis_piece = analysis[i].split(",");
+                et.begin();
+                HallDataTable halldata = new HallDataTable();
+                halldata.setRunId(hall);
+                halldata.setX(0.0);
+                halldata.setY(0.0);
+                halldata.setCurrent(Double.parseDouble(analysis_piece[1]));
+                halldata.setGl(Double.parseDouble(analysis_piece[2]));
+                em.persist(halldata);
+                et.commit();
+
+            }
+            et.begin();
+            HallDataAllTable halldataall = new HallDataAllTable();
+            halldataall.setRunId(hall);
+            halldataall.setContent(content);
+            halldataall.setAnalysisData(measdata);
+            em.persist(halldataall);
+            et.commit();
+            return 1;
+        } catch (JSONException e) {
+            return 0;
+        }
+    }
+
+    public Integer insertHallIntegFiled(HallProbeSystemTable hall, String content, Double current, String measdata) {
+
+        String[] analysis;
+        String[] analysis_piece;
+        analysis = measdata.split("\n");
+        try {
+            for (int i = 3; i < analysis.length - 1; i++) {
+                analysis_piece = analysis[i].split(",");
+                et.begin();
+                HallDataTable halldata = new HallDataTable();
+                halldata.setRunId(hall);
+                halldata.setCurrent(current);
+                halldata.setX(Double.parseDouble(analysis_piece[1]));
+                halldata.setGl(Double.parseDouble(analysis_piece[2]));
+                em.persist(halldata);
+                et.commit();
+            }
+            for (int i = 3; i < analysis.length - 1; i++) {
+                analysis_piece = analysis[i].split(",");
+                et.begin();
+                HallDataTable halldata = new HallDataTable();
+                halldata.setRunId(hall);
+                halldata.setCurrent(current);
+                halldata.setY(Double.parseDouble(analysis_piece[4]));
+                halldata.setGl(Double.parseDouble(analysis_piece[5]));
+                em.persist(halldata);
+                et.commit();
+            }
+            et.begin();
+            HallDataAllTable halldataall = new HallDataAllTable();
+            halldataall.setRunId(hall);
+            halldataall.setContent(content);
+            halldataall.setAnalysisData(measdata);
+            em.persist(halldataall);
+            et.commit();
+            return 1;
+        } catch (JSONException e) {
+            return 0;
+        }
+
+    }
+
+    public Integer insertHallTemp(HallProbeSystemTable hall, String content, String measdata) {
+        try {
+            et.begin();
+            HallDataAllTable halldataall = new HallDataAllTable();
+            halldataall.setRunId(hall);
+            halldataall.setContent(content);
+            halldataall.setAnalysisData(measdata);
+            em.persist(halldataall);
+            et.commit();
+            return 1;
+        } catch (JSONException e) {
+            return 0;
+        }
+    }
+
+    public Integer insertHallMeas(Integer magid, Double current, Double pressure, String measdate, String measby, String measat, String remark, ArrayList sheetNames, ArrayList measdata) {
+        JSONObject jsondata;
+        jsondata = combine2Json(sheetNames, measdata);
         HallProbeSystemTable hall = new HallProbeSystemTable();
         DeviceInfoTable device;
-        try{
+        //measure condition 
         device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
         hall.setDeviceId(device);
         hall.setCurrent(current);
@@ -185,24 +359,12 @@ public class MeasureAPI {
         hall.setDescription(remark);
         em.persist(hall);
         et.commit();
-        
-        for (int i = 2; i < analysis.length - 1; i++) {
-            analysis_piece = analysis[i].split(",");
-            et.begin();
-            HallDataTable halldata=new HallDataTable();
-            halldata.setRunId(hall);
-            halldata.setCurrent(Double.parseDouble(analysis_piece[0]));
-            halldata.setB(Double.parseDouble(analysis_piece[1]));            
-            em.persist(halldata);
-            et.commit();
-        }
-        
+        insertHallMotiCurve(hall, "励磁曲线", jsondata.get("励磁曲线").toString());
+        insertHallXFiled(hall, "横向场", current, jsondata.get("横向场").toString());
+        insertHallIntegMC(hall, "积分励磁", jsondata.get("积分励磁").toString());
+        insertHallIntegFiled(hall, "积分场", current, jsondata.get("积分场").toString());
+        insertHallTemp(hall, "温度记录", jsondata.get("温度记录").toString());
         return 1;
-        }catch(JSONException e){
-        return 0;
-        }
-        
-         
-     }
-    
+    }
+
 }

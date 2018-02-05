@@ -118,14 +118,14 @@ public static Double precalc(Object obj) {
                         }
                         switch (filetype) {
                             case "sws":
-                                status=readexcel.insertSWSData(wb, sheetname.get(0).toString(), swscon_row, magid, measdate, measby, measat, remark);
+                                status=readexcel.insertSWSData(wb, sheetname, swscon_row, magid, measdate, measby, measat, remark);
                                 break;
                             case "rcs":
-                                status=readexcel.insertRCSData(wb, sheetname.get(0).toString(), rcscon_row, magid, measdate, measby, measat, remark);
+                                status=readexcel.insertRCSData(wb, sheetname, rcscon_row, magid, measdate, measby, measat, remark);
                                 break; 
                             case "hall":
                                 //System.out.println("hall"+hall_current+"---"+hall_gage);
-                                status=readexcel.insertHallData(wb, sheetname, swscon_row, magid, hall_current,hall_gage,measdate, measby, measat, remark);
+                                status=readexcel.insertHallData(wb,sheetname, swscon_row, magid, hall_current,hall_gage,measdate, measby, measat, remark);
                                 break;
                             default:
                                 break;
@@ -162,11 +162,7 @@ public static Double precalc(Object obj) {
                     } else if (item.getFieldName().equals("remark")) {
                         remark = item.getString();
                         remark = new String(remark.getBytes("ISO-8859-1"), "utf-8");
-                    }
-                   
-                             
-                     
-                    
+                    }                   
                 }
             }
             out.flush();
