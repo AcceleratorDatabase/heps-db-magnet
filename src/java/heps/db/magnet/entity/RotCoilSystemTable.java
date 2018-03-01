@@ -6,6 +6,7 @@
 package heps.db.magnet.entity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -58,14 +59,14 @@ public class RotCoilSystemTable implements Serializable {
     @Basic(optional = false)
     @Column(name = "rot_coil_run_id")
     private Integer rotCoilRunId;
-     @Size(max = 45)
+    @Size(max = 45)
     @Column(name = "polarity")
-    private String polarity;    
+    private String polarity;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "given_current")
     private Double givenCurrent;
     @Column(name = "actual_current")
-    private Double actualCurrent;   
+    private Double actualCurrent;
     @Column(name = "gain")
     private Double gain;
     @Column(name = "start_position")
@@ -79,7 +80,7 @@ public class RotCoilSystemTable implements Serializable {
     @Column(name = "dy")
     private Double dy;
     @Column(name = "dr")
-    private Double dr;    
+    private Double dr;
     @Column(name = "meas_date")
     @Temporal(TemporalType.DATE)
     private Date measDate;
@@ -121,7 +122,7 @@ public class RotCoilSystemTable implements Serializable {
 
     public void setPolarity(String polarity) {
         this.polarity = polarity;
-    }    
+    }
 
     public Double getGivenCurrent() {
         return givenCurrent;
@@ -273,9 +274,19 @@ public class RotCoilSystemTable implements Serializable {
         return true;
     }
 
+    public String DateToString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
+    }
+
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.RotCoilSystemTable[ rotCoilRunId=" + rotCoilRunId + " ]";
+        return "{\"runid\":\"" + rotCoilRunId + "\"," + "\"polarity\":\"" + polarity + "\"," + "\"givenCurrent\":\"" + givenCurrent
+                + "\"," + "\"actualCurrent\":\"" + actualCurrent + "\"," + "\"gain\":\"" + gain + "\","
+                + "\"startPosition\":\"" + startPosition + "\"," + "\"rotationRate\":\"" + rotationRate + "\"," + "\"rRef\":\"" + rRef
+                + "\"," + "\"dx\":\"" + dx + "\"," + "\"dy\":\"" + dy + "\"," + "\"dr\":\"" + dr + "\","
+                + "\"measDate\":\"" + DateToString(measDate) + "\"," + "\"measBy\":\"" + measBy + "\"," + "\"measAt\":\""
+                + measAt + "\"," + "\"description\":\"" + description + "\"}";
     }
-    
+
 }

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author qiaoys
  */
-public class DesignResult extends HttpServlet {
+public class MeasResult extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -24,7 +24,6 @@ public class DesignResult extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     *
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -36,10 +35,10 @@ public class DesignResult extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet DesignResult</title>");            
+//            out.println("<title>Servlet MagnetResult</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet DesignResult at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet MagnetResult at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -59,11 +58,10 @@ public class DesignResult extends HttpServlet {
             throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
-        String re = request.getSession().getAttribute("designvalue").toString();
-        //String type=request.getSession().getAttribute("type").toString();
+        String re1 = request.getSession().getAttribute("measvalue").toString();
         PrintWriter out = response.getWriter();
-        // System.out.println("woshiresult:"+type);
-        out.print(re);
+        //System.out.println("woshiresult:"+re1);
+        out.print(re1);
         processRequest(request, response);
     }
 
@@ -78,7 +76,6 @@ public class DesignResult extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         processRequest(request, response);
     }
 

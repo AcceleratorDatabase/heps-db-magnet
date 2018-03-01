@@ -61,6 +61,10 @@
         <servlet-class>heps.db.magnet.servlet.MagnetResult</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>MeasResult</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.MeasResult</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>CheckDesign</servlet-name>
         <servlet-class>heps.db.magnet.servlet.CheckDesign</servlet-class>
     </servlet>
@@ -83,6 +87,10 @@
     <servlet>
         <servlet-name>UpdExcel</servlet-name>
         <servlet-class>heps.db.magnet.servlet.UpdExcel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>QueryMeas</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.QueryMeas</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadFile</servlet-name>
@@ -145,6 +153,10 @@
         <url-pattern>/MagnetResult</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>MeasResult</servlet-name>
+        <url-pattern>/MeasResult</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>CheckDesign</servlet-name>
         <url-pattern>/CheckDesign</url-pattern>
     </servlet-mapping>
@@ -167,6 +179,10 @@
     <servlet-mapping>
         <servlet-name>UpdExcel</servlet-name>
         <url-pattern>/UpdExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QueryMeas</servlet-name>
+        <url-pattern>/QueryMeas</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

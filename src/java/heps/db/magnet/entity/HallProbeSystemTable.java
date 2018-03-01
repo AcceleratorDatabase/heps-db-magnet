@@ -6,6 +6,7 @@
 package heps.db.magnet.entity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -36,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "HallProbeSystemTable.findAll", query = "SELECT h FROM HallProbeSystemTable h")
     , @NamedQuery(name = "HallProbeSystemTable.findByHallProbeRunId", query = "SELECT h FROM HallProbeSystemTable h WHERE h.hallProbeRunId = :hallProbeRunId")
-    , @NamedQuery(name = "HallProbeSystemTable.findByCurrent", query = "SELECT h FROM HallProbeSystemTable h WHERE h.current = :current")
+    , @NamedQuery(name = "HallProbeSystemTable.findByMeasCurrent", query = "SELECT h FROM HallProbeSystemTable h WHERE h.measCurrent = :measCurrent")
     , @NamedQuery(name = "HallProbeSystemTable.findByWaterGage", query = "SELECT h FROM HallProbeSystemTable h WHERE h.waterGage = :waterGage")
     , @NamedQuery(name = "HallProbeSystemTable.findByMeasDate", query = "SELECT h FROM HallProbeSystemTable h WHERE h.measDate = :measDate")
     , @NamedQuery(name = "HallProbeSystemTable.findByMeasBy", query = "SELECT h FROM HallProbeSystemTable h WHERE h.measBy = :measBy")
@@ -51,8 +52,8 @@ public class HallProbeSystemTable implements Serializable {
     @Column(name = "hall_probe_run_id")
     private Integer hallProbeRunId;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "current")
-    private Double current;
+    @Column(name = "meas_current")
+    private Double measCurrent;
     @Column(name = "water_gage")
     private Double waterGage;
     @Column(name = "meas_date")
@@ -90,12 +91,12 @@ public class HallProbeSystemTable implements Serializable {
         this.hallProbeRunId = hallProbeRunId;
     }
 
-    public Double getCurrent() {
-        return current;
+    public Double getMeasCurrent() {
+        return measCurrent;
     }
 
-    public void setCurrent(Double current) {
-        this.current = current;
+    public void setMeasCurrent(Double measCurrent) {
+        this.measCurrent = measCurrent;
     }
 
     public Double getWaterGage() {
@@ -184,9 +185,16 @@ public class HallProbeSystemTable implements Serializable {
         return true;
     }
 
+    public String DateToString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
+    }
+
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.HallProbeSystemTable[ hallProbeRunId=" + hallProbeRunId + " ]";
+        return "{\"runid\":\"" + hallProbeRunId + "\"," + "\"measCurrent\":\"" + measCurrent + "\"," + "\"waterGage\":\""
+                + waterGage + "\"," + "\"measDate\":\"" + DateToString(measDate) + "\"," + "\"measBy\":\"" + measBy + "\","
+                + "\"measAt\":\"" + measAt + "\"," + "\"description\":\"" + description + "\"}";
     }
-    
-}
+
+} 

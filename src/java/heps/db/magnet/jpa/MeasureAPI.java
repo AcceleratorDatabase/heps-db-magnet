@@ -25,6 +25,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
@@ -112,7 +113,7 @@ public class MeasureAPI {
             sws.setStartEX0(Double.parseDouble(meascon.getString("起始点EX0（mm）：")));
             sws.setStartEY0(Double.parseDouble(meascon.getString("起始点EY0(mm)")));
             sws.setStrain(Double.parseDouble(meascon.getString("张力（kg）：")));
-            sws.setCurrent(Double.parseDouble(meascon.getString("I(A)")));
+            sws.setMeasCurrent(Double.parseDouble(meascon.getString("I(A)")));
             sws.setCutOffFrequency(Double.parseDouble(meascon.getString("截止频率(Hz)")));
             sws.setMeasBy(measby);
             sws.setMeasAt(measat);
@@ -132,6 +133,26 @@ public class MeasureAPI {
             return 0;
         }
     }
+
+    public String querySWSBymagid(Integer magid) {
+        DeviceInfoTable device;
+        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
+        Query query = em.createQuery("SELECT s FROM StretchedWireSystemTable s WHERE s.deviceId =:deviceId ");
+        query.setParameter("deviceId", device);
+        List<StretchedWireSystemTable> re = query.getResultList();
+        return re.toString();
+    }
+
+    public String querySWSDataByrunid(Integer runId) {
+        StretchedWireSystemTable sws;
+        sws = (StretchedWireSystemTable) em.createNamedQuery("StretchedWireSystemTable.findBySwRunId").setParameter("swRunId", runId).getSingleResult();
+        Query query = em.createQuery("SELECT s FROM SwsDataTable s WHERE s.runId =:runId ");
+        query.setParameter("runId", sws);
+        List<DeviceInfoTable> re = query.getResultList();
+        //System.out.println(re.toString());
+        return re.toString();
+    }
+    
 
     public Integer insertRCSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, List<Object> anadata, List<Object> rawdata, String[] analysis) {
         String[] analysis_piece;
@@ -184,7 +205,33 @@ public class MeasureAPI {
             return 0;
         }
     }
+public String queryRCSBymagid(Integer magid) {
+        DeviceInfoTable device;
+        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
+        Query query = em.createQuery("SELECT r FROM RotCoilSystemTable r WHERE r.deviceId =:deviceId ");
+        query.setParameter("deviceId", device);
+        List<RotCoilSystemTable> re = query.getResultList();
+        return re.toString();
+    }
 
+ public String queryRCSDataAllByrunid(Integer runId) {
+        RotCoilSystemTable rcs;
+        rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runId).getSingleResult();
+        Query query = em.createQuery("SELECT r FROM RcsDataAllTable r WHERE r.runId =:runId ");
+        query.setParameter("runId", rcs);
+        List<RcsDataAllTable> re = query.getResultList();
+        //System.out.println(re.toString());
+        return re.toString();
+    }
+ public String queryRCSDataByrunid(Integer runId) {
+        RotCoilSystemTable rcs;
+        rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runId).getSingleResult();
+        Query query = em.createQuery("SELECT s FROM RcsDataTable s WHERE s.runId =:runId ");
+        query.setParameter("runId", rcs);
+        List<RcsDataTable> re = query.getResultList();
+        //System.out.println(re.toString());
+        return re.toString();
+    }
     public Integer insertHallMotiCurve(HallProbeSystemTable hall, String content, String measdata) {
         String[] analysis;
         String[] analysis_piece;
@@ -351,7 +398,7 @@ public class MeasureAPI {
         //measure condition 
         device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
         hall.setDeviceId(device);
-        hall.setCurrent(current);
+        hall.setMeasCurrent(current);
         hall.setWaterGage(pressure);
         hall.setMeasAt(measat);
         hall.setMeasBy(measby);
@@ -366,5 +413,31 @@ public class MeasureAPI {
         insertHallTemp(hall, "温度记录", jsondata.get("温度记录").toString());
         return 1;
     }
+public String queryHallBymagid(Integer magid) {
+        DeviceInfoTable device;
+        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
+        Query query = em.createQuery("SELECT h FROM HallProbeSystemTable h WHERE h.deviceId =:deviceId ");
+        query.setParameter("deviceId", device);
+        List<HallProbeSystemTable> re = query.getResultList();
+        return re.toString();
+    }
 
+ public String queryHallDataAllByrunid(Integer runId) {
+        HallProbeSystemTable hall;
+        hall = (HallProbeSystemTable) em.createNamedQuery("HallProbeSystemTable.findByHallProbeRunId").setParameter("hallProbeRunId", runId).getSingleResult();
+        Query query = em.createQuery("SELECT h FROM HallDataAllTable h WHERE h.runId =:runId ");
+        query.setParameter("runId", hall);
+        List<HallDataAllTable> re = query.getResultList();
+        //System.out.println(re.toString());
+        return re.toString();
+    }
+// public String queryHallDataByrunid(Integer runId) {
+//        RotCoilSystemTable rcs;
+//        rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runId).getSingleResult();
+//        Query query = em.createQuery("SELECT s FROM RcsDataTable s WHERE s.runId =:runId ");
+//        query.setParameter("runId", rcs);
+//        List<DeviceInfoTable> re = query.getResultList();
+//        //System.out.println(re.toString());
+//        return re.toString();
+//    }
 }

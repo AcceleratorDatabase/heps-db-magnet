@@ -86,9 +86,9 @@ public class QueryMagnet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        Integer bydate=0;
-        Integer bytype=0;
-        Integer byfamily=0;
+        Integer bydate;
+        Integer bytype;
+        Integer byfamily;
         DeviceAPI a = new DeviceAPI();
         a.init();
         type = request.getParameter("magtype");
@@ -141,7 +141,7 @@ public class QueryMagnet extends HttpServlet {
         if(page.equals("newmeas.jsp")){
         processRequest(request, response);
         }else{
-        request.getSession().setAttribute("value", "{\"rows\":" + result + "}");
+        request.getSession().setAttribute("magvalue", "{\"rows\":" + result + "}");
         request.getSession().setAttribute("magtype", type);
         request.getSession().setAttribute("magfamily", family);
         request.getSession().setAttribute("datemin", datemin);

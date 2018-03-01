@@ -6,6 +6,7 @@
 package heps.db.magnet.entity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -43,7 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StretchedWireSystemTable.findByStartEX0", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.startEX0 = :startEX0")
     , @NamedQuery(name = "StretchedWireSystemTable.findByStartEY0", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.startEY0 = :startEY0")
     , @NamedQuery(name = "StretchedWireSystemTable.findByStrain", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.strain = :strain")
-    , @NamedQuery(name = "StretchedWireSystemTable.findByCurrent", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.current = :current")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByMeasCurrent", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.measCurrent = :measCurrent")
     , @NamedQuery(name = "StretchedWireSystemTable.findByCutOffFrequency", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.cutOffFrequency = :cutOffFrequency")
     , @NamedQuery(name = "StretchedWireSystemTable.findByMeasBy", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.measBy = :measBy")
     , @NamedQuery(name = "StretchedWireSystemTable.findByMeasDate", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.measDate = :measDate")
@@ -72,8 +73,8 @@ public class StretchedWireSystemTable implements Serializable {
     private Double startEY0;
     @Column(name = "strain")
     private Double strain;
-    @Column(name = "current")
-    private Double current;
+    @Column(name = "meas_current")
+    private Double measCurrent;
     @Column(name = "cut_off_frequency")
     private Double cutOffFrequency;
     @Size(max = 45)
@@ -165,12 +166,12 @@ public class StretchedWireSystemTable implements Serializable {
         this.strain = strain;
     }
 
-    public Double getCurrent() {
-        return current;
+    public Double getMeasCurrent() {
+        return measCurrent;
     }
 
-    public void setCurrent(Double current) {
-        this.current = current;
+    public void setMeasCurrent(Double measCurrent) {
+        this.measCurrent = measCurrent;
     }
 
     public Double getCutOffFrequency() {
@@ -249,10 +250,18 @@ public class StretchedWireSystemTable implements Serializable {
         }
         return true;
     }
-
+public String DateToString(Date date) {      
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    return sdf.format(date);
+    }
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.StretchedWireSystemTable[ swRunId=" + swRunId + " ]";
+        return "{\"runid\":\"" + swRunId + "\"," + "\"samplingRate\":\"" + samplingRate + "\"," + "\"speed\":\"" + speed
+                + "\"," + "\"acceleratedSpeed\":\"" + acceleratedSpeed + "\"," + "\"distance\":\"" + distance + "\"," 
+                + "\"startEX0\":\"" + startEX0 + "\"," + "\"startEY0\":\"" + startEY0 + "\"," + "\"strain\":\"" + strain 
+                + "\"," + "\"measCurrent\":\"" + measCurrent + "\"," + "\"cutOffFrequency\":\"" + cutOffFrequency + "\","
+                + "\"measDate\":\"" + DateToString(measDate) + "\"," + "\"measBy\":\"" + measBy + "\"," + "\"measAt\":\"" 
+                + measAt + "\"," + "\"description\":\"" + description + "\"}";
     }
     
 }

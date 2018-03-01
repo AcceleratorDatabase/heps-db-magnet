@@ -5,18 +5,21 @@
  */
 package heps.db.magnet.servlet;
 
+import heps.db.magnet.jpa.MeasureAPI;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  *
  * @author qiaoys
  */
-public class DesignResult extends HttpServlet {
+public class QueryMeas extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -24,10 +27,10 @@ public class DesignResult extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     *
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private String result = null;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -36,10 +39,10 @@ public class DesignResult extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet DesignResult</title>");            
+//            out.println("<title>Servlet QueryMeas</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet DesignResult at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet QueryMeas at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -57,14 +60,45 @@ public class DesignResult extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json;charset=utf-8");
-        String re = request.getSession().getAttribute("designvalue").toString();
-        //String type=request.getSession().getAttribute("type").toString();
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        // System.out.println("woshiresult:"+type);
-        out.print(re);
-        processRequest(request, response);
+     
+        JSONArray re;        
+        Integer magId = Integer.parseInt(request.getParameter("magId"));
+        String filetype = request.getParameter("filetype");
+        MeasureAPI m = new MeasureAPI();
+        m.init();
+        //System.out.println("id:"+magId+"filetype:"+filetype);
+        switch (filetype) {
+            case "sws":
+                result = m.querySWSBymagid(magId);
+//                re = JSONArray.fromObject(result);               
+//                for (int i = 0; i < re.size(); i++) {
+//                   out.print(re.getJSONObject(i));                                    
+//                }
+                break;
+            case "rcs":
+                result=m.queryRCSBymagid(magId);
+//                re = JSONArray.fromObject(result);               
+//                for (int i = 0; i < re.size(); i++) {
+//                   out.print(re.getJSONObject(i).toString());                                    
+//               }
+                break;
+            case "hall":
+               result=m.queryHallBymagid(magId);
+//               re = JSONArray.fromObject(result);               
+//                for (int i = 0; i < re.size(); i++) {
+//                   out.print(re.getJSONObject(i).toString());                                    
+//               }
+                break;
+        }
+        m.destroy();
+        request.getSession().setAttribute("measvalue", "{\"rows\":" + result + "}");
+        //System.out.println(result);
+        request.getSession().setAttribute("filetype", filetype);
+        request.getRequestDispatcher("measresult.jsp").forward(request, response);
+//processRequest(request, response);
     }
 
     /**
@@ -78,7 +112,6 @@ public class DesignResult extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         processRequest(request, response);
     }
 

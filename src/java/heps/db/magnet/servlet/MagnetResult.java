@@ -58,9 +58,9 @@ public class MagnetResult extends HttpServlet {
             throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
-        String re = request.getSession().getAttribute("value").toString();
+        String re = request.getSession().getAttribute("magvalue").toString();
         PrintWriter out = response.getWriter();
-        // System.out.println("woshiresult:"+type);
+         //System.out.println("woshiresult:"+re);
         out.print(re);
         processRequest(request, response);
     }

@@ -54,10 +54,10 @@
                 });
             };
         </script>
-        <title>查询-磁铁信息</title>
+        <title>查询-磁铁信息及磁测数据</title>
     </head>
     <body>
-        <h2 >查询磁铁信息</h2>
+        <h2 >查询磁铁信息及磁测数据</h2>
         <div class="easyui-panel" style="height:820px;padding:10px 60px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1300px;margin:0 auto;font-size:14px;">
                 <form action="QueryMagnet" method="post" target="" onsubmit="return submitform();">

@@ -192,7 +192,7 @@ public class QueryDesign extends HttpServlet {
         // System.out.println(result);
         // System.out.println(a.queryDesignByTypeFamily(type,family));
         //System.out.println("{\"rows\":"+a.queryDesignByType(type)+"}");            
-        request.getSession().setAttribute("value", "{\"rows\":" + result + "}");
+        request.getSession().setAttribute("designvalue", "{\"rows\":" + result + "}");
         request.getSession().setAttribute("magtype", type);
         request.getSession().setAttribute("magfamily", family);
         request.getSession().setAttribute("lengthmin", lengthmin);
