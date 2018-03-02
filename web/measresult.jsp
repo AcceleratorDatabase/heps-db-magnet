@@ -16,25 +16,21 @@
         <script type="text/javascript">
             <%
                 String filetype = (String) session.getAttribute("filetype");
-               
             %>
             var ff = "<%=filetype%>";
-          
             window.onload = function () {
                 switch (ff) {
-                    case "sws":                       
-                       
-                         $("#div-rcs").hide();
-                        $("#div-hall").hide();
-
+                    case "sws":
+                        $("#div-sws").show();
+                        $("#dg1").datagrid("resize");
                         break;
                     case "rcs":
-                         $("#div-sws").hide();
-                        $("#div-hall").hide();
+                        $("#div-rcs").show();
+                        $("#dg2").datagrid("resize");
                         break;
                     case "hall":
-                         $("#div-sws").hide();
-                        $("#div-rcs").hide();
+                        $("#div-hall").show();
+                        $("#dg3").datagrid("resize");
                         break;
                 }
             };
@@ -43,69 +39,105 @@
     </head>
     <body>
         <h2 >磁测数据</h2>
-        <div class="easyui-panel" style="width: 1200px;height:820px;padding:10px 60px;">
-            <div id="div-sws" style="width: 900px; ">
-                sws
-                <table id="dg1" class="easyui-datagrid" title="查询结果"  data-options="singleSelect:true, 
-                           rownumbers: true,
-                           dataType:'json', 
-                            toolbar:toolbar,
-                          url:'MeasResult',
-                           method: 'get'
-                           ">  
+        <div class="easyui-panel" style="height:820px;padding:10px 10px;text-align: center">
+            <div id="div-sws" style="display: none;">                
+                <table id="dg1" class="easyui-datagrid"   title="查询结果"  data-options="singleSelect:true,                            
+                       rownumbers: true,
+                       dataType:'json', 
+                       toolbar:toolbar,
+                       url:'MeasResult',                          
+                       method: 'get'
+                       ">  
                     <thead>
-                            <tr>
-                                <th data-options="field:'runid',width:30">ID</th>
-                                <th data-options="field:'samplingRate',width:50">名称</th>
-                                <th data-options="field:'speed',width:50">磁铁设计</th>                
-                                <th data-options="field:'acceleratedSpeed',width:50">磁铁重量[Kg]</th>
-                                <th data-options="field:'distance',width:50">生产序号</th>
-                                <th data-options="field:'startEY0',width:50">生产日期</th>                
-                                <th data-options="field:'startEY0',width:50">设计单位</th>
-                                <th data-options="field:'strain',width:50">制造单位</th>
-                                <th data-options="field:'measCurrent',width:98">备注</th> 
-                                <th data-options="field:'cutOffFrequency',width:50">生产日期1</th>                
-                                <th data-options="field:'measDate',width:50">设计单位1</th>
-                                <th data-options="field:'measBy',width:50">制造单位1</th>
-                                <th data-options="field:'measAt',width:98">备注1</th> 
-                                 <th data-options="field:'description',width:98">备注2</th> 
-                            </tr>
-                        </thead>
-                </table>
-                
+                        <tr>
+                            <th data-options="field:'runid',width:80">测试序号</th>
+                            <th data-options="field:'samplingRate',width:80">采样率[Hz]</th>
+                            <th data-options="field:'speed',width:100">移动速度[m/s]</th>                
+                            <th data-options="field:'acceleratedSpeed',width:100">a加速度[m/s2]</th>
+                            <th data-options="field:'distance',width:100">移动距离[mm]</th>
+                            <th data-options="field:'startEY0',width:100">起始点EX0[mm]</th>                
+                            <th data-options="field:'startEY0',width:100">起始点EY0[mm]</th>
+                            <th data-options="field:'strain',width:80">张力[kg]</th>
+                            <th data-options="field:'measCurrent',width:80">I[A]</th> 
+                            <th data-options="field:'cutOffFrequency',width:100">截止频率[Hz]</th>                
+                            <th data-options="field:'measDate',width:80">测试时间</th>
+                            <th data-options="field:'measBy',width:80">测试人</th>
+                            <th data-options="field:'measAt',width:80">测试地点</th> 
+                            <th data-options="field:'description',width:80">备注</th> 
+                        </tr>
+                    </thead>
+                </table>                
             </div>
-            <div id="div-rcs"  style="">
-                rcs
-                <table id="dg" class="easyui-datagrid">
-                    
+            <div id="div-rcs" style="display: none;" >
+                <table id="dg2" class="easyui-datagrid" title="查询结果"  data-options="singleSelect:true, 
+                       rownumbers: true,
+                       dataType:'json', 
+                       toolbar:toolbar,
+                       url:'MeasResult',
+                       method: 'get'
+                       ">  
+                    <thead>
+                        <tr>
+                            <th data-options="field:'runid',width:80">测试序号</th>
+                            <th data-options="field:'polarity',width:80">极性</th>
+                            <th data-options="field:'givenCurrent',width:80">给定电流A</th>                
+                            <th data-options="field:'actualCurrent',width:80">实际电流[A]</th>                                
+                            <th data-options="field:'gain',width:80">Gain</th>                
+                            <th data-options="field:'startPosition',width:80">起始点</th>
+                            <th data-options="field:'rotationRate',width:80">转速</th>
+                            <th data-options="field:'rRef',width:80">Rref[mm]</th> 
+                            <th data-options="field:'dx',width:80">dx[mm]</th>                
+                            <th data-options="field:'dy',width:80">dy[mm]</th>
+                            <th data-options="field:'dr',width:80">dr[mm]</th>
+                            <th data-options="field:'measDate',width:80">测试时间</th>
+                            <th data-options="field:'measBy',width:80">测试人</th>
+                            <th data-options="field:'measAt',width:80">测试地点</th> 
+                            <th data-options="field:'description',width:80">备注</th> 
+                        </tr>
+                    </thead>
                 </table>
             </div>
-            <div id="div-hall" style=" ">
-                hall
-                <table id="dg" class="easyui-datagrid">
-                    
+            <div id="div-hall" style="display: none;">              
+                <table id="dg3" class="easyui-datagrid" title="查询结果"  data-options="singleSelect:true, 
+                       rownumbers: true,
+                       dataType:'json', 
+                       toolbar:toolbar,
+                       url:'MeasResult',
+                       method: 'get'
+                       ">  
+                    <thead>
+                        <tr>
+                            <th data-options="field:'runid',width:80">测试序号</th>
+                            <th data-options="field:'measCurrent',width:100">测试电流[A]</th>
+                            <th data-options="field:'waterGage',width:100">测试水压[MPa]</th> 
+                            <th data-options="field:'measDate',width:80">测试时间</th>
+                            <th data-options="field:'measBy',width:80">测试人</th>
+                            <th data-options="field:'measAt',width:80">测试地点</th> 
+                            <th data-options="field:'description',width:80">备注</th> 
+                        </tr>
+                    </thead>
                 </table>
             </div>
         </div>
         <script type="text/javascript">
-             var toolbar = [{
-                    text: '下载机械设计图纸',
-                    iconCls: 'icon-download',
+            var toolbar = [{
+                    text: '查看原始数据',
+                    iconCls: 'icon-database',
                     handler: function () {
                         var row = $('#dg').datagrid('getSelected');
                         if (row) {
-                            location.href = 'DownloadFile?designId=' + row.designid + '&filetype=m';
+                            location.href = 'LoadRawData?designId=' + row.runid ;
                         } else {
                             alert("请选择一条记录");
                         }
                     }
                 }, {
-                    text: '下载物理设计图纸',
-                    iconCls: 'icon-download',
+                    text: '查看处理数据',
+                    iconCls: 'icon-calculate',
                     handler: function () {
                         var row = $('#dg').datagrid('getSelected');
                         if (row) {
-                            location.href = 'DownloadFile?designId=' + row.designid + '&filetype=p';
+                            location.href = 'DownloadFile?designId=' + row.runid + '&filetype=p';
                         } else {
                             alert("请选择一条记录");
                         }

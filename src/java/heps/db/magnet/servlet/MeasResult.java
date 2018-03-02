@@ -60,7 +60,7 @@ public class MeasResult extends HttpServlet {
         response.setContentType("application/json;charset=utf-8");
         String re1 = request.getSession().getAttribute("measvalue").toString();
         PrintWriter out = response.getWriter();
-        //System.out.println("woshiresult:"+re1);
+        System.out.println("woshiresult:"+re1);
         out.print(re1);
         processRequest(request, response);
     }

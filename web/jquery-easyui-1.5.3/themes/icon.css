@@ -67,6 +67,12 @@
 .icon-more{
 	background:url('icons/more.png') no-repeat center center;
 }
+.icon-calculate{
+	background:url('icons/calculate.png') no-repeat center center;
+}
+.icon-database{
+	background:url('icons/database.png') no-repeat center center;
+}
 .icon-download{
 	background:url('icons/download.png') no-repeat center center;
 }
