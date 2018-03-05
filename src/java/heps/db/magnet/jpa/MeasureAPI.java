@@ -143,10 +143,10 @@ public class MeasureAPI {
         return re.toString();
     }
 
-    public String querySWSDataByrunid(Integer runId) {
+    public String querySWSRawDataByrunid(Integer runid) {
         StretchedWireSystemTable sws;
-        sws = (StretchedWireSystemTable) em.createNamedQuery("StretchedWireSystemTable.findBySwRunId").setParameter("swRunId", runId).getSingleResult();
-        Query query = em.createQuery("SELECT s FROM SwsDataTable s WHERE s.runId =:runId ");
+        sws = (StretchedWireSystemTable) em.createNamedQuery("StretchedWireSystemTable.findBySwRunId").setParameter("swRunId", runid).getSingleResult();
+        Query query = em.createQuery("SELECT s.rawData FROM SwsDataTable s WHERE s.runId =:runId ");
         query.setParameter("runId", sws);
         List<DeviceInfoTable> re = query.getResultList();
         //System.out.println(re.toString());
@@ -214,19 +214,19 @@ public String queryRCSBymagid(Integer magid) {
         return re.toString();
     }
 
- public String queryRCSDataAllByrunid(Integer runId) {
+ public String queryRCSDataAllByrunid(Integer runid) {
         RotCoilSystemTable rcs;
-        rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runId).getSingleResult();
+        rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runid).getSingleResult();
         Query query = em.createQuery("SELECT r FROM RcsDataAllTable r WHERE r.runId =:runId ");
         query.setParameter("runId", rcs);
         List<RcsDataAllTable> re = query.getResultList();
         //System.out.println(re.toString());
         return re.toString();
     }
- public String queryRCSDataByrunid(Integer runId) {
+ public String queryRCSDataByrunid(Integer runid) {
         RotCoilSystemTable rcs;
-        rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runId).getSingleResult();
-        Query query = em.createQuery("SELECT s FROM RcsDataTable s WHERE s.runId =:runId ");
+        rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runid).getSingleResult();
+        Query query = em.createQuery("SELECT r FROM RcsDataTable r WHERE r.runId =:runId ");
         query.setParameter("runId", rcs);
         List<RcsDataTable> re = query.getResultList();
         //System.out.println(re.toString());
@@ -235,7 +235,7 @@ public String queryRCSBymagid(Integer magid) {
     public Integer insertHallMotiCurve(HallProbeSystemTable hall, String content, String measdata) {
         String[] analysis;
         String[] analysis_piece;
-        analysis = measdata.split("\n");
+        analysis = measdata.split(";");
         try {
             for (int i = 2; i < analysis.length - 1; i++) {
                 analysis_piece = analysis[i].split(",");
@@ -264,7 +264,7 @@ public String queryRCSBymagid(Integer magid) {
     public Integer insertHallXFiled(HallProbeSystemTable hall, String content, Double current, String measdata) {
         String[] analysis;
         String[] analysis_piece;
-        analysis = measdata.split("\n");
+        analysis = measdata.split(";");
         try {
             for (int i = 3; i < analysis.length - 1; i++) {
                 analysis_piece = analysis[i].split(",");
@@ -305,7 +305,7 @@ public String queryRCSBymagid(Integer magid) {
     public Integer insertHallIntegMC(HallProbeSystemTable hall, String content, String measdata) {
         String[] analysis;
         String[] analysis_piece;
-        analysis = measdata.split("\n");
+        analysis = measdata.split(";");
         try {
             for (int i = 2; i < analysis.length - 1; i++) {
                 analysis_piece = analysis[i].split(",");
@@ -337,7 +337,7 @@ public String queryRCSBymagid(Integer magid) {
 
         String[] analysis;
         String[] analysis_piece;
-        analysis = measdata.split("\n");
+        analysis = measdata.split(";");
         try {
             for (int i = 3; i < analysis.length - 1; i++) {
                 analysis_piece = analysis[i].split(",");
@@ -422,9 +422,9 @@ public String queryHallBymagid(Integer magid) {
         return re.toString();
     }
 
- public String queryHallDataAllByrunid(Integer runId) {
+ public String queryHallDataAllByrunid(Integer runid) {
         HallProbeSystemTable hall;
-        hall = (HallProbeSystemTable) em.createNamedQuery("HallProbeSystemTable.findByHallProbeRunId").setParameter("hallProbeRunId", runId).getSingleResult();
+        hall = (HallProbeSystemTable) em.createNamedQuery("HallProbeSystemTable.findByHallProbeRunId").setParameter("hallProbeRunId", runid).getSingleResult();
         Query query = em.createQuery("SELECT h FROM HallDataAllTable h WHERE h.runId =:runId ");
         query.setParameter("runId", hall);
         List<HallDataAllTable> re = query.getResultList();

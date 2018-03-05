@@ -75,7 +75,7 @@ public class QueryMeas extends HttpServlet {
                 result = m.querySWSBymagid(magId);
 //                re = JSONArray.fromObject(result);               
 //                for (int i = 0; i < re.size(); i++) {
-//                   out.print(re.getJSONObject(i));                                    
+//                   System.out.print(re.getJSONObject(i));                                    
 //                }
                 break;
             case "rcs":

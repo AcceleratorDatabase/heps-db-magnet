@@ -5,18 +5,28 @@
  */
 package heps.db.magnet.servlet;
 
+import heps.db.magnet.jpa.MeasureAPI;
+import heps.db.magnet.tools.ToTXT;
+import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.filechooser.FileSystemView;
+import net.sf.json.JSONArray;
 
 /**
  *
  * @author qiaoys
  */
-public class MeasResult extends HttpServlet {
+public class LoadRawData extends HttpServlet {
+
+    String result;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +45,10 @@ public class MeasResult extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet MagnetResult</title>");            
+//            out.println("<title>Servlet LoadRawData</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet MagnetResult at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet LoadRawData at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -56,12 +66,36 @@ public class MeasResult extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json;charset=utf-8");
-        String re1 = request.getSession().getAttribute("measvalue").toString();
-        PrintWriter out = response.getWriter();
-        //System.out.println("woshiresult:"+re1);
-        out.print(re1);
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        
+        Integer runid = Integer.parseInt(request.getParameter("runid"));
+        String filetype = request.getParameter("filetype");
+        JSONArray re;
+        String status = null;
+        String filename="data";
+        //out.println("runid:"+runid+"file:"+filetype);
+        MeasureAPI m = new MeasureAPI();
+        m.init();
+        switch (filetype) {
+            case "sws":
+                result = m.querySWSRawDataByrunid(runid);
+                ToTXT t = new ToTXT();
+                File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
+                String desktopPath = desktopDir.getAbsolutePath();
+                status = t.writeTxt("E:/rawdata.txt", result.replaceAll("(?:\\[| )", "").replaceAll(",;,", "\n"));
+
+                break;
+            case "rcs":
+                //result = m.queryRCSDataByrunid(runid);
+                break;
+            case "hall":
+                //result = m.queryHallBymagid(runid);
+
+                break;
+        }
+        m.destroy();
+        // out.print(status);
         processRequest(request, response);
     }
 
@@ -76,6 +110,7 @@ public class MeasResult extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         processRequest(request, response);
     }
 

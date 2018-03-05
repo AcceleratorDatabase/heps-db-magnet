@@ -22,15 +22,15 @@
                 switch (ff) {
                     case "sws":
                         $("#div-sws").show();
-                        $("#dg1").datagrid("resize");
+                        $("#sws").datagrid("resize");
                         break;
                     case "rcs":
                         $("#div-rcs").show();
-                        $("#dg2").datagrid("resize");
+                        $("#rcs").datagrid("resize");
                         break;
                     case "hall":
                         $("#div-hall").show();
-                        $("#dg3").datagrid("resize");
+                        $("#hall").datagrid("resize");
                         break;
                 }
             };
@@ -41,7 +41,7 @@
         <h2 >磁测数据</h2>
         <div class="easyui-panel" style="height:820px;padding:10px 10px;text-align: center">
             <div id="div-sws" style="display: none;">                
-                <table id="dg1" class="easyui-datagrid"   title="查询结果"  data-options="singleSelect:true,                            
+                <table id="sws" class="easyui-datagrid"   title="查询结果"  data-options="singleSelect:true,                            
                        rownumbers: true,
                        dataType:'json', 
                        toolbar:toolbar,
@@ -69,7 +69,7 @@
                 </table>                
             </div>
             <div id="div-rcs" style="display: none;" >
-                <table id="dg2" class="easyui-datagrid" title="查询结果"  data-options="singleSelect:true, 
+                <table id="rcs" class="easyui-datagrid" title="查询结果"  data-options="singleSelect:true, 
                        rownumbers: true,
                        dataType:'json', 
                        toolbar:toolbar,
@@ -98,7 +98,7 @@
                 </table>
             </div>
             <div id="div-hall" style="display: none;">              
-                <table id="dg3" class="easyui-datagrid" title="查询结果"  data-options="singleSelect:true, 
+                <table id="hall" class="easyui-datagrid" title="查询结果"  data-options="singleSelect:true, 
                        rownumbers: true,
                        dataType:'json', 
                        toolbar:toolbar,
@@ -118,15 +118,44 @@
                     </thead>
                 </table>
             </div>
+            <div id="rcsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;text-align: center" data-options="iconCls:'icon-calculate',closed: true,resizable:true">       
+                <table id="rcsdata" class="easyui-datagrid" title="处理数据" data-options="singleSelect:true,rownumbers: true">  
+                    <thead>
+                        <tr>                            
+                            <th data-options="field:'phi',width:80">phi</th>
+                            <th data-options="field:'angle',width:80">angle</th> 
+                            <th data-options="field:'bnb2',width:80">bnb2</th>
+                            <th data-options="field:'bn',width:80">bn</th>
+                            <th data-options="field:'an',width:80">an</th>                             
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+           
         </div>
         <script type="text/javascript">
+
             var toolbar = [{
-                    text: '查看原始数据',
+                    text: '导出原始数据',
                     iconCls: 'icon-database',
                     handler: function () {
-                        var row = $('#dg').datagrid('getSelected');
+                        var dg = document.getElementById(ff); //DOM Object 
+                        var $dg = $(dg);//JQuery Object                        
+                        var row = $dg.datagrid('getSelected');
                         if (row) {
-                            location.href = 'LoadRawData?designId=' + row.runid ;
+                            location.href = 'LoadRawData?runid=' + row.runid + '&filetype=' + ff;
+//                           $.ajax({
+//                                type: 'POST',
+//                                url: 'LoadRawData',
+//                                data: "runid=" + row.runid + "&filetype=" + ff,
+//                                success: function (data) {
+//                                    if (data === "[]") {
+//                                        alert("没有相关数据");
+//                                    } else {
+//                                       alert(data);
+//                                    }
+//                                }
+//                            });
                         } else {
                             alert("请选择一条记录");
                         }
@@ -135,9 +164,32 @@
                     text: '查看处理数据',
                     iconCls: 'icon-calculate',
                     handler: function () {
-                        var row = $('#dg').datagrid('getSelected');
+                        var dg = document.getElementById(ff); //DOM Object 
+                        var $dg = $(dg);//JQuery Object    
+                        var datadg_name = ff + "data";
+                        var datadg = document.getElementById(datadg_name);
+                        var $datadg = $(datadg);
+                        var dlg_name = ff + "dlg";
+                        var dlg = document.getElementById(dlg_name);
+                        var $dlg = $(dlg);
+                        var row = $dg.datagrid('getSelected');
                         if (row) {
-                            location.href = 'DownloadFile?designId=' + row.runid + '&filetype=p';
+                            //location.href = 'LoadData?runid=' + row.runid + '&filetype=' + ff;
+                            $.ajax({
+                                type: 'POST',
+                                url: 'LoadData',
+                                data: "runid=" + row.runid + "&filetype=" + ff,
+                                success: function (data) {
+                                    if (data === "[]") {
+                                        alert("没有相关数据");
+                                    } else {
+                                        var str = '{"rows":' + data + '}';
+                                        var s = $.parseJSON(str);
+                                        $datadg.datagrid('loadData', s);
+                                        $dlg.dialog('open');
+                                    }
+                                }
+                            });
                         } else {
                             alert("请选择一条记录");
                         }

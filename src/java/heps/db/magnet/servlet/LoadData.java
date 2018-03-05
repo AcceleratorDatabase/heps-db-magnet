@@ -5,6 +5,7 @@
  */
 package heps.db.magnet.servlet;
 
+import heps.db.magnet.jpa.MeasureAPI;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -16,7 +17,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author qiaoys
  */
-public class MeasResult extends HttpServlet {
+public class LoadData extends HttpServlet {
+
+    String result = null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +38,10 @@ public class MeasResult extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet MagnetResult</title>");            
+//            out.println("<title>Servlet LoadData</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet MagnetResult at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet LoadData at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -56,12 +59,7 @@ public class MeasResult extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json;charset=utf-8");
-        String re1 = request.getSession().getAttribute("measvalue").toString();
-        PrintWriter out = response.getWriter();
-        //System.out.println("woshiresult:"+re1);
-        out.print(re1);
+
         processRequest(request, response);
     }
 
@@ -76,6 +74,29 @@ public class MeasResult extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        Integer runid = Integer.parseInt(request.getParameter("runid"));
+        String filetype = request.getParameter("filetype");
+        //out.println("runid:"+runid+"file:"+filetype);
+         MeasureAPI m = new MeasureAPI();
+        m.init();
+        switch (filetype) {
+            case "sws":
+                result = "[]";
+                break;
+            case "rcs":
+                result = m.queryRCSDataByrunid(runid);
+//System.out.println(result);
+                break;
+            case "hall":
+                //result = m.queryHallBymagid(runid);
+
+                break;
+        }
+        m.destroy();
+        out.print(result);
         processRequest(request, response);
     }
 

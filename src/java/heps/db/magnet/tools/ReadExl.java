@@ -128,7 +128,7 @@ public static String getCellValueFormula(Cell cell, FormulaEvaluator formulaEval
                         }
                     }
                 }
-                sws_con.add("\n");
+                sws_con.add(";");
             }
         }
         return sws_con;
@@ -170,7 +170,7 @@ public static String getCellValueFormula(Cell cell, FormulaEvaluator formulaEval
                             }
                         }
                     }
-                    sws_con.add("\n");
+                    sws_con.add(";");
                 }
             }
             sws_con.add("//");
@@ -205,7 +205,7 @@ public static String getCellValueFormula(Cell cell, FormulaEvaluator formulaEval
         if(measdata.contains("原始数据")){
         splitIndex=measdata.indexOf("原始数据"); 
         measanadata= measdata.subList(0, splitIndex);
-        analysis=measanadata.toString().split("\n");
+        analysis=measanadata.toString().split(";");
         measrawdata= measdata.subList(splitIndex+1,measdata.size() );
         status=m.insertRCSMeas(meascon, magid, measdate, measby, measat, remark, measanadata,measrawdata,analysis);
         m.destroy();
