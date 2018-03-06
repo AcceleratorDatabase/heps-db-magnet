@@ -86,6 +86,7 @@
                                 success: function (data, textStatus) {
                                     if (data['result'] === 'OK') {
                                         alert('上传文件成功');
+                                        document.location.reload();
                                     } else {
                                         alert(data['result']);
                                     }
@@ -158,6 +159,9 @@
             <div style="margin:5px 0;"></div>
             <a href="#" class="easyui-linkbutton" onclick="setMagnet()" data-options="iconCls:'icon-save'">Save</a>
         </div>
+        <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
+                <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
+         </div>
 <!--        <div id="dlg1" class="easyui-dialog" title="录入霍尔元件测磁测试条件"  style="text-align: center;width:440px;height:500px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
             <table id="hall_con1" name="hall_con1" class="easyui-propertygrid" style="width:400px" data-options="
                                    method: 'get',

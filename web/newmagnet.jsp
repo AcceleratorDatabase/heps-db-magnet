@@ -313,9 +313,9 @@
                     success: function (data) {
                         //alert(data);
                         var str = '{"rows":' + data + '}';
-                        var s = $.parseJSON(str);
-                        $('#dg').datagrid('loadData', s);
+                        var s = $.parseJSON(str);                        
                         $('#dlg1').dialog('open');
+                        $('#dg').datagrid('loadData', s);
 //                        $('#maginfo').datagrid('updateRow', {
 //                            index: 6,
 //                            row: {
@@ -349,9 +349,9 @@
                                 data: "designId=" + row.designid,
                                 success: function (data) {
                                     var str = '{"total":2,"rows":' + data + '}';
-                                    var s = $.parseJSON(str);
-                                    $('#dg_other').datagrid('loadData', s);
+                                    var s = $.parseJSON(str);                                   
                                     $('#dlg2').dialog('open');
+                                     $('#dg_other').datagrid('loadData', s);
                                     //$('#dlg').dialog('refresh', 'editdesign.jsp');                                   
                                 }
                             });

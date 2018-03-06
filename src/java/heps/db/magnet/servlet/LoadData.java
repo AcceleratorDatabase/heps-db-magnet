@@ -88,11 +88,10 @@ public class LoadData extends HttpServlet {
                 break;
             case "rcs":
                 result = m.queryRCSDataByrunid(runid);
-//System.out.println(result);
                 break;
             case "hall":
-                //result = m.queryHallBymagid(runid);
-
+                result = m.queryHallMotiCurveByrunid(runid);
+                result+=";"+m.queryHallXFiled(runid);
                 break;
         }
         m.destroy();

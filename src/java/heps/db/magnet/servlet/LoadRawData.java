@@ -9,9 +9,11 @@ import heps.db.magnet.jpa.MeasureAPI;
 import heps.db.magnet.tools.ToTXT;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -25,8 +27,6 @@ import net.sf.json.JSONArray;
  * @author qiaoys
  */
 public class LoadRawData extends HttpServlet {
-
-    String result;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -68,32 +68,43 @@ public class LoadRawData extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        
         Integer runid = Integer.parseInt(request.getParameter("runid"));
         String filetype = request.getParameter("filetype");
-        JSONArray re;
+        String content = null;
         String status = null;
-        String filename="data";
+        String filename = runid + ".txt";
+        String filepath = "E:/rawdata/";
         //out.println("runid:"+runid+"file:"+filetype);
         MeasureAPI m = new MeasureAPI();
         m.init();
         switch (filetype) {
             case "sws":
-                result = m.querySWSRawDataByrunid(runid);
-                ToTXT t = new ToTXT();
-                File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
-                String desktopPath = desktopDir.getAbsolutePath();
-                status = t.writeTxt("E:/rawdata.txt", result.replaceAll("(?:\\[| )", "").replaceAll(",;,", "\n"));
-
+                content = m.querySWSRawDataByrunid(runid);
                 break;
             case "rcs":
-                //result = m.queryRCSDataByrunid(runid);
+                content = m.queryRCSRawDataByrunid(runid);
                 break;
             case "hall":
-                //result = m.queryHallBymagid(runid);
-
+                content = m.queryHallRawDataByrunid(runid);
                 break;
         }
+        File f = new File(filepath + filename);
+        if (!f.exists()) {
+            ToTXT t = new ToTXT();
+           status = t.writeTxt(filepath + runid + ".txt", content.replaceAll("(?:\\[| )", "").replaceAll(",;,", "\n"));
+        }
+        FileInputStream fis = new FileInputStream(f);
+        filename = URLEncoder.encode(f.getName(), "utf-8"); //解决中文文件名下载后乱码的问题  
+        byte[] b = new byte[fis.available()];
+        fis.read(b);
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("Content-Disposition", "attachment; filename=" + filename + "");
+        //获取响应报文输出流对象  
+        ServletOutputStream out = response.getOutputStream();
+        //输出  
+        out.write(b);
+        out.flush();
+        out.close();
         m.destroy();
         // out.print(status);
         processRequest(request, response);

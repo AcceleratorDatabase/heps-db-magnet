@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "HallDataTable.findAll", query = "SELECT h FROM HallDataTable h")
     , @NamedQuery(name = "HallDataTable.findByDataId", query = "SELECT h FROM HallDataTable h WHERE h.dataId = :dataId")
-    , @NamedQuery(name = "HallDataTable.findByCurrent", query = "SELECT h FROM HallDataTable h WHERE h.current = :current")
+    , @NamedQuery(name = "HallDataTable.findByCur", query = "SELECT h FROM HallDataTable h WHERE h.cur = :cur")
     , @NamedQuery(name = "HallDataTable.findByX", query = "SELECT h FROM HallDataTable h WHERE h.x = :x")
     , @NamedQuery(name = "HallDataTable.findByY", query = "SELECT h FROM HallDataTable h WHERE h.y = :y")
     , @NamedQuery(name = "HallDataTable.findByGl", query = "SELECT h FROM HallDataTable h WHERE h.gl = :gl")
@@ -43,8 +43,8 @@ public class HallDataTable implements Serializable {
     @Column(name = "data_id")
     private Integer dataId;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "current")
-    private Double current;
+    @Column(name = "cur")
+    private Double cur;
     @Column(name = "x")
     private Double x;
     @Column(name = "y")
@@ -72,12 +72,12 @@ public class HallDataTable implements Serializable {
         this.dataId = dataId;
     }
 
-    public Double getCurrent() {
-        return current;
+    public Double getCur() {
+        return cur;
     }
 
-    public void setCurrent(Double current) {
-        this.current = current;
+    public void setCur(Double cur) {
+        this.cur = cur;
     }
 
     public Double getX() {
@@ -142,7 +142,8 @@ public class HallDataTable implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.magnet.entity.HallDataTable[ dataId=" + dataId + " ]";
+        return "{\"dataId\":\"" + dataId + "\"," + "\"cur\":\"" + cur + "\"," + "\"x\":\"" + x
+                + "\"," + "\"y\":\"" + y + "\"," + "\"gl\":\"" + gl + "\"," + "\"b\":\"" + b +"\"}";
     }
     
 }

@@ -119,7 +119,7 @@
                 </table>
             </div>
             <div id="rcsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;text-align: center" data-options="iconCls:'icon-calculate',closed: true,resizable:true">       
-                <table id="rcsdata" class="easyui-datagrid" title="处理数据" data-options="singleSelect:true,rownumbers: true">  
+                <table id="rcsdata" class="easyui-datagrid"  data-options="singleSelect:true,rownumbers: true">  
                     <thead>
                         <tr>                            
                             <th data-options="field:'phi',width:80">phi</th>
@@ -131,7 +131,32 @@
                     </thead>
                 </table>
             </div>
-           
+            <div id="halldlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;text-align: center" data-options="iconCls:'icon-calculate',closed: true,resizable:true">   
+                <div  id="tab" class="easyui-tabs"   data-options="tabPosition:'top',tabWidth:100,tabHeight:30,border:false" >
+                    <div id="tab0" title="励磁曲线"  style="  padding:10px ">
+                        <table id="halldata0" class="easyui-datagrid"  data-options="singleSelect:true,rownumbers: true">  
+                            <thead>
+                                <tr>                            
+                                    <th data-options="field:'cur',width:80">I(S)</th>
+                                    <th data-options="field:'b',width:80">B(Gs)</th>                                                             
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div id="tab2" title="横向场"  style="padding:10px ">
+                        <table id="halldata1" class="easyui-datagrid" data-options="singleSelect:true,rownumbers: true">  
+                            <thead>
+                                <tr>                            
+                                    <th data-options="field:'x',width:80">X(mm)</th>
+                                    <th data-options="field:'y',width:80">Y(mm)</th>
+                                    <th data-options="field:'b',width:80">B(Gs)</th>                                                             
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <script type="text/javascript">
 
@@ -144,18 +169,6 @@
                         var row = $dg.datagrid('getSelected');
                         if (row) {
                             location.href = 'LoadRawData?runid=' + row.runid + '&filetype=' + ff;
-//                           $.ajax({
-//                                type: 'POST',
-//                                url: 'LoadRawData',
-//                                data: "runid=" + row.runid + "&filetype=" + ff,
-//                                success: function (data) {
-//                                    if (data === "[]") {
-//                                        alert("没有相关数据");
-//                                    } else {
-//                                       alert(data);
-//                                    }
-//                                }
-//                            });
                         } else {
                             alert("请选择一条记录");
                         }
@@ -183,10 +196,22 @@
                                     if (data === "[]") {
                                         alert("没有相关数据");
                                     } else {
+                                        if(ff==="hall"){
+                                           var dataspiece= data.split(";");
+//                                           alert(dataspiece[1]);
+                                           $dlg.dialog('open');
+                                           var str = '{"rows":' + dataspiece[0] + '}';
+                                           var s = $.parseJSON(str);                                              
+                                           $('#halldata0').datagrid('loadData', s);
+                                           var str1 = '{"rows":' + dataspiece[1] + '}';
+                                           var s1 = $.parseJSON(str1);                                              
+                                           $('#halldata1').datagrid('loadData', s1);
+                                        }else{
                                         var str = '{"rows":' + data + '}';
-                                        var s = $.parseJSON(str);
-                                        $datadg.datagrid('loadData', s);
+                                        var s = $.parseJSON(str);                                        
                                         $dlg.dialog('open');
+                                        $datadg.datagrid('loadData', s);   
+                                    }
                                     }
                                 }
                             });
