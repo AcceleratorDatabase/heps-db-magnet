@@ -160,6 +160,7 @@
                     </div>
                     <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
+                        <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >                        
                         <input type="hidden" id="hd1" name="hd1"/>
                         <input type="hidden" id="hd2" name="hd2"/> 
                         <input type="hidden" id="hd3" name="hd3"/>

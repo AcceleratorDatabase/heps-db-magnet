@@ -191,9 +191,9 @@
                     <a id="hall" name="hall"href="#" class="easyui-linkbutton" data-options="size:'large',iconAlign:'top'" onclick="showMeas(this)">霍尔元件测磁</a>
                     <input type="hidden" id="hd1" name="hd1"/>
                 </div>
-                <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
-                    <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
-                </div>
+                <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
+                <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
+            </div>
             </div>
         </div>
         <script type="text/javascript">

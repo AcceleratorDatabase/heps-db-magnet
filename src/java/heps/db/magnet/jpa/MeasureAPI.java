@@ -444,23 +444,35 @@ public class MeasureAPI {
         //System.out.println(re.toString());
         return re.toString();
     }
-     public String queryHallXFiled(Integer runid) {
+
+    public String queryHallXFiled(Integer runid) {
         HallProbeSystemTable hall;
         hall = (HallProbeSystemTable) em.createNamedQuery("HallProbeSystemTable.findByHallProbeRunId").setParameter("hallProbeRunId", runid).getSingleResult();
-        Query query = em.createQuery("SELECT h FROM HallDataTable h WHERE h.runId =:runId and h.gl IS NULL and ((h.x IS NULL and h.y IS NOT NULL) or (h.y IS NULL and h.x IS NOT NULL))");
+        Query query = em.createQuery("SELECT h FROM HallDataTable h WHERE h.runId =:runId and h.b IS NOT NULL and ((h.x IS NULL and h.y IS NOT NULL) or (h.y IS NULL and h.x IS NOT NULL))");
         query.setParameter("runId", hall);
         List<HallDataTable> re = query.getResultList();
         //System.out.println(re.toString());
         return re.toString();
     }
-    
-// public String queryHallDataByrunid(Integer runId) {
-//        RotCoilSystemTable rcs;
-//        rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runId).getSingleResult();
-//        Query query = em.createQuery("SELECT s FROM RcsDataTable s WHERE s.runId =:runId ");
-//        query.setParameter("runId", rcs);
-//        List<DeviceInfoTable> re = query.getResultList();
-//        //System.out.println(re.toString());
-//        return re.toString();
-//    }
+
+    public String queryHallIntegMC(Integer runid) {
+        HallProbeSystemTable hall;
+        hall = (HallProbeSystemTable) em.createNamedQuery("HallProbeSystemTable.findByHallProbeRunId").setParameter("hallProbeRunId", runid).getSingleResult();
+        Query query = em.createQuery("SELECT h FROM HallDataTable h WHERE h.runId =:runId and h.gl IS NOT NULL and h.x IS NOT NULL and h.y IS NOT NULL");
+        query.setParameter("runId", hall);
+        List<HallDataTable> re = query.getResultList();
+        //System.out.println(re.toString());
+        return re.toString();
+    }
+
+    public String queryHallIntegFiled(Integer runid) {
+        HallProbeSystemTable hall;
+        hall = (HallProbeSystemTable) em.createNamedQuery("HallProbeSystemTable.findByHallProbeRunId").setParameter("hallProbeRunId", runid).getSingleResult();
+        Query query = em.createQuery("SELECT h FROM HallDataTable h WHERE h.runId =:runId and h.gl IS NOT NULL and ((h.x IS NULL and h.y IS NOT NULL) or (h.y IS NULL and h.x IS NOT NULL))");
+        query.setParameter("runId", hall);
+        List<HallDataTable> re = query.getResultList();
+        //System.out.println(re.toString());
+        return re.toString();
+    }
+
 }

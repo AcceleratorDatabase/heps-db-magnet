@@ -92,6 +92,8 @@ public class LoadData extends HttpServlet {
             case "hall":
                 result = m.queryHallMotiCurveByrunid(runid);
                 result+=";"+m.queryHallXFiled(runid);
+                result+=";"+m.queryHallIntegMC(runid);
+                result+=";"+m.queryHallIntegFiled(runid);
                 break;
         }
         m.destroy();
