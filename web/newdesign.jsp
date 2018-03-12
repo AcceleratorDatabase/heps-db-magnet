@@ -96,12 +96,15 @@
                 border: 1px solid #b7d2ff;
                 text-decoration: none
             } 
+            label{
+                font-size: 16px
+            }
         </style>
     </head>
     <body>
         <h2>录入磁铁设计信息</h2>  
-        <div class="easyui-panel"   style="height: 820px;padding:20px 60px 20px;position: relative;" >
-            <div style="position:absolute;left:0;right:0;width: 1000px;margin:0 auto;">
+        <div class="easyui-panel"   style="height: 820px;padding:20px 60px;" >
+            <div style="width: 1000px;margin:0 auto;">
                 <form action="NewDesign" method="POST" target="_blank" onsubmit="return submitform();" >
                     <div id="info" >
                         <label for="magtype">磁铁种类: </label> 
@@ -116,11 +119,12 @@
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newfamily()">新建型号</a>
                     </div>
                     <div id="table">
-                        <div id="table1" style=" ;float: left ">
-                            <p> 请输入磁铁设计要求：
-                            <div style="margin:25px 0;"></div>
+                        <div id="table1" style=" float: left ">
+                             <div style="margin:20px 0;"></div>
+                            <label> 请输入磁铁设计要求：
+                           <div style="margin:5px 0;"></div>
                             <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
-                            </p>                                               
+                            </label>                                               
                             <table id="design_require" name="design_require" class="easyui-propertygrid" style="width:400px" data-options="
 
                                    method: 'get',
@@ -144,11 +148,13 @@
                             </div>                                                          
                         </div>
                         <div id="table2" style="float: right">
-                            <p>请输入磁铁设计参数：
+                             <div style="margin:20px 0;"></div>
+                            <label>请输入磁铁设计参数：
                                 <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges2()">查看修改项</a>-->
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="addrow()">新增设计参数</a>
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow()">删除设计参数</a>
-                            </p>
+                                 <div style="margin:5px 0;"></div>
+                            </label>
                             <table id="design_para" name="design_para" class="easyui-propertygrid" style="width:400px" data-options="
                                    method: 'get',
                                    showGroup: true,
@@ -158,7 +164,7 @@
                             </table>                    
                         </div>
                     </div>
-                    <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center">                    
+                    <div style="position:relative;top:730px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
                         <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >                        
                         <input type="hidden" id="hd1" name="hd1"/>
@@ -170,8 +176,11 @@
                     </div>
                 </form>
             </div>
-
-            <div  class="easyui-panel"   style=" position: absolute;left:450px; top:640px; width:404px;padding: 5px">  
+            
+            <div style="width: 1000px;margin:0 auto">
+              
+            <div  class="easyui-panel"   style="float:left;width: 400px"> 
+<!--            <div  class="easyui-panel"   style=" position:absolute;left:450px; top:710px; width:404px;padding: 5px">  -->
                 <span >请上传物理设计文件（PDF格式）</span>  
                 <div style="margin:5px 0;"></div>
                 <form  id="formId1" action="UploadFile?plottype=0" method="post"  
@@ -184,7 +193,7 @@
                         <div style="display: none; color: green;" id="successTip1"></div>  
 
                     </div> 
-                    <!--    <img id="img" src="" width="200" height="200" style="display: none;" /> -->
+                        <img id="img" src="" width="200" height="200" style="display: none;" /> 
                 </form>  
                 <iframe style="display: none" name='hiddenFrameName1' id="hidden_frame1"></iframe>  
 
@@ -200,10 +209,11 @@
                         <div style="display: none; color: green;" id="successTip2"></div>  
 
                     </div> 
-                    <!--    <img id="img" src="" width="200" height="200" style="display: none;" /> -->
+                        <img id="img" src="" width="200" height="200" style="display: none;" /> 
                 </form>  
                 <iframe style="display: none" name='hiddenFrameName2' id="hidden_frame2"></iframe>
-
+</div>
+                <div     style="float:right;width: 400px"> </div>
             </div>
         </div>
 
