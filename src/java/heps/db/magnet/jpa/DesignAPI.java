@@ -59,8 +59,8 @@ public class DesignAPI {
         emf.close();
     }
 
-    public void insertDesign(ArrayList designall, ArrayList design_requirement, ArrayList design_para, ArrayList design_plot, int other_flag, ArrayList design_others) throws UnsupportedEncodingException {
-
+    public void insertDesign(ArrayList designall, ArrayList design_requirement, ArrayList design_para, ArrayList design_plot, int other_flag, ArrayList design_others) {
+//System.out.println(design_para);
         design.setType(designall.get(0).toString());
         design.setFamily(Integer.parseInt(designall.get(1).toString()));
         design.setDesignName(designall.get(0).toString() + "-" + Integer.parseInt(designall.get(1).toString()));
@@ -92,7 +92,7 @@ public class DesignAPI {
         parameter.setOffset(precalc(design_para.get(0).toString()));
         parameter.setAmpereTurns(precalc(design_para.get(1).toString()));
         parameter.setAmpereTurnsEach(precalc(design_para.get(2).toString()));
-        parameter.setCurrent(precalc(design_para.get(3).toString()));
+        parameter.setCur(precalc(design_para.get(3).toString()));
         parameter.setWire(design_para.get(4).toString());
         parameter.setCurrentDensity(precalc(design_para.get(5).toString()));
         parameter.setWireLength(precalc(design_para.get(6).toString()));

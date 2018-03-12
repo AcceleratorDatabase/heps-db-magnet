@@ -177,7 +177,7 @@
                     </div>
                 </div>
             </div>
-            <div style="position:absolute;top:900px;bottom: 0; left:0;right:0;text-align: center">  
+            <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
             </div>
         </div>

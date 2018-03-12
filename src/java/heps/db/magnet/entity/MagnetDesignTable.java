@@ -204,7 +204,7 @@ public class MagnetDesignTable implements Serializable {
             "\"," + "\"non_sys\":\"" + magnetDesignRequirementTable.getNonSystemComponent()+"\"," + "\"offset\":\"" + 
             magnetDesignParameterTable.getOffset()+"\"," + "\"ampere_turns\":\"" + magnetDesignParameterTable.getAmpereTurns()+
             "\"," + "\"ampere_turns_each\":\"" + magnetDesignParameterTable.getAmpereTurnsEach()+"\"," + "\"current\":\"" +
-            magnetDesignParameterTable.getCurrent()+ "\"," + "\"wire\":\"" + magnetDesignParameterTable.getWire()+ 
+            magnetDesignParameterTable.getCur()+ "\"," + "\"wire\":\"" + magnetDesignParameterTable.getWire()+ 
             "\"," + "\"current_density\":\"" + magnetDesignParameterTable.getCurrentDensity()+ "\"," + "\"wire_length\":\"" +
             magnetDesignParameterTable.getWireLength()+ "\"," + "\"resistence\":\"" + magnetDesignParameterTable.getResistance()+ 
             "\"," + "\"inductance\":\"" + magnetDesignParameterTable.getInductance()+ "\"," + "\"voltage\":\"" + 

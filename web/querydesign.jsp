@@ -114,14 +114,14 @@
                         </div>
                         <div style="margin:10px 0;"></div>
                         <div id="length" style="position:absolute;top: 50px;left: 400px" >                     
-                            <label for="lengthmin">有效长度范围：</label>                                
+                            <label for="lengthmin">有效长度范围[mm]：</label>                                
                             <input id="lengthmin" name="lengthmin" type="text"  size= 8 autocomplete="off" value="">
                             <span> - </span>                         
                             <input id="lengthmax" name="lengthmax" type="text" size= 8 autocomplete="off" value="">
                         </div>                  
 
                         <div id="intensity" style="position:absolute;top: 90px;left: 400px" >
-                            <label for="selintensity">磁场强度范围：</label>
+                            <label for="selintensity">磁场强度范围[T]：</label>
                             <select  id="selintensity" name="selintensity" style="width: 100px;height: 25px" >
                                 <option value="-1">未选择</option>
                                 <option value="1">二极分量</option>

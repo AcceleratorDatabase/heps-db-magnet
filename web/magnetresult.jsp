@@ -144,39 +144,39 @@
                                 <th colspan="3"><span>其他</span></th>
                             </tr>
                             <tr>                           
-                                <th data-options="field:'length',width:70,formatter:formatPrice">有效长度</th>
-                                <th data-options="field:'aperture',width:70,formatter:formatPrice">磁铁孔径</th>
-                                <th data-options="field:'min_gap',width:120,formatter:formatPrice">相邻磁极最小间隙</th>
-                                <th data-options="field:'useful_field',width:80,formatter:formatPrice">好场区范围</th>
-                                <th data-options="field:'intensityB',width:70,formatter:formatPrice">二极分量</th>
-                                <th data-options="field:'intensityQ',width:70,formatter:formatPrice">四极分量</th>
-                                <th data-options="field:'intensityS',width:70,formatter:formatPrice">六极分量</th>
-                                <th data-options="field:'intensityO',width:70,formatter:formatPrice">八极分量</th>
+                                <th data-options="field:'length',width:90,formatter:formatPrice">有效长度[mm]</th>
+                                <th data-options="field:'aperture',width:90,formatter:formatPrice">磁铁孔径[mm]</th>
+                                <th data-options="field:'min_gap',width:140,formatter:formatPrice">相邻磁极最小间隙[mm]</th>
+                                <th data-options="field:'useful_field',width:100,formatter:formatPrice">好场区范围[mm]</th>
+                                <th data-options="field:'intensityB',width:90,formatter:formatPrice">二极分量[T]</th>
+                                <th data-options="field:'intensityQ',width:90,formatter:formatPrice">四极分量[T/m]</th>
+                                <th data-options="field:'intensityS',width:100,formatter:formatPrice">六极分量[T/m2]</th>
+                                <th data-options="field:'intensityO',width:100,formatter:formatPrice">八极分量[T/m3]</th>
                                 <th data-options="field:'sys',width:70,formatter:formatPrice">系统分量</th>
-                                <th data-options="field:'non_sys',width:80,formatter:formatPrice">非系统分量</th>
+                                <th data-options="field:'non_sys',width:70,formatter:formatPrice">非系统分量</th>
 
-                                <th data-options="field:'offset',width:100,formatter:formatPrice">偏置安装偏移量</th>
-                                <th data-options="field:'ampere_turns',width:80,formatter:formatPrice">励磁安匝数</th>
+                                <th data-options="field:'offset',width:120,formatter:formatPrice">偏置安装偏移量[mm]</th>
+                                <th data-options="field:'ampere_turns',width:100,formatter:formatPrice">励磁安匝数[AT]</th>
                                 <th data-options="field:'ampere_turns_each',width:100,formatter:formatPrice">每磁极线圈匝数</th>
-                                <th data-options="field:'current',width:70,formatter:formatPrice">励磁电流</th>
-                                <th data-options="field:'wire',width:70,formatter:formatPrice">导线规格</th>
-                                <th data-options="field:'current_density',width:70,formatter:formatPrice">电流密度</th>
-                                <th data-options="field:'wire_length',width:100,formatter:formatPrice">磁铁导线总长度</th>
-                                <th data-options="field:'resistence',width:80,formatter:formatPrice">磁铁总电阻</th>
-                                <th data-options="field:'inductance',width:70,formatter:formatPrice">磁铁电感</th>
-                                <th data-options="field:'voltage',width:70,formatter:formatPrice">励磁电压</th>
-                                <th data-options="field:'consumption',width:70,formatter:formatPrice">磁铁功耗</th>
+                                <th data-options="field:'current',width:90,formatter:formatPrice">励磁电流[A]</th>
+                                <th data-options="field:'wire',width:90,formatter:formatPrice">导线规格[mm]</th>
+                                <th data-options="field:'current_density',width:110,formatter:formatPrice">电流密度[A/mm2]</th>
+                                <th data-options="field:'wire_length',width:140,formatter:formatPrice">磁铁导线总长度[T/m2]</th>
+                                <th data-options="field:'resistence',width:100,formatter:formatPrice">磁铁总电阻[mΩ]</th>
+                                <th data-options="field:'inductance',width:90,formatter:formatPrice">磁铁电感[mH]</th>
+                                <th data-options="field:'voltage',width:90,formatter:formatPrice">励磁电压[V]</th>
+                                <th data-options="field:'consumption',width:90,formatter:formatPrice">磁铁功耗[kW]</th>
 
-                                <th data-options="field:'c_pressure_drop',width:80,formatter:formatPrice">冷却水压降</th>
+                                <th data-options="field:'c_pressure_drop',width:120,formatter:formatPrice">冷却水压降[kg/cm2]</th>
                                 <th data-options="field:'c_channel_num',width:80,formatter:formatPrice">并联水路数</th>
-                                <th data-options="field:'c_velocity',width:80,formatter:formatPrice">冷却水流速</th>
-                                <th data-options="field:'c_flow',width:80,formatter:formatPrice">冷却水流量</th>
-                                <th data-options="field:'c_temp',width:60,formatter:formatPrice">水温升</th>
+                                <th data-options="field:'c_velocity',width:100,formatter:formatPrice">冷却水流速[m/s]</th>
+                                <th data-options="field:'c_flow',width:100,formatter:formatPrice">冷却水流量[l/s]</th>
+                                <th data-options="field:'c_temp',width:80,formatter:formatPrice">水温升[℃]</th>
 
-                                <th data-options="field:'core_length',width:70,formatter:formatPrice">铁芯长度</th>
-                                <th data-options="field:'core_section',width:80,formatter:formatPrice">铁芯截面尺寸</th>
-                                <th data-options="field:'core_weight',width:60,formatter:formatPrice">铁芯重</th>
-                                <th data-options="field:'copper_weight',width:60,formatter:formatPrice">铜重</th>
+                                <th data-options="field:'core_length',width:90,formatter:formatPrice">铁芯长度[mm]</th>
+                                <th data-options="field:'core_section',width:110,formatter:formatPrice">铁芯截面尺寸[mm]</th>
+                                <th data-options="field:'core_weight',width:80,formatter:formatPrice">铁芯重[kg]</th>
+                                <th data-options="field:'copper_weight',width:60,formatter:formatPrice">铜重[kg]</th>
                                 <th data-options="field:'designedby',width:70">设计人</th>
                                 <th data-options="field:'approvedby',width:70">负责人</th>
                                 <th data-options="field:'remark',width:90">备注</th>
@@ -191,7 +191,7 @@
                     <a id="hall" name="hall"href="#" class="easyui-linkbutton" data-options="size:'large',iconAlign:'top'" onclick="showMeas(this)">霍尔元件测磁</a>
                     <input type="hidden" id="hd1" name="hd1"/>
                 </div>
-                <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
+                <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
             </div>
             </div>

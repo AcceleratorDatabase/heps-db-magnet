@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "MagnetDesignParameterTable.findByOffset", query = "SELECT m FROM MagnetDesignParameterTable m WHERE m.offset = :offset")
     , @NamedQuery(name = "MagnetDesignParameterTable.findByAmpereTurns", query = "SELECT m FROM MagnetDesignParameterTable m WHERE m.ampereTurns = :ampereTurns")
     , @NamedQuery(name = "MagnetDesignParameterTable.findByAmpereTurnsEach", query = "SELECT m FROM MagnetDesignParameterTable m WHERE m.ampereTurnsEach = :ampereTurnsEach")
-    , @NamedQuery(name = "MagnetDesignParameterTable.findByCurrent", query = "SELECT m FROM MagnetDesignParameterTable m WHERE m.current = :current")
+    , @NamedQuery(name = "MagnetDesignParameterTable.findByCur", query = "SELECT m FROM MagnetDesignParameterTable m WHERE m.cur = :cur")
     , @NamedQuery(name = "MagnetDesignParameterTable.findByWire", query = "SELECT m FROM MagnetDesignParameterTable m WHERE m.wire = :wire")
     , @NamedQuery(name = "MagnetDesignParameterTable.findByCurrentDensity", query = "SELECT m FROM MagnetDesignParameterTable m WHERE m.currentDensity = :currentDensity")
     , @NamedQuery(name = "MagnetDesignParameterTable.findByWireLength", query = "SELECT m FROM MagnetDesignParameterTable m WHERE m.wireLength = :wireLength")
@@ -66,8 +66,8 @@ public class MagnetDesignParameterTable implements Serializable {
     private Double ampereTurns;
     @Column(name = "ampere_turns_each")
     private Double ampereTurnsEach;
-    @Column(name = "current")
-    private Double current;
+    @Column(name = "cur")
+    private Double cur;
     @Size(max = 45)
     @Column(name = "wire")
     private String wire;
@@ -101,10 +101,10 @@ public class MagnetDesignParameterTable implements Serializable {
     private Double coreWeight;
     @Column(name = "copper_weight")
     private Double copperWeight;
-    @Size(max = 45)
+    @Size(max = 225)
     @Column(name = "physics_plot")
     private String physicsPlot;
-    @Size(max = 45)
+    @Size(max = 225)
     @Column(name = "mechanical_plot")
     private String mechanicalPlot;
     @JoinColumn(name = "design_id", referencedColumnName = "design_id", insertable = false, updatable = false)
@@ -150,12 +150,12 @@ public class MagnetDesignParameterTable implements Serializable {
         this.ampereTurnsEach = ampereTurnsEach;
     }
 
-    public Double getCurrent() {
-        return current;
+    public Double getCur() {
+        return cur;
     }
 
-    public void setCurrent(Double current) {
-        this.current = current;
+    public void setCur(Double curt) {
+        this.cur = cur;
     }
 
     public String getWire() {
