@@ -89,7 +89,7 @@
                     <div id="info2" style="position: absolute;top:40px;">   
                         <input type="checkbox" id="batchinsert" name="batchinsert"  >批量录入
                         <label id="geshu" style="left: 20px;display: none" for="batchnum">    个数: </label>
-                        <input id="batchnum" name="batchnum" type="hidden" value="">
+                        <input id="batchnum" name="batchnum"style="display: none" value="">
                     </div>                    
                     <div id="table" style="position: absolute;top: 80px;width: 1200px;text-align: center">
                         <table id="maginfo" name="maginfo" class="easyui-propertygrid" style=" width: 800px;margin:auto" data-options="
@@ -215,10 +215,10 @@
 
                 if ($('#batchinsert').is(':checked')) {
                     document.getElementById("geshu").style.display = "inline";
-                    document.getElementById("batchnum").type = "show";
+                    document.getElementById("batchnum").style.display = "inline";
                 } else {
                     document.getElementById("geshu").style.display = "none";
-                    document.getElementById("batchnum").type = "hidden";
+                    document.getElementById("batchnum").style.display = "none";
                 }
             });
 

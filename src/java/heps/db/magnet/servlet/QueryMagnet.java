@@ -28,11 +28,7 @@ public class QueryMagnet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String result = null;
-    private String type, datemin, datemax;
-    private Integer family;
-
-    public static Integer precalcInt(Object obj) {
+    public Integer precalcInt(Object obj) {
         if (obj.toString().isEmpty()) {
             return null;
         } else {
@@ -85,20 +81,22 @@ public class QueryMagnet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+        String result = null;
+        String type, datemin, datemax;
+        Integer family;
         Integer bydate;
         Integer bytype;
         Integer byfamily;
         DeviceAPI a = new DeviceAPI();
         a.init();
         type = request.getParameter("magtype");
-       
+
         family = precalcInt(request.getParameter("magfamily"));
-        
+
         datemin = request.getParameter("datemin");
-       
+
         datemax = request.getParameter("datemax");
-         
+
         if (type.equals("none")) {
             bytype = 0;
         } else {
@@ -132,21 +130,22 @@ public class QueryMagnet extends HttpServlet {
             result = a.queryMagnetByFamilyDate(family, datemin, datemax);
         } else if (bytype == 0 && byfamily == 1 && bydate == 1) {
             result = a.queryMagnetByTypeFamilyDate(type, family, datemin, datemax);
-        }  
-        out.print(result);
+        }
+        //out.print(result);
         a.destroy();
         String[] header_referer = request.getHeader("Referer").split("/");
-        String page=header_referer[header_referer.length-1];
+        String page = header_referer[header_referer.length - 1];
         //System.out.println(header_referer[header_referer.length-1]);
-        if(page.equals("newmeas.jsp")){
-        processRequest(request, response);
-        }else{
-        request.getSession().setAttribute("magvalue", "{\"rows\":" + result + "}");
-        request.getSession().setAttribute("magtype", type);
-        request.getSession().setAttribute("magfamily", family);
-        request.getSession().setAttribute("datemin", datemin);
-        request.getSession().setAttribute("datemax", datemax);
-        request.getRequestDispatcher("magnetresult.jsp").forward(request, response);
+        if (page.equals("newmeas.jsp")) {
+            processRequest(request, response);
+        } else {
+            request.getSession().setAttribute("magvalue", "{\"rows\":" + result + "}");
+            request.getSession().setAttribute("magtype", type);
+            request.getSession().setAttribute("magfamily", family);
+            request.getSession().setAttribute("datemin", datemin);
+            request.getSession().setAttribute("datemax", datemax);
+            request.getRequestDispatcher("magnetresult.jsp").forward(request, response);
+
         }
     }
 

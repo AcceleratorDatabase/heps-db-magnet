@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LoadData extends HttpServlet {
 
-    String result = null;
+   
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -77,6 +77,7 @@ public class LoadData extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String result = null;
         Integer runid = Integer.parseInt(request.getParameter("runid"));
         String filetype = request.getParameter("filetype");
         //out.println("runid:"+runid+"file:"+filetype);

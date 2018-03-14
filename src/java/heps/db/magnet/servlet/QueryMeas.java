@@ -7,13 +7,10 @@ package heps.db.magnet.servlet;
 
 import heps.db.magnet.jpa.MeasureAPI;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  *
@@ -30,7 +27,6 @@ public class QueryMeas extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String result = null;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -62,9 +58,7 @@ public class QueryMeas extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-     
-        JSONArray re;        
+        String result = null;
         Integer magId = Integer.parseInt(request.getParameter("magId"));
         String filetype = request.getParameter("filetype");
         MeasureAPI m = new MeasureAPI();
@@ -79,14 +73,14 @@ public class QueryMeas extends HttpServlet {
 //                }
                 break;
             case "rcs":
-                result=m.queryRCSBymagid(magId);
+                result = m.queryRCSBymagid(magId);
 //                re = JSONArray.fromObject(result);               
 //                for (int i = 0; i < re.size(); i++) {
 //                   out.print(re.getJSONObject(i).toString());                                    
 //               }
                 break;
             case "hall":
-               result=m.queryHallBymagid(magId);
+                result = m.queryHallBymagid(magId);
 //               re = JSONArray.fromObject(result);               
 //                for (int i = 0; i < re.size(); i++) {
 //                   out.print(re.getJSONObject(i).toString());                                    

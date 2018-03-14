@@ -45,7 +45,7 @@
                        rownumbers: true,
                        dataType:'json', 
                        toolbar:toolbar,
-                       url:'MeasResult',                          
+                       url:'MeasResult?<%=Math.random()%>',                          
                        method: 'get'
                        ">  
                     <thead>
@@ -73,7 +73,7 @@
                        rownumbers: true,
                        dataType:'json', 
                        toolbar:toolbar,
-                       url:'MeasResult',
+                       url:'MeasResult?<%=Math.random()%>',
                        method: 'get'
                        ">  
                     <thead>
@@ -102,7 +102,7 @@
                        rownumbers: true,
                        dataType:'json', 
                        toolbar:toolbar,
-                       url:'MeasResult',
+                       url:'MeasResult?<%=Math.random()%>',
                        method: 'get'
                        ">  
                     <thead>

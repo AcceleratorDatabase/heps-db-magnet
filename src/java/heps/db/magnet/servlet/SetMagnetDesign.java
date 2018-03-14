@@ -72,13 +72,14 @@ public class SetMagnetDesign extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        
         DesignAPI a = new DesignAPI();
         a.init();
         String type=(String)(request.getParameter("magType"));
         Integer family=Integer.parseInt(request.getParameter("magFamily"));         
         String result=a.queryDesignByTypeFamily(type,family);
         //System.out.println(result); 
+        PrintWriter out = response.getWriter();
         out.print(result); 
         a.destroy();
         processRequest(request, response);

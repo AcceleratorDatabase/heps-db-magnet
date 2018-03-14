@@ -24,7 +24,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */  
 public class UploadFile extends HttpServlet {  
     private static final long serialVersionUID = 1L;  
-  public String mplotname,pplotname;
+
     /** 
      * Default constructor. 
      */  
@@ -32,21 +32,29 @@ public class UploadFile extends HttpServlet {
         // TODO Auto-generated constructor stub  
     }  
   
-    /** 
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse 
-     *      response) 
-     */  
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  
         // TODO Auto-generated method stub  
     }  
   
-    /** 
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse 
-     *      response) 
-     */  
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  
-        // 这里是取得WebContent的根目录路径  
-        
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {        
         String realPath = "E:/plot";  
         String plottype=request.getParameter("plottype");
         String dir="";      

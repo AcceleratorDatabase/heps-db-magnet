@@ -72,14 +72,14 @@ public class LoadFamily extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-      request.setCharacterEncoding("UTF-8");      
-      PrintWriter out = response.getWriter();
-      DesignAPI a=new DesignAPI();
-      a.init();
-      String re=a.queryAllFamilys();
-     // System.out.println(re);
-      out.print(re.replace(" ", ""));
-      processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        DesignAPI a = new DesignAPI();
+        a.init();
+        String re = a.queryAllFamilys();
+        // System.out.println(re);
+        out.print(re.replace(" ", ""));
+        processRequest(request, response);
     }
 
     /**

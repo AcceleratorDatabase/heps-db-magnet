@@ -62,7 +62,7 @@ public class DesignResult extends HttpServlet {
         String re = request.getSession().getAttribute("designvalue").toString();
         //String type=request.getSession().getAttribute("type").toString();
         PrintWriter out = response.getWriter();
-        // System.out.println("woshiresult:"+type);
+        //System.out.println("woshiresult:"+re);
         out.print(re);
         processRequest(request, response);
     }

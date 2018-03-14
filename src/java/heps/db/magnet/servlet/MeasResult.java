@@ -56,7 +56,7 @@ public class MeasResult extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setCharacterEncoding("UTF-8");
+       response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
         String re1 = request.getSession().getAttribute("measvalue").toString();
         PrintWriter out = response.getWriter();
@@ -76,6 +76,7 @@ public class MeasResult extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+         
         processRequest(request, response);
     }
 

@@ -30,7 +30,7 @@ public class EditDesign extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     private ArrayList sellist, design_para;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -60,9 +60,6 @@ public class EditDesign extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        
         processRequest(request, response);
     }
 
@@ -77,6 +74,7 @@ public class EditDesign extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+         ArrayList sellist, design_para;
          response.setContentType("text/html;charset=UTF-8");
 //         sellist= new ArrayList();
          PrintWriter out = response.getWriter();

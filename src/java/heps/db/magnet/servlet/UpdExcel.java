@@ -27,7 +27,13 @@ import org.apache.poi.ss.usermodel.Workbook;
  * @author qiaoys
  */
 public class UpdExcel extends HttpServlet {
-
+public  Double precalc(Object obj) {
+        if (obj.toString().isEmpty()) {
+            return null;
+        } else {
+            return Double.parseDouble(obj.toString());
+        }
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,19 +43,8 @@ public class UpdExcel extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    static Integer swscon_row = 13;
-    static Integer rcscon_row = 13;
-    static Integer hallcon_row = 13;
-    Integer magid,status;
-    String filetype, measdate, measby, measat, remark;
-Double hall_current,hall_gage;
-public static Double precalc(Object obj) {
-        if (obj.toString().isEmpty()) {
-            return null;
-        } else {
-            return Double.parseDouble(obj.toString());
-        }
-    }
+    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -97,6 +92,12 @@ public static Double precalc(Object obj) {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
+        Integer swscon_row = 13;
+    Integer rcscon_row = 13;
+    Integer hallcon_row = 13;
+    Integer magid=0,status=0;
+    String filetype=new String(), measdate=new String(), measby=new String(), measat=new String(), remark=new String();
+Double hall_current=0.0,hall_gage=0.0;
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setHeaderEncoding(request.getCharacterEncoding());

@@ -104,7 +104,7 @@
                            rownumbers: true,
                            dataType:'json',                           
                            toolbar:toolbar,                          
-                           url: 'MagnetResult',
+                           url: 'MagnetResult?<%=Math.random()%>',
                            method: 'get',
                            collapsible:true">
                         <thead>

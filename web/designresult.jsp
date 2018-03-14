@@ -24,11 +24,24 @@
             %>
             var tt = "<%=magtype%>";
             var ff = <%=magfamily%>;
+            
             var llmin=<%=lengthmin%>;
+            if(llmin===null){
+                var llmin="";
+            }
              var llmax=<%=lengthmax%>;
+             if(llmax===null){
+                var llmax="";
+            }
               var ii="<%=intensity%>";
               var iimin=<%=intensitymin%>;
+              if(iimin===null){
+                var iimin="";
+            }
              var iimax=<%=intensitymax%>;
+             if(iimax===null){
+                var iimax="";
+            }
             window.onload = function () {            
                 $.ajax({
                     type: 'POST',
@@ -169,7 +182,7 @@
                            dataType:'json',
                            remoteSort:true,
                            toolbar:toolbar,
-                           url: 'DesignResult',
+                           url: 'DesignResult?<%=Math.random()%>',
                            method: 'get',                           
                            onLoadSuccess: function(){    
                            }

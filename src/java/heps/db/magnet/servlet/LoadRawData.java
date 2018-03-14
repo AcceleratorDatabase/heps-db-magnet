@@ -7,20 +7,15 @@ package heps.db.magnet.servlet;
 
 import heps.db.magnet.jpa.MeasureAPI;
 import heps.db.magnet.tools.ToTXT;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.filechooser.FileSystemView;
-import net.sf.json.JSONArray;
 
 /**
  *

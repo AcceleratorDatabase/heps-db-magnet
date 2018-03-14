@@ -31,11 +31,6 @@ public class NewMagnet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private Integer family,batchnum;
-    private String type,batchinsert,info;
-     private ArrayList maginfo;
-    
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -64,7 +59,7 @@ public class NewMagnet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {  
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -81,12 +76,15 @@ public class NewMagnet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
+        Integer family, batchnum;
+        String type, batchinsert, info;
+        ArrayList maginfo;
+       
         maginfo = new ArrayList();
-        type=(String)request.getParameter("magtype");
-        family=Integer.parseInt(request.getParameter("magfamily"));
-        batchinsert=(String)request.getParameter("batchinsert");
-        info=(String)request.getParameter("hd1");
+        type = (String) request.getParameter("magtype");
+        family = Integer.parseInt(request.getParameter("magfamily"));
+        batchinsert = (String) request.getParameter("batchinsert");
+        info = (String) request.getParameter("hd1");
         DeviceAPI a = new DeviceAPI();
         a.init();
         JSONObject info_jsonobj = JSONObject.fromObject(info);
@@ -94,22 +92,24 @@ public class NewMagnet extends HttpServlet {
         if (info_jsonarray.size() > 0) {
             for (int i = 0; i < info_jsonarray.size(); i++) {
                 JSONObject job = info_jsonarray.getJSONObject(i);  // 遍历 
-                if(i==5){
-                  maginfo.add(job.get("value").toString().split("<")[0]);
-                }else
-                maginfo.add(job.get("value"));
+                if (i == 5) {
+                    maginfo.add(job.get("value").toString().split("<")[0]);
+                } else {
+                    maginfo.add(job.get("value"));
+                }
             }
         }
-        if(batchinsert != null){
-            batchnum=Integer.parseInt(request.getParameter("batchnum"));
+        if (batchinsert != null) {
+            batchnum = Integer.parseInt(request.getParameter("batchnum"));
             //System.out.println(batchnum);
-            for(int i=0;i<batchnum;i++){
-                a.insertDevice(maginfo,type,family);
+            for (int i = 0; i < batchnum; i++) {
+                a.insertDevice(maginfo, type, family);
             }
-        }else{       
-        a.insertDevice(maginfo,type,family);
+        } else {
+            a.insertDevice(maginfo, type, family);
         }
         a.destroy();
+         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<meta http-equiv=\"refresh\" content=\"3;url=index.html\">");
         out.println("<html>");
@@ -117,8 +117,8 @@ public class NewMagnet extends HttpServlet {
         out.println("var times=3;");
         out.println("function TimeClose()");
         out.println("{ window.setTimeout('TimeClose()', 1000); ");
-        out.println("time.innerHTML =times+\"秒后跳转到首页\";");    
-        out.println("times--;}");       
+        out.println("time.innerHTML =times+\"秒后跳转到首页\";");
+        out.println("times--;}");
         out.println("</script>");
         out.println("<head>");
         out.println("<title>磁铁信息录入</title>");

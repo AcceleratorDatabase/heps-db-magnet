@@ -32,12 +32,7 @@ public class NewDesign extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String type, family, require, parameter, designed_by, approved_by, remark, mplot, pplot;
-
-    private ArrayList design, design_requirement, design_para, design_plot, design_others;
-    private Integer other_flag = 0;
-    private String result = "成功";
-  //  private Integer del_dup_pplot,del_dup_mplot;
+    //  private Integer del_dup_pplot,del_dup_mplot;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -87,6 +82,10 @@ public class NewDesign extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+        String type, family, require, parameter, designed_by, approved_by, remark, mplot, pplot;
+        ArrayList design, design_requirement, design_para, design_plot, design_others;
+        Integer other_flag;
+        String result = "成功";
         PrintWriter out = response.getWriter();
         design = new ArrayList();
         design_requirement = new ArrayList();
@@ -109,7 +108,7 @@ public class NewDesign extends HttpServlet {
         mplot = request.getParameter("mplotn");
         pplot = request.getParameter("pplotn");
         //del_dup_pplot=Integer.parseInt(request.getParameter("hd3"));
-       // del_dup_mplot=Integer.parseInt(request.getParameter("hd4"));
+        // del_dup_mplot=Integer.parseInt(request.getParameter("hd4"));
 //        if(del_dup_pplot==1){
 //        System.out.println("delp");
 //        }
@@ -161,7 +160,7 @@ public class NewDesign extends HttpServlet {
         //try{
         a.init();
         a.insertDesign(design, design_requirement, design_para, design_plot, other_flag, design_others);
-         a.destroy();
+        a.destroy();
         // }catch(UnsupportedEncodingException e){
         // result="失败！"+e;
         // }
@@ -172,14 +171,14 @@ public class NewDesign extends HttpServlet {
         out.println("var times=3;");
         out.println("function TimeClose()");
         out.println("{ window.setTimeout('TimeClose()', 1000); ");
-        out.println("time.innerHTML =times+\"秒后跳转到首页\";");    
-        out.println("times--;}");       
+        out.println("time.innerHTML =times+\"秒后跳转到首页\";");
+        out.println("times--;}");
         out.println("</script>");
         out.println("<head>");
         out.println("<title>磁铁设计录入</title>");
         out.println("</head>");
         out.println("<body onLoad=\"TimeClose();\"  style=\"font-size:24px;text-align: center;margin-top:60px\";>");
-        out.println("<h1 >磁铁设计插入" + result+"</h1>");
+        out.println("<h1 >磁铁设计插入" + result + "</h1>");
         out.println("<div id=\"time\"></div> ");
         out.println("</body>");
         out.println("</html>");
