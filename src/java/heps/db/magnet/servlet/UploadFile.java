@@ -107,14 +107,10 @@ public class UploadFile extends HttpServlet {
                 response.getWriter().write("<script>parent.callback2(false,'上传失败','')</script>");
                 }
             }  
-            if(plottype.equals("0")){
-              
-               
-
+            if(plottype.equals("0")){    
                  response.getWriter().write("<script>parent.callback1(true,'上传成功!','" + pics.get(0) + "')</script>");
                 }else if(plottype.equals("1"))
                 {
-              
                 response.getWriter().write("<script>parent.callback2(true,'上传成功!','" + pics.get(0) + "')</script>");
                 }
            // response.getWriter().write("<script>parent.callback(true,'上传成功','" + pics.get(0) + "')</script>");  

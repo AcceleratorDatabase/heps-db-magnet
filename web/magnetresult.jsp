@@ -100,7 +100,7 @@
                     </div> 
                 </form> 
                 <div style="position: absolute;left:220px;top:170px;width:900px">
-                    <table id="dg_magnet" class="easyui-datagrid"  title="查询结果"  data-options="singleSelect:true, 
+                    <table id="dg_magnet" class="easyui-datagrid"  height=550 title="查询结果"  data-options="singleSelect:true, 
                            rownumbers: true,
                            dataType:'json',                           
                            toolbar:toolbar,                          

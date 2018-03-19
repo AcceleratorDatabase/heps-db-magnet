@@ -100,19 +100,19 @@ public class MeasureAPI {
         return json;
     }
 
-    public Integer insertSWSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, ArrayList rawdata) {
+    public Integer insertSWSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, String rawdata,String ana_data) {
         StretchedWireSystemTable sws = new StretchedWireSystemTable();
         DeviceInfoTable device;
         try {
             device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
             sws.setDeviceId(device);
-            sws.setSamplingRate(Double.parseDouble(meascon.getString("采样率（Hz）：")));
-            sws.setSpeed(Double.parseDouble(meascon.getString("移动速度（m/s）：")));
-            sws.setAcceleratedSpeed(Double.parseDouble(meascon.getString("a加速度（m/s2）：")));
-            sws.setDistance(Double.parseDouble(meascon.getString("移动距离（mm）：")));
-            sws.setStartEX0(Double.parseDouble(meascon.getString("起始点EX0（mm）：")));
+            sws.setSamplingRate(Double.parseDouble(meascon.getString("采样率（Hz）")));
+            sws.setSpeed(Double.parseDouble(meascon.getString("移动速度（m/s）")));
+            sws.setAcceleratedSpeed(Double.parseDouble(meascon.getString("a加速度（m/s2）")));
+            sws.setDistance(Double.parseDouble(meascon.getString("移动距离（mm）")));
+            sws.setStartEX0(Double.parseDouble(meascon.getString("起始点EX0（mm）")));
             sws.setStartEY0(Double.parseDouble(meascon.getString("起始点EY0(mm)")));
-            sws.setStrain(Double.parseDouble(meascon.getString("张力（kg）：")));
+            sws.setStrain(Double.parseDouble(meascon.getString("张力（kg）")));
             sws.setMeasCurrent(Double.parseDouble(meascon.getString("I(A)")));
             sws.setCutOffFrequency(Double.parseDouble(meascon.getString("截止频率(Hz)")));
             sws.setMeasBy(measby);
@@ -125,7 +125,8 @@ public class MeasureAPI {
             et.begin();
             SwsDataTable swsdata = new SwsDataTable();
             swsdata.setRunId(sws);
-            swsdata.setRawData(rawdata.toString());
+            swsdata.setRawData(rawdata);
+            swsdata.setAnalysisData(ana_data);
             em.persist(swsdata);
             et.commit();
             return 1;
@@ -133,7 +134,7 @@ public class MeasureAPI {
             return 0;
         }
     }
-
+    
     public String querySWSBymagid(Integer magid) {
         DeviceInfoTable device;
         device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
@@ -152,25 +153,32 @@ public class MeasureAPI {
         //System.out.println(re.toString());
         return re.toString();
     }
-
-    public Integer insertRCSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, List<Object> anadata, List<Object> rawdata, String[] analysis) {
+ public String querySWSAnaDataByrunid(Integer runid) {
+        StretchedWireSystemTable sws;
+        sws = (StretchedWireSystemTable) em.createNamedQuery("StretchedWireSystemTable.findBySwRunId").setParameter("swRunId", runid).getSingleResult();
+        Query query = em.createQuery("SELECT s.analysisData FROM SwsDataTable s WHERE s.runId =:runId ");
+        query.setParameter("runId", sws);
+        List<DeviceInfoTable> re = query.getResultList();
+        //System.out.println(re.toString());
+        return re.toString();
+    }
+    public Integer insertRCSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, String anadata, List<Object> rawdata, String[] analysis) {
         String[] analysis_piece;
         RotCoilSystemTable rcs = new RotCoilSystemTable();
         DeviceInfoTable device;
         try {
             device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
-            rcs.setDeviceId(device);
-            String po = getObjectKey(meascon, "Polarity：");
-            rcs.setPolarity(po);
-            rcs.setGivenCurrent(Double.parseDouble(meascon.getString("给定电流(A):")));
-            rcs.setActualCurrent(Double.parseDouble(meascon.getString("实际电流(A):")));
-            rcs.setGain(Double.parseDouble(meascon.getString("Gain：")));
-            rcs.setStartPosition(Double.parseDouble(meascon.getString("start position：")));
-            rcs.setRotationRate(Double.parseDouble(meascon.getString("转速：")));
-            rcs.setRRef(Double.parseDouble(meascon.getString("Rref(mm)：")));
-            rcs.setDx(Double.parseDouble(meascon.getString("dx=")));
-            rcs.setDy(Double.parseDouble(meascon.getString("dy=")));
-            rcs.setDr(Double.parseDouble(meascon.getString("dr=")));
+            rcs.setDeviceId(device);            
+            rcs.setPolarity(meascon.getString("Polarity"));
+            rcs.setGivenCurrent(Double.parseDouble(meascon.getString("给定电流(A)")));
+            rcs.setActualCurrent(Double.parseDouble(meascon.getString("实际电流(A)")));
+            rcs.setGain(Double.parseDouble(meascon.getString("Gain")));
+            rcs.setStartPosition(Double.parseDouble(meascon.getString("start position")));
+            rcs.setRotationRate(Double.parseDouble(meascon.getString("转速")));
+            rcs.setRRef(Double.parseDouble(meascon.getString("Rref(mm)")));
+            rcs.setDx(Double.parseDouble(meascon.getString("dx(mm)")));
+            rcs.setDy(Double.parseDouble(meascon.getString("dy(mm)")));
+            rcs.setDr(Double.parseDouble(meascon.getString("dr(mm)")));
             rcs.setMeasBy(measby);
             rcs.setMeasAt(measat);
             rcs.setDescription(remark);
@@ -181,12 +189,12 @@ public class MeasureAPI {
             et.begin();
             RcsDataAllTable rcsdataall = new RcsDataAllTable();
             rcsdataall.setRunId(rcs);
-            rcsdataall.setAnalysisData(anadata.toString());
+            rcsdataall.setAnalysisData(anadata);
             rcsdataall.setRawData(rawdata.toString());
             em.persist(rcsdataall);
             et.commit();
-
-            for (int i = 3; i < analysis.length - 1; i++) {
+//acording to rcs data strcture,3 rows from head are not data
+            for (int i = 4; i < analysis.length - 1; i++) {
                 analysis_piece = analysis[i].split(",");
                 et.begin();
                 RcsDataTable rcsdata = new RcsDataTable();
@@ -223,7 +231,15 @@ public class MeasureAPI {
         //System.out.println(re.toString());
         return re.toString();
     }
-
+    public String queryRCSAnaDataByrunid(Integer runid) {
+        RotCoilSystemTable rcs;
+        rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runid).getSingleResult();
+        Query query = em.createQuery("SELECT r.analysisData FROM RcsDataAllTable r WHERE r.runId =:runId ");
+        query.setParameter("runId", rcs);
+        List<RcsDataAllTable> re = query.getResultList();
+        //System.out.println(re.toString());
+        return re.toString();
+    }
     public String queryRCSDataByrunid(Integer runid) {
         RotCoilSystemTable rcs;
         rcs = (RotCoilSystemTable) em.createNamedQuery("RotCoilSystemTable.findByRotCoilRunId").setParameter("rotCoilRunId", runid).getSingleResult();
@@ -377,13 +393,13 @@ public class MeasureAPI {
 
     }
 
-    public Integer insertHallTemp(HallProbeSystemTable hall, String content, String measdata) {
+    public Integer insertHallData(HallProbeSystemTable hall, String rawfiles,String anafiles) {
         try {
             et.begin();
             HallDataAllTable halldataall = new HallDataAllTable();
             halldataall.setRunId(hall);
-            halldataall.setContent(content);
-            halldataall.setAnalysisData(measdata);
+           halldataall.setRawData(rawfiles);
+            halldataall.setAnalysisData(anafiles);
             em.persist(halldataall);
             et.commit();
             return 1;
@@ -392,9 +408,9 @@ public class MeasureAPI {
         }
     }
 
-    public Integer insertHallMeas(Integer magid, Double current, Double pressure, String measdate, String measby, String measat, String remark, ArrayList sheetNames, ArrayList measdata) {
-        JSONObject jsondata;
-        jsondata = combine2Json(sheetNames, measdata);
+    public Integer insertHallMeas(Integer magid, Double current, Double pressure, String measdate, String measby, String measat, String remark,String rawfiles,String anafiles) {
+//        JSONObject jsondata;
+//        jsondata = combine2Json(sheetNames, measdata);
         HallProbeSystemTable hall = new HallProbeSystemTable();
         DeviceInfoTable device;
         //measure condition 
@@ -407,12 +423,12 @@ public class MeasureAPI {
         hall.setMeasDate(strToDate(measdate));
         hall.setDescription(remark);
         em.persist(hall);
-        et.commit();
-        insertHallMotiCurve(hall, "励磁曲线", jsondata.get("励磁曲线").toString());
-        insertHallXFiled(hall, "横向场", current, jsondata.get("横向场").toString());
-        insertHallIntegMC(hall, "积分励磁", jsondata.get("积分励磁").toString());
-        insertHallIntegFiled(hall, "积分场", current, jsondata.get("积分场").toString());
-        insertHallTemp(hall, "温度记录", jsondata.get("温度记录").toString());
+        et.commit();        
+        //insertHallMotiCurve(hall, "励磁曲线", jsondata.get("励磁曲线").toString());
+        //insertHallXFiled(hall, "横向场", current, jsondata.get("横向场").toString());
+       // insertHallIntegMC(hall, "积分励磁", jsondata.get("积分励磁").toString());
+        //insertHallIntegFiled(hall, "积分场", current, jsondata.get("积分场").toString());
+        insertHallData(hall,rawfiles,anafiles);
         return 1;
     }
 
@@ -428,13 +444,21 @@ public class MeasureAPI {
     public String queryHallRawDataByrunid(Integer runid) {
         HallProbeSystemTable hall;
         hall = (HallProbeSystemTable) em.createNamedQuery("HallProbeSystemTable.findByHallProbeRunId").setParameter("hallProbeRunId", runid).getSingleResult();
+        Query query = em.createQuery("SELECT h.rawData FROM HallDataAllTable h WHERE h.runId =:runId ");
+        query.setParameter("runId", hall);
+        List<HallDataAllTable> re = query.getResultList();
+        //System.out.println(re.toString());
+        return re.toString();
+    }
+ public String queryHallAnaDataByrunid(Integer runid) {
+        HallProbeSystemTable hall;
+        hall = (HallProbeSystemTable) em.createNamedQuery("HallProbeSystemTable.findByHallProbeRunId").setParameter("hallProbeRunId", runid).getSingleResult();
         Query query = em.createQuery("SELECT h.analysisData FROM HallDataAllTable h WHERE h.runId =:runId ");
         query.setParameter("runId", hall);
         List<HallDataAllTable> re = query.getResultList();
         //System.out.println(re.toString());
         return re.toString();
     }
-
     public String queryHallMotiCurveByrunid(Integer runid) {
         HallProbeSystemTable hall;
         hall = (HallProbeSystemTable) em.createNamedQuery("HallProbeSystemTable.findByHallProbeRunId").setParameter("hallProbeRunId", runid).getSingleResult();

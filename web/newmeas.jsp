@@ -62,28 +62,32 @@
 
             };
             $(function () {
-                $("#file_form").submit(
+                $("#file_form").submit(                       
                         function () {
+                             //alert($('input[name=identity][checked]').val());
                             if(document.getElementById("hd1").value===""){
                                 alert("未选择磁铁！");
                                 return false;
                             }else{
                             //验证文件格式
-                            var fileName = $('#file_input').val();
-                            if (fileName === '') {
-                                alert('请选择文件');
+                            var fileName1 = $('#rawfile_input').val();
+                            if (fileName1 === '') {
+                                alert('请选择原始数据文件');
                                 return false;
                             }
-                            var fileType = (fileName.substring(fileName
-                                    .lastIndexOf(".") + 1, fileName.length))
+                            var fileName2 = $('#analysisfiles_input').val();                           
+                            
+                            var fileType = (fileName1.substring(fileName1
+                                    .lastIndexOf(".") + 1, fileName1.length))
                                     .toLowerCase();
                             if (fileType !== 'xls' && fileType !== 'xlsx') {
-                                alert('文件格式不正确，excel文件！');
+                                alert('文件格式不正确，原始数据应excel文件！');
                                 return false;
                             }
+                            //alert('您已选择原始文件：'+fileNname1+";处理文件："+fileName2);
                             $("#file_form").ajaxSubmit({
                                 dataType: "json",
-                                success: function (data, textStatus) {
+                                success: function (data) {
                                     if (data['result'] === 'OK') {
                                         alert('上传文件成功');
                                         document.location.reload();
@@ -102,8 +106,7 @@
     <body>
         <h2>录入磁测数据</h2> 
         <div class="easyui-panel" style="height:820px;padding:10px 60px;position: relative;" > 
-            <form id="file_form" action="UpdExcel" enctype="multipart/form-data"
-                  method="post">
+            <form id="file_form" name="UpdExcel" action="UpdExcel" enctype="multipart/form-data" method="post">
                 <div style="position: absolute;left: 600px">
                     <label for="magtype">磁铁种类：</label> 
                     <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
@@ -134,9 +137,14 @@
                     <input name="measat"class="easyui-textbox" label="磁测地点：" labelPosition="before" labelAlign="right" style="width:200px">            
                     <input name="remark"class="easyui-textbox" label="备注：" labelPosition="before"labelAlign="right" style="width:200px">                    
                 </div> 
-                <div style="position: absolute;top:240px;left: 600px">                
-                    <input type="file" name="file" id="file_input" /> 
-                    <input type="submit" value="文件上传" id='upFile-btn'>               
+                <div style="position: absolute;top:240px;left: 600px">   
+                    <label>请选择处理数据文件</label>
+                    <input type="file" name="analysisfiles_input" id="analysisfiles_input"multiple="multiple" />     
+                </div>
+                <div style="position: absolute;top:280px;left: 600px">   
+                    <label>请选择原始数据(Excel文件)</label>
+                     <input type="file" name="rawfile_input" id="rawfile_input" /> 
+                    <input type="submit" value="上传" id='upFile-btn' >  
                 </div>
             </form>
         </div>
@@ -191,14 +199,16 @@
             function chooseMag() {
                 $.ajax({
                     type: 'POST',
-                    url: 'QueryMagnet',
+                    url: 'QueryMagnet?<%=Math.random()%>',
                     scriptCharset: 'UTF-8',
                     data: "magtype=" + document.getElementById("magtype").value + "&magfamily=" + document.getElementById("magfamily").value + "&datemin=" + "" + "&datemax=" + "",
                     success: function (data) {
+                       
                         var str = '{"rows":' + data + '}';
                         var s = $.parseJSON(str);
-                        $('#dg').datagrid('loadData', s);
                         $('#dlg').dialog('open');
+                        $('#dg').datagrid('loadData', s);
+                        
                     }
                 });
             }

@@ -85,16 +85,14 @@ public class LoadData extends HttpServlet {
         m.init();
         switch (filetype) {
             case "sws":
-                result = "[]";
+                result = m.querySWSAnaDataByrunid(runid).replace("[", "").replace("]", "");
                 break;
             case "rcs":
                 result = m.queryRCSDataByrunid(runid);
                 break;
             case "hall":
-                result = m.queryHallMotiCurveByrunid(runid);
-                result+=";"+m.queryHallXFiled(runid);
-                result+=";"+m.queryHallIntegMC(runid);
-                result+=";"+m.queryHallIntegFiled(runid);
+                result = m.queryHallAnaDataByrunid(runid).replace("[", "").replace("]", "");
+                //System.out.println(result);
                 break;
         }
         m.destroy();

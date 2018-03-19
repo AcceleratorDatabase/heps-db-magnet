@@ -18,7 +18,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author qiaoys
  */
 public class QueryMagnet extends HttpServlet {
-
+public Integer precalcInt(Object obj) {
+        if (obj.toString().isEmpty()) {
+            return null;
+        } else {
+            return Integer.parseInt(obj.toString());
+        }
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -28,13 +34,7 @@ public class QueryMagnet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    public Integer precalcInt(Object obj) {
-        if (obj.toString().isEmpty()) {
-            return null;
-        } else {
-            return Integer.parseInt(obj.toString());
-        }
-    }
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -131,12 +131,12 @@ public class QueryMagnet extends HttpServlet {
         } else if (bytype == 0 && byfamily == 1 && bydate == 1) {
             result = a.queryMagnetByTypeFamilyDate(type, family, datemin, datemax);
         }
-        //out.print(result);
+        out.print(result);
         a.destroy();
         String[] header_referer = request.getHeader("Referer").split("/");
         String page = header_referer[header_referer.length - 1];
         //System.out.println(header_referer[header_referer.length-1]);
-        if (page.equals("newmeas.jsp")) {
+        if (page.equals("newmeas.jsp")||page.equals("newmeas.jsp#")) {
             processRequest(request, response);
         } else {
             request.getSession().setAttribute("magvalue", "{\"rows\":" + result + "}");

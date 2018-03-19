@@ -41,10 +41,11 @@
         <h2 >磁测数据</h2>
         <div class="easyui-panel" style="height:820px;padding:10px 10px;text-align: center">
             <div id="div-sws" style="display: none;">                
-                <table id="sws" class="easyui-datagrid"   title="查询结果"  data-options="singleSelect:true,                            
+                <table id="sws" class="easyui-datagrid" height=650 title="查询结果"  data-options="singleSelect:true,  
                        rownumbers: true,
                        dataType:'json', 
                        toolbar:toolbar,
+                       pagination: true,
                        url:'MeasResult?<%=Math.random()%>',                          
                        method: 'get'
                        ">  
@@ -69,7 +70,7 @@
                 </table>                
             </div>
             <div id="div-rcs" style="display: none;" >
-                <table id="rcs" class="easyui-datagrid" title="查询结果"  data-options="singleSelect:true, 
+                <table id="rcs" class="easyui-datagrid" height=650 title="查询结果"  data-options="singleSelect:true, 
                        rownumbers: true,
                        dataType:'json', 
                        toolbar:toolbar,
@@ -98,7 +99,7 @@
                 </table>
             </div>
             <div id="div-hall" style="display: none;">              
-                <table id="hall" class="easyui-datagrid" title="查询结果"  data-options="singleSelect:true, 
+                <table id="hall" class="easyui-datagrid" height=650 title="查询结果"  data-options="singleSelect:true, 
                        rownumbers: true,
                        dataType:'json', 
                        toolbar:toolbar,
@@ -131,60 +132,19 @@
                     </thead>
                 </table>
             </div>
-            <div id="halldlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px 10px;text-align: center" data-options="iconCls:'icon-calculate',closed: true,resizable:true">   
-                <div  id="tab" class="easyui-tabs"   data-options="tabPosition:'top',tabWidth:90,tabHeight:30,border:false" >
-                    <div id="tab0" title="励磁曲线"  >
-                        <table id="halldata0" class="easyui-datagrid"  width="100%" data-options="singleSelect:true,rownumbers: true">  
-                            <thead>
-                                <tr>                            
-                                    <th data-options="field:'cur',width:80">I(S)</th>
-                                    <th data-options="field:'b',width:80">B(Gs)</th>                                                             
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div id="tab2" title="横向场"  >
-                        <table id="halldata1" class="easyui-datagrid" width="100%" data-options="singleSelect:true,rownumbers: true">  
-                            <thead>
-                                <tr>                            
-                                    <th data-options="field:'x',width:80">X(mm)</th>
-                                    <th data-options="field:'y',width:80">Y(mm)</th>
-                                    <th data-options="field:'b',width:120">B(Gs)</th>                                                             
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div id="tab2" title="积分励磁" >
-                        <table id="halldata2" class="easyui-datagrid" width="100%" data-options="singleSelect:true,rownumbers: true">  
-                            <thead>
-                                <tr>                            
-                                    <th data-options="field:'cur',width:80">I(S)</th>
-                                    <th data-options="field:'gl',width:120">GL(Gs*mm)</th>                                                                                              
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div id="tab3" title="积分场"  >
-                        <table id="halldata3" class="easyui-datagrid" width="100%" data-options="singleSelect:true,rownumbers: true">  
-                            <thead>
-                                <tr>                            
-                                    <th data-options="field:'x',width:80">X(mm)</th>
-                                    <th data-options="field:'y',width:80">Y(mm)</th>
-                                    <th data-options="field:'gl',width:120">GL(Gs*mm)</th>                                                                                             
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
+<div id="swsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;text-align: center" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
+    
+</div>
+<div id="halldlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;text-align: center" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
+</div>
+            <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
             </div>
         </div>
         <script type="text/javascript">
 
             var toolbar = [{
-                    text: '导出原始数据',
+                    text: '下载原始数据',
                     iconCls: 'icon-database',
                     handler: function () {
                         var dg = document.getElementById(ff); //DOM Object 
@@ -197,7 +157,7 @@
                         }
                     }
                 }, {
-                    text: '查看处理数据',
+                    text: '下载处理数据',
                     iconCls: 'icon-calculate',
                     handler: function () {
                         var dg = document.getElementById(ff); //DOM Object 
@@ -216,30 +176,20 @@
                                 url: 'LoadData',
                                 data: "runid=" + row.runid + "&filetype=" + ff,
                                 success: function (data) {
-                                    if (data === "[]") {
+                                    if (data === "[]" || data==="") {
                                         alert("没有相关数据");
                                     } else {
-                                        if (ff === "hall") {
-                                            var dataspiece = data.split(";");
-//                                           alert(dataspiece[1]);
-                                            $dlg.dialog('open');
-                                            var str = '{"rows":' + dataspiece[0] + '}';
-                                            var s = $.parseJSON(str);
-                                            $('#halldata0').datagrid('loadData', s);
-                                            str = '{"rows":' + dataspiece[1] + '}';
-                                            s = $.parseJSON(str);
-                                            $('#halldata1').datagrid('loadData', s);
-                                            str = '{"rows":' + dataspiece[2] + '}';
-                                            s = $.parseJSON(str);
-                                            $('#halldata2').datagrid('loadData', s);
-                                            str = '{"rows":' + dataspiece[3] + '}';
-                                            s = $.parseJSON(str);
-                                            $('#halldata3').datagrid('loadData', s);
-                                        } else {
+                                        if (ff === "rcs") {
                                             var str = '{"rows":' + data + '}';
                                             var s = $.parseJSON(str);
                                             $dlg.dialog('open');
-                                            $datadg.datagrid('loadData', s);
+                                            $datadg.datagrid('loadData', s);                                                                                        
+                                        } else {
+                                           $dlg.dialog('open'); 
+                                            var files=data.split(",");
+                                           for(file in files){
+                                              dlg.innerHTML+="<a href=\"#\">"+files[file]+"</a></br>";
+                                           }
                                         }
                                     }
                                 }
