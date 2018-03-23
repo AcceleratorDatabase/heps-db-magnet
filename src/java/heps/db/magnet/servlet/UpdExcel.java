@@ -98,7 +98,7 @@ public class UpdExcel extends HttpServlet {
         PrintWriter out = response.getWriter();
         Integer magid = 0, status = 0;
         String filetype = null, measdate = null, measby = null, measat = null, remark = null;
-        String realPath = "E:/analyis";
+        String realPath = "E:/analysis";
         String dir = "";
         Double hall_current = 0.0, hall_gage = 0.0;
         ArrayList<String> ana_files = new ArrayList<>();
@@ -159,7 +159,7 @@ public class UpdExcel extends HttpServlet {
                     File uploadPath = new File(realPath, dir);
                     uploadPath.mkdirs();
                     String ana_name = srcName.substring(0, pos) + "-" + System.nanoTime() + extName;
-                    File file = new File(uploadPath, srcName);
+                    File file = new File(uploadPath, ana_name);
                     if (!file.exists()) {
                         file.createNewFile();
                     }

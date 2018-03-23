@@ -100,6 +100,10 @@
         <servlet-name>LoadRawData</servlet-name>
         <servlet-class>heps.db.magnet.servlet.LoadRawData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DownloadMeasFiles</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.DownloadMeasFiles</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadFile</servlet-name>
         <url-pattern>/UploadFile</url-pattern>
@@ -199,6 +203,10 @@
     <servlet-mapping>
         <servlet-name>LoadRawData</servlet-name>
         <url-pattern>/LoadRawData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DownloadMeasFiles</servlet-name>
+        <url-pattern>/DownloadMeasFiles</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

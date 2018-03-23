@@ -174,7 +174,7 @@
                 </form>     
 
                 <div style="position: absolute;top: 170px;width: 1200px">
-                    <table id="dg" name="dg" class="easyui-datagrid" title="查询结果" align="center"
+                    <table id="dg" name="dg" height=550 class="easyui-datagrid" title="查询结果" align="center"
                            data-options="
                            singleSelect: true,
                            collapsible: true,                           
@@ -312,10 +312,11 @@
                         var index = $('#dg').datagrid('getRowIndex', row);
                         //alert(index);
                         var seldata = $('#dg').datagrid('getData').rows[index];
-                        document.getElementById("hd").value = JSON.stringify(seldata);
-                        ;
+                        document.getElementById("hd").value = JSON.stringify(seldata);                        
                         if (row) {
-                            $.ajax({
+                            var yn = window.confirm("修改现有磁铁设计会导致该设计下所有磁铁信息失效，建议新增磁铁设计。确认修改？");
+                    if (yn) {
+                         $.ajax({
                                 type: 'POST',
                                 url: 'EditDesign',
                                 data:  "designId=" + row.designid +"&magType=" + row.magtype + "&magFamily=" + row.magfamily + "&selData=" + document.getElementById("hd").value,
@@ -323,36 +324,43 @@
                                     window.location.href = 'editdesign.jsp';
                                 }
                             });
+                    } else {
+                        return false;
+                    }
+                           
+                           
                             //alert('Item ID:' + row.designid + "Price:" + row.length);
                             //location.href = 'EditDesign?magType='+row.magtype+'&magFamily='+row.magfamily+'&selData='+document.getElementById("hd").value;
                         } else {
                             alert("请选择一条记录");
                         }                        
                     }
-                }, {
-                    text: '删除',
-                    iconCls: 'icon-clear',
-                    handler: function () {
-                        var row = $('#dg').datagrid('getSelected');
-                        if (row) {
-                            var yn = window.confirm("确认删除此磁铁设计？（删除后对应的磁铁设备需重新选择磁铁设计）");
-                            if (yn) {
-                                $.ajax({
-                                    type: 'POST',
-                                    url: 'DeleteDesign',
-                                    data: "designId=" + row.designid,
-                                    success: function (data) {
-                                        alert(data);
-                                        window.history.go(0);
-                                    }
-                                });
-                            } else
-                                return false;
-                        } else {
-                            alert("请选择一条记录");
-                        }
-                    }
-                }, {
+                }, 
+//                {
+//                    text: '删除',
+//                    iconCls: 'icon-clear',
+//                    handler: function () {
+//                        var row = $('#dg').datagrid('getSelected');
+//                        if (row) {
+//                            var yn = window.confirm("确认删除此磁铁设计？（删除后对应的磁铁设备需重新选择磁铁设计）");
+//                            if (yn) {
+//                                $.ajax({
+//                                    type: 'POST',
+//                                    url: 'DeleteDesign',
+//                                    data: "designId=" + row.designid,
+//                                    success: function (data) {
+//                                        alert(data);
+//                                        window.history.go(0);
+//                                    }
+//                                });
+//                            } else
+//                                return false;
+//                        } else {
+//                            alert("请选择一条记录");
+//                        }
+//                    }
+//                },
+                {
                     text: '下载机械设计图纸',
                     iconCls: 'icon-download',
                     handler: function () {

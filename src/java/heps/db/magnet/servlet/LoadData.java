@@ -81,14 +81,15 @@ public class LoadData extends HttpServlet {
         Integer runid = Integer.parseInt(request.getParameter("runid"));
         String filetype = request.getParameter("filetype");
         //out.println("runid:"+runid+"file:"+filetype);
-         MeasureAPI m = new MeasureAPI();
+        MeasureAPI m = new MeasureAPI();
         m.init();
         switch (filetype) {
             case "sws":
                 result = m.querySWSAnaDataByrunid(runid).replace("[", "").replace("]", "");
                 break;
             case "rcs":
-                result = m.queryRCSDataByrunid(runid);
+                result=m.queryRCSAnaDataByrunid(runid).replace("[", "").replace("]", "");
+                result +="//"+ m.queryRCSDataByrunid(runid);
                 break;
             case "hall":
                 result = m.queryHallAnaDataByrunid(runid).replace("[", "").replace("]", "");

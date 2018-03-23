@@ -81,7 +81,7 @@ public class EditMagnet extends HttpServlet {
         magfamily=Integer.parseInt(maginfo[1]);
         Integer magid=Integer.parseInt(request.getParameter("magid"));
         String seldata=request.getParameter("selData").replace(" ", "");          
-        System.out.println(magtype+magfamily+magid+seldata);
+        //System.out.println(magtype+magfamily+magid+seldata);
         JSONObject seljson = JSONObject.fromObject(seldata); 
         request.getSession().setAttribute("magtype", magtype);
         request.getSession().setAttribute("magfamily", magfamily);

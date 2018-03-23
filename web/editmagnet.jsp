@@ -107,6 +107,7 @@
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 20px" onclick="newfamily()">新建型号</a>
                         <span id="num"></span>                        
                     </div>
+<!--                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges()">查看修改项</a>-->
                     <div id="table" style="position: absolute;top: 80px;width: 1200px;text-align: center">
                         <table id="maginfo" name="maginfo" class="easyui-propertygrid" style=" width: 800px;margin:auto" data-options="
                                method: 'get',
@@ -123,7 +124,7 @@
                         <input type="hidden" id="hd2" name="hd2"/>
                     </div>
                 </div>
-            </form>
+            </form>             
             <div id="dlg1" class="easyui-dialog" title="磁铁设计"  style="width:1200px;height:400px;padding:10px;text-align: center" data-options="iconCls:'icon-more',closed: true,resizable:true">
                 <table id="dg" name="dg" class="easyui-datagrid" title="查询结果" align="center"
                        data-options="
@@ -228,6 +229,14 @@
                 document.getElementById("hd2").value = id;
                 var maginfo = $("#maginfo").datagrid("getData");
                 document.getElementById("hd1").value = JSON.stringify(maginfo);
+//               var changes = {};
+//                    var rows = $('#maginfo').propertygrid('getChanges');
+//                    for (var i = 0; i < rows.length; i++) {
+//                        //changes += '"'+rows[i].name + '":"' + rows[i].value + '",';
+//                        var key1=rows[i].name;                        
+//                        changes[key1]=rows[i].value;
+//                    }
+//                document.getElementById("hd1").value = JSON.stringify(changes);
                 var yn = window.confirm("确认修改？");
                 if (yn) {
                     alert("已修改");
@@ -266,6 +275,14 @@
                         x.add(option, null);
                     }
                 }
+            }
+            function getChanges() {
+                    var s = '';
+                    var rows = $('#maginfo').propertygrid('getChanges');
+                    for (var i = 0; i < rows.length; i++) {
+                        s += rows[i].name + ':' + rows[i].value + ',';
+                    }
+                    alert(s);
             }
             var mycolumns = [[
                     {field: 'name', title: '设备参数', width: 100, sortable: true},

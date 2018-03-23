@@ -74,9 +74,9 @@
                             if (fileName1 === '') {
                                 alert('请选择原始数据文件');
                                 return false;
-                            }
-                            var fileName2 = $('#analysisfiles_input').val();                           
-                            
+                            }                         
+                            var measdate=document.getElementById("measdate");
+                           
                             var fileType = (fileName1.substring(fileName1
                                     .lastIndexOf(".") + 1, fileName1.length))
                                     .toLowerCase();
@@ -126,11 +126,11 @@
                     <input type="radio" name="identity" id="hall" value="hall" onclick="showhallcon()" /><label for="hall">霍尔元件测磁</label>
                 </div>  
                 <div  name="hall_con" id="hall_con" style="position: absolute;top:110px;left: 600px">                        
-                    <input  name="current"class="easyui-numberbox" precision="3" label="测量电流：" labelPosition="before" labelAlign="right" style="width:200px">            
-                    <input  name="watergage"class="easyui-numberbox" precision="3"label="测量电压：" labelPosition="before"labelAlign="right" style="width:200px">
+                    <input  name="current"class="easyui-numberbox" precision="3" label="测量电流[A]：" labelPosition="before" labelAlign="right" style="width:200px">            
+                    <input  name="watergage"class="easyui-numberbox" precision="3"label="测量水压[Mpa]：" labelPosition="before"labelAlign="right" style="width:200px">
                  </div>
                 <div style="position: absolute;top:150px;left: 600px">
-                    <input name="measdate" class="easyui-datebox" label="磁测时间：" labelPosition="before" labelAlign="right" style="width:200px">
+                    <input id ="measdate" name="measdate" class="easyui-datebox"  required="required" missingMessage="日期必须填写" editable="false" label="磁测时间：" labelPosition="before" labelAlign="right" style="width:200px">
                     <input name="measby"class="easyui-textbox" label="磁测人：" labelPosition="before"  labelAlign="right" style="width:200px" >                      
                 </div> 
                 <div style="position: absolute;top:190px;left: 600px">                    

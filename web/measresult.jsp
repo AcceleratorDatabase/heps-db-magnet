@@ -119,7 +119,7 @@
                     </thead>
                 </table>
             </div>
-            <div id="rcsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;text-align: center" data-options="iconCls:'icon-calculate',closed: true,resizable:true">       
+            <div id="rcsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;" data-options="iconCls:'icon-calculate',closed: true,resizable:true">       
                 <table id="rcsdata" class="easyui-datagrid"  data-options="singleSelect:true,rownumbers: true">  
                     <thead>
                         <tr>                            
@@ -132,10 +132,10 @@
                     </thead>
                 </table>
             </div>
-<div id="swsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;text-align: center" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
+<div id="swsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
     
 </div>
-<div id="halldlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;text-align: center" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
+<div id="halldlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
 </div>
             <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
@@ -143,21 +143,23 @@
         </div>
         <script type="text/javascript">
 
-            var toolbar = [{
-                    text: '下载原始数据',
-                    iconCls: 'icon-database',
-                    handler: function () {
-                        var dg = document.getElementById(ff); //DOM Object 
-                        var $dg = $(dg);//JQuery Object                        
-                        var row = $dg.datagrid('getSelected');
-                        if (row) {
-                            location.href = 'LoadRawData?runid=' + row.runid + '&filetype=' + ff;
-                        } else {
-                            alert("请选择一条记录");
-                        }
-                    }
-                }, {
-                    text: '下载处理数据',
+            var toolbar = [
+//                {
+//                    text: '下载原始数据',
+//                    iconCls: 'icon-database',
+//                    handler: function () {
+//                        var dg = document.getElementById(ff); //DOM Object 
+//                        var $dg = $(dg);//JQuery Object                        
+//                        var row = $dg.datagrid('getSelected');
+//                        if (row) {
+//                            location.href = 'LoadRawData?runid=' + row.runid + '&filetype=' + ff;
+//                        } else {
+//                            alert("请选择一条记录");
+//                        }
+//                    }
+//                }, 
+                {
+                    text: '查看相关数据文件',
                     iconCls: 'icon-calculate',
                     handler: function () {
                         var dg = document.getElementById(ff); //DOM Object 
@@ -176,19 +178,29 @@
                                 url: 'LoadData',
                                 data: "runid=" + row.runid + "&filetype=" + ff,
                                 success: function (data) {
+                                    //alert(data);
                                     if (data === "[]" || data==="") {
                                         alert("没有相关数据");
                                     } else {
                                         if (ff === "rcs") {
-                                            var str = '{"rows":' + data + '}';
+                                            var datapiece=data.split("//");
+                                            var files=datapiece[0].split(",");                                            
+                                            var str = '{"rows":' + datapiece[1] + '}';
                                             var s = $.parseJSON(str);
+                                           // alert(s);
                                             $dlg.dialog('open');
-                                            $datadg.datagrid('loadData', s);                                                                                        
+                                             $datadg.datagrid('loadData', s);
+                                            dlg.innerHTML+="数据列表 点击下载（最后一个是原始数据）</br>";
+                                            for(file in files){                                               
+                                              dlg.innerHTML+="<a id="+files[file]+" href=\"#\" onclick=DownlodMeasFiles(this)>"+files[file]+"</a></br>";
+                                           }
+                                                                                                                                   
                                         } else {
-                                           $dlg.dialog('open'); 
+                                           $dlg.dialog('open');
+                                           dlg.innerHTML="数据列表 点击下载（最后一个是原始数据）</br>";
                                             var files=data.split(",");
-                                           for(file in files){
-                                              dlg.innerHTML+="<a href=\"#\">"+files[file]+"</a></br>";
+                                           for(file in files){                                               
+                                              dlg.innerHTML+="<a id="+files[file]+" href=\"#\" onclick=DownlodMeasFiles(this)>"+files[file]+"</a></br>";
                                            }
                                         }
                                     }
@@ -199,6 +211,10 @@
                         }
                     }
                 }];
+            function DownlodMeasFiles(obj){
+                //alert(document.getElementById(obj.id).innerText);
+                 location.href ="DownloadMeasFiles?filename="+document.getElementById(obj.id).innerText+"&filetype="+ff;
+            }
         </script>
     </body>
 </html>
