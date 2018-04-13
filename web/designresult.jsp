@@ -256,7 +256,7 @@
                     </thead>
                 </table>
             </div>
-            <div id="dlg1" class="easyui-dialog" title="用户自定义参数"  style="width:900px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
+            <div id="dlg1" class="easyui-dialog" title="该设计下磁铁信息"  style="width:900px;height:200px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
                 <table id="dg_magnet" class="easyui-datagrid"  title="查询结果"  data-options="singleSelect:true, 
                            rownumbers: true,
                            dataType:'json',
