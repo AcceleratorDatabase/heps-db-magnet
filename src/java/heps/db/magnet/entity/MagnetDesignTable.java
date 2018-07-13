@@ -195,7 +195,7 @@ public class MagnetDesignTable implements Serializable {
         //return "heps.db.magnet.entity.MagnetDesignTable[ designId=" + designId + " ]";
     return "{\"designid\":\"" + designId + "\"," + "\"magtype\":\"" + type + "\"," + "\"magfamily\":\"" + family + 
             "\"," + "\"designedby\":\"" + designBy + "\"," + "\"approvedby\":\"" + approvedBy + "\"," + "\"remark\":\"" 
-            + remark + "\"," + "\"length\":\"" + magnetDesignRequirementTable.getLength() +  "\"," + "\"aperture\":\"" +
+            + remark + "\"," + "\"length\":\"" + magnetDesignRequirementTable.getElength() +  "\"," + "\"aperture\":\"" +
             magnetDesignRequirementTable.getAperture()+ "\"," + "\"min_gap\":\"" + magnetDesignRequirementTable.getMinimumGap()+
             "\"," + "\"useful_field\":\"" + magnetDesignRequirementTable.getUsefulField()+"\"," + "\"intensityB\":\"" + 
             magnetDesignRequirementTable.getIntensityB()+"\"," + "\"intensityQ\":\"" + magnetDesignRequirementTable.getIntensityQ()+

@@ -64,7 +64,7 @@
             };
         </script>
         <title>录入-磁铁信息</title>
-        <style type="text/css">       
+        <style type="text/css">  
             .a-upload {
                 padding: 4px 10px;
                 width: 350px;
@@ -107,7 +107,7 @@
             <div style="width: 1000px;margin:0 auto;">
                 <form action="NewDesign" method="POST" target="_blank" onsubmit="return submitform();" >
                     <div id="info" >
-                        <label for="magtype">磁铁种类: </label> 
+                        <label for="magtype" >磁铁种类: </label> 
                         <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
                             <option value="二极铁">二极铁</option>                            
                         </select>
@@ -120,7 +120,7 @@
                     </div>
                     <div id="table">
                         <div id="table1" style=" float: left ">
-                             <div style="margin:20px 0;"></div>
+                            <div style="margin:20px 0;"></div>
                             <label> 请输入磁铁设计要求：
                            <div style="margin:5px 0;"></div>
                             <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
@@ -136,6 +136,7 @@
                             <div style="margin:5px 0;"></div>
                             <div class="easyui-panel" title="其他信息"  >
                                 <div style="margin-bottom:5px;margin-top: 5px">
+                                    
                                     <input  class="easyui-textbox" id="designed_by" name="designed_by" label="磁铁设计人：（多人请用分号隔开）" labelPosition="top" style="width:100%">
                                 </div>
                                 <div style="margin-bottom:5px">
@@ -217,7 +218,8 @@
             </div>
         </div>
 
-        <script type="text/javascript">    
+        <script type="text/javascript"> 
+//            $('.datagrid-row  ').css('font-size','36px');
            var pplotnum=0;
             var mplotnum=0;
              document.getElementById("hd3").value=0;
@@ -280,7 +282,9 @@
                 document.getElementById("hd1").value = JSON.stringify(require);
                 var parameter = $("#design_para").datagrid("getData");
                 document.getElementById("hd2").value = JSON.stringify(parameter);
-                if (JSON.stringify(require).length === 1057 || JSON.stringify(parameter).length === 2048) {
+                console.log("require"+JSON.stringify(require).length);
+                 console.log("pa"+JSON.stringify(parameter).length);
+                if (JSON.stringify(require).length === 1055 || JSON.stringify(parameter).length === 2046) {
                     alert("设计要求和基本参数未填写");
                     return false;
                 } else {

@@ -137,7 +137,7 @@ public class QueryDesign extends HttpServlet {
         if (bytype == 0 && byfamily == 0 && bylength == 0 && byintensity == 0) {//no query conditions
             result = a.queryDesignAll();
         } else if (bytype == 1 && byfamily == 0 && bylength == 0 && byintensity == 0) {//query by type             
-            result = a.queryDesignByType(type);
+            result = a.queryDesignByType(type);            
         } else if (bytype == 0 && byfamily == 1 && bylength == 0 && byintensity == 0) {//query by family
             result = a.queryDesignByFamily(family);
         } else if (bytype == 0 && byfamily == 0 && bylength == 1 && byintensity == 0) {//query by length

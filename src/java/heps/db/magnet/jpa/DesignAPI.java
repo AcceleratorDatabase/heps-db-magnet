@@ -73,7 +73,7 @@ public class DesignAPI {
         et.begin();
         MagnetDesignRequirementTable require = new MagnetDesignRequirementTable();
         require.setDesignId(design.getDesignId());
-        require.setLength(precalc(design_requirement.get(0)));
+        require.setElength(precalc(design_requirement.get(0)));
         require.setAperture(precalc(design_requirement.get(1).toString()));
         require.setMinimumGap(precalc(design_requirement.get(2).toString()));
         require.setUsefulField(precalc(design_requirement.get(3).toString()));

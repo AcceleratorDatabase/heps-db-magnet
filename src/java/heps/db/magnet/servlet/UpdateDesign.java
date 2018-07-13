@@ -149,16 +149,13 @@ public class UpdateDesign extends HttpServlet {
         } else {
             other_flag = 0;
         }
-        // out.println("design_re= "+design_requirement); 
-        //try{
-        a.deleteDesignById(deleteId);
+
+        int re=a.deleteDesignById(deleteId);
         a.destroy();
         a.init();
         a.insertDesign(design, design_requirement, design_para, design_plot, other_flag, design_others);
         a.destroy();
-        // }catch(UnsupportedEncodingException e){
-        // result="失败！"+e;
-        // }
+         
         out.println("<!DOCTYPE html>");
         out.println("<meta http-equiv=\"refresh\" content=\"3;url=index.html\">");
         out.println("<html>");

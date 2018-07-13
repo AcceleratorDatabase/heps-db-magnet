@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "MagnetDesignRequirementTable.findAll", query = "SELECT m FROM MagnetDesignRequirementTable m")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByDesignId", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.designId = :designId")
-    , @NamedQuery(name = "MagnetDesignRequirementTable.findByLength", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.length = :length")
+    , @NamedQuery(name = "MagnetDesignRequirementTable.findByElength", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.elength = :elength")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByAperture", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.aperture = :aperture")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByMinimumGap", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.minimumGap = :minimumGap")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByUsefulField", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.usefulField = :usefulField")
@@ -47,8 +47,8 @@ public class MagnetDesignRequirementTable implements Serializable {
     @Column(name = "design_id")
     private Integer designId;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "length")
-    private Double length;
+    @Column(name = "elength")
+    private Double elength;
     @Column(name = "aperture")
     private Double aperture;
     @Column(name = "minimum_gap")
@@ -86,12 +86,12 @@ public class MagnetDesignRequirementTable implements Serializable {
         this.designId = designId;
     }
 
-    public Double getLength() {
-        return length;
+    public Double getElength() {
+        return elength;
     }
 
-    public void setLength(Double length) {
-        this.length = length;
+    public void setElength(Double elength) {
+        this.elength = elength;
     }
 
     public Double getAperture() {
