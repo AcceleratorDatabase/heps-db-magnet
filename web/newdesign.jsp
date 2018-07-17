@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="modelcss.css">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
@@ -64,45 +65,14 @@
             };
         </script>
         <title>录入-磁铁信息</title>
-        <style type="text/css">  
-            .a-upload {
-                padding: 4px 10px;
-                width: 350px;
-                line-height: 20px;
-                position: relative;
-                cursor: pointer;
-                color: #444;
-                background: #fafafa;
-                background-repeat: repeat-x;    
-                border: 1px solid #bbb;
-                border-radius: 5px 5px 5px 5px;
-                overflow: hidden;
-                display: inline-block;
-                *display: inline;
-                *zoom: 1
-            }
-            .a-upload  input {
-                position: absolute;
-                font-size: 100px;
-                right: 0;
-                top: 0;
-                opacity: 0;
-                filter: alpha(opacity=0);
-                cursor: pointer
-            }
-            .a-upload:hover {
-                color:  #000000;
-                background: #eaf2ff;
-                border: 1px solid #b7d2ff;
-                text-decoration: none
-            } 
+        <style type="text/css">             
             label{
                 font-size: 16px
             }
         </style>
     </head>
     <body>
-        <h2>录入磁铁设计信息</h2>  
+        <h2 style="text-align:center">录入磁铁设计信息</h2>  
         <div class="easyui-panel"   style="height: 820px;padding:20px 60px;" >
             <div style="width: 1000px;margin:0 auto;">
                 <form action="NewDesign" method="POST" target="_blank" onsubmit="return submitform();" >

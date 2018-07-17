@@ -11,7 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
-        <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css">     
+        <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css">
+        <link rel="stylesheet" type="text/css" href="modelcss.css">
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="dr.js"></script>
@@ -21,27 +22,27 @@
                 Integer designId = (Integer) session.getAttribute("designId");
                 String magtype = (String) session.getAttribute("magtype");
                 Integer magfamily = (Integer) session.getAttribute("magfamily");
-                 String mplotname = (String) session.getAttribute("mplotname");
-                  String pplotname = (String) session.getAttribute("pplotname");
-                String seldata = (String) session.getAttribute("seldata");                
+                String mplotname = (String) session.getAttribute("mplotname");
+                String pplotname = (String) session.getAttribute("pplotname");
+                String seldata = (String) session.getAttribute("seldata");
                 //JSONObject seljson = JSONObject.fromObject(seldata);
 //System.out.println("jsp json:"+seldata);
-            %>
+%>
             var tt = "<%=magtype%>";
             var mp = "<%=mplotname%>";
             var pp = "<%=pplotname%>";
             var id = <%=designId%>;
             var ff = <%=magfamily%>;
             var ss =<%=seldata%>;
-           // document.write(obj.length + "<br / >");
+            // document.write(obj.length + "<br / >");
             for (var p in ss)
             {
-                if(ss[p]==='"null"'){
-                    ss[p]='';
+                if (ss[p] === '"null"') {
+                    ss[p] = '';
                 }
                 //document.write(p + ":" + ss[p] + "<br / >");
             }
-            if (ss !== null) {                
+            if (ss !== null) {
                 rowr[0].value = ss["length"];
                 rowr[1].value = ss["aperture"];
                 rowr[2].value = ss["min_gap"];
@@ -51,7 +52,7 @@
                 rowr[6].value = ss["intensityS"];
                 rowr[7].value = ss["intensityO"];
                 rowr[8].value = ss["sys"];
-                rowr[9].value = ss["non_sys"];    
+                rowr[9].value = ss["non_sys"];
                 rowp[0].value = ss["offset"];
                 rowp[1].value = ss["ampere_turns"];
                 rowp[2].value = ss["ampere_turns_each"];
@@ -71,7 +72,7 @@
                 rowp[16].value = ss["core_length"];
                 rowp[17].value = ss["core_section"];
                 rowp[18].value = ss["core_weight"];
-                rowp[19].value = ss["copper_weight"]; 
+                rowp[19].value = ss["copper_weight"];
             }
             window.onload = function () {
                 $.ajax({
@@ -80,15 +81,15 @@
                     success: function (data) {
                         var b = data.split(",");
                         var x = document.getElementById("magtype");
-                        for (var i = 0; i < b.length; i++) {                            
-                                var option = document.createElement("option");
-                                option.text = b[i];
-                                option.value = b[i];
-                                try {
-                                    x.add(option, x.options[null]);
-                                } catch (e) {
-                                    x.add(option, null);
-                                }                            
+                        for (var i = 0; i < b.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = b[i];
+                            option.value = b[i];
+                            try {
+                                x.add(option, x.options[null]);
+                            } catch (e) {
+                                x.add(option, null);
+                            }
                         }
                         document.getElementById("magtype").value = tt;
                     }
@@ -99,78 +100,45 @@
                     success: function (data) {
                         var b = data.split(",");
                         var x = document.getElementById("magfamily");
-                        for (var i = 0; i < b.length; i++) {                            
-                                var option = document.createElement("option");
-                                option.text = b[i];
-                                option.value = b[i];
-                                try {
-                                    x.add(option, x.options[null]);
-                                } catch (e) {
-                                    x.add(option, null);
-                                }                            
+                        for (var i = 0; i < b.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = b[i];
+                            option.value = b[i];
+                            try {
+                                x.add(option, x.options[null]);
+                            } catch (e) {
+                                x.add(option, null);
+                            }
                         }
                         document.getElementById("magfamily").value = ff;
                     }
                 });
-                
-                $("#successTip1").html("现有文件名："+mp);
+
+                $("#successTip1").html("现有文件名：" + mp);
                 $("#successTip1").show();
-                 $("#successTip2").html("现有文件名："+pp);
+                $("#successTip2").html("现有文件名：" + pp);
                 $("#successTip2").show();
-                if(ss!==null){
-                $('#designed_by').textbox('setValue',ss["designedby"]);
-                 $('#approved_by').textbox('setValue',ss["approvedby"]);
-                  $('#remark').textbox('setValue',ss["remark"]);
+                if (ss !== null) {
+                    $('#designed_by').textbox('setValue', ss["designedby"]);
+                    $('#approved_by').textbox('setValue', ss["approvedby"]);
+                    $('#remark').textbox('setValue', ss["remark"]);
                 }
                 $('#design_require').propertygrid('loadData', rowr);
                 $('#design_para').propertygrid('loadData', rowp);
-                ss=null;
+                ss = null;
             };
         </script>
-        <title>录入-磁铁设计</title>
-        <style type="text/css">       
-            .a-upload {
-                padding: 4px 10px;
-                width: 350px;
-                line-height: 20px;
-                position: relative;
-                cursor: pointer;
-                color: #444;
-                background: #fafafa;
-                background-repeat: repeat-x;    
-                border: 1px solid #bbb;
-                border-radius: 5px 5px 5px 5px;
-                overflow: hidden;
-                display: inline-block;
-                *display: inline;
-                *zoom: 1
-            }
-            .a-upload  input {
-                position: absolute;
-                font-size: 100px;
-                right: 0;
-                top: 0;
-                opacity: 0;
-                filter: alpha(opacity=0);
-                cursor: pointer
-            }
-            .a-upload:hover {
-                color:  #000000;
-                background: #eaf2ff;
-                border: 1px solid #b7d2ff;
-                text-decoration: none
-            } 
-        </style>
+        <title>录入-磁铁设计</title>        
     </head>
     <body>
-        <h2>录入磁铁设计信息</h2>  
+        <h2 style="text-align:center">录入磁铁设计信息</h2>  
         <div class="easyui-panel"   style="height: 820px;padding:20px 60px 20px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1000px;margin:0 auto;">
                 <form action="UpdateDesign" method="POST" target="_blank" onsubmit="return submitform();" >
                     <div id="info" >
                         <span>磁铁种类: </span> 
                         <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
-                            
+
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 50px" onclick="newtype()">新建种类</a>
                         <span>磁铁型号: </span>
@@ -182,10 +150,10 @@
                         <div id="table1" style=" ;float: left ">
                             <p> 请输入磁铁设计要求：
                             <div style="margin:25px 0;"></div>
-<!--                                                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
+                            <!--                                                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
                             </p>                                               
                             <table id="design_require" name="design_require" class="easyui-propertygrid" style="width:400px" data-options="
-                                 
+
                                    method: 'get',
                                    showGroup: true,
                                    scrollbarSize: 0,                                  
@@ -208,12 +176,12 @@
                         </div>
                         <div id="table2" style="float: right">
                             <p>请输入磁铁设计参数：
-<!--                                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges2()">查看修改项</a>-->
+                                <!--                                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges2()">查看修改项</a>-->
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="addrow()">新增设计参数</a>
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow()">删除设计参数</a>
                             </p>
                             <table id="design_para" name="design_para" class="easyui-propertygrid" style="width:400px" data-options="
-                                   
+
                                    method: 'get',
                                    showGroup: true,
                                    scrollbarSize: 0,                                   
@@ -223,12 +191,12 @@
                         </div>
                     </div>
                     <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center"> 
-<!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges()">查看修改项</a>-->
+                        <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges()">查看修改项</a>-->
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="更新" >
                         <input type="hidden" id="hd1" name="hd1"/>
                         <input type="hidden" id="hd2" name="hd2"/> 
                         <input type="hidden" id="hd3" name="hd3"/>
-                       
+
                         <input type="hidden" id="pplotn" name="pplotn"/>
                         <input type="hidden" id="mplotn" name="mplotn"/>
                     </div>
@@ -271,8 +239,8 @@
             </div>
         </div>
 
-        <script type="text/javascript"> 
-          
+        <script type="text/javascript">
+
             function uploadpplot() {
                 var names = $("#pplotId").val().split(".");
 
@@ -320,9 +288,9 @@
                     //            $("#img").show();  
                 }
             }
-            
+
             function submitform() {
-                document.getElementById("hd3").value=id;
+                document.getElementById("hd3").value = id;
                 var require = $("#design_require").datagrid("getData");
                 document.getElementById("hd1").value = JSON.stringify(require);
                 var parameter = $("#design_para").datagrid("getData");
@@ -373,7 +341,7 @@
                     }
                 }
             }
-            var mycolumns = [[                   
+            var mycolumns = [[
                     {field: 'name', title: '设计参数', width: 100, sortable: true},
                     {field: 'value', title: '数值', width: 100, resizable: false, formatter: function (value, arr) {
                             if (value === '\"null\"') {
@@ -393,13 +361,13 @@
                                 return value;
                         }}
                 ]];
-            function getChanges1() {  
-                    var s = '';
-                    var rows = $('#design_require').propertygrid('getChanges');
-                    for (var i = 0; i < rows.length; i++) {
-                        s += rows[i].name + ':' + rows[i].value + ',';
-                    }
-                    alert(s);
+            function getChanges1() {
+                var s = '';
+                var rows = $('#design_require').propertygrid('getChanges');
+                for (var i = 0; i < rows.length; i++) {
+                    s += rows[i].name + ':' + rows[i].value + ',';
+                }
+                alert(s);
             }
             function getChanges2() {
                 var s = '';
@@ -409,7 +377,7 @@
                 }
                 alert(s);
             }
-             
+
             function addrow() {
                 var input = window.prompt("新建设计参数,格式：参数名/参数组名/参数类型(text或number)", "property/其他/text");
                 var slice = input.split("/");

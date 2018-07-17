@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="modelcss.css">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
@@ -132,13 +133,13 @@
                     </thead>
                 </table>
             </div>
-<div id="swsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
-    
-</div>
-<div id="halldlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
-</div>
+            <div id="swsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
+
+            </div>
+            <div id="halldlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
+            </div>
             <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
-                <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
+                <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >
             </div>
         </div>
         <script type="text/javascript">
@@ -179,29 +180,29 @@
                                 data: "runid=" + row.runid + "&filetype=" + ff,
                                 success: function (data) {
                                     //alert(data);
-                                    if (data === "[]" || data==="") {
+                                    if (data === "[]" || data === "") {
                                         alert("没有相关数据");
                                     } else {
                                         if (ff === "rcs") {
-                                            var datapiece=data.split("//");
-                                            var files=datapiece[0].split(",");                                            
+                                            var datapiece = data.split("//");
+                                            var files = datapiece[0].split(",");
                                             var str = '{"rows":' + datapiece[1] + '}';
                                             var s = $.parseJSON(str);
-                                           // alert(s);
+                                            // alert(s);
                                             $dlg.dialog('open');
-                                             $datadg.datagrid('loadData', s);
-                                            dlg.innerHTML+="数据列表 点击下载（最后一个是原始数据）</br>";
-                                            for(file in files){                                               
-                                              dlg.innerHTML+="<a id="+files[file]+" href=\"#\" onclick=DownlodMeasFiles(this)>"+files[file]+"</a></br>";
-                                           }
-                                                                                                                                   
+                                            $datadg.datagrid('loadData', s);
+                                            dlg.innerHTML += "数据列表 点击下载（最后一个是原始数据）</br>";
+                                            for (file in files) {
+                                                dlg.innerHTML += "<a id=" + files[file] + " href=\"#\" onclick=DownlodMeasFiles(this)>" + files[file] + "</a></br>";
+                                            }
+
                                         } else {
-                                           $dlg.dialog('open');
-                                           dlg.innerHTML="数据列表 点击下载（最后一个是原始数据）</br>";
-                                            var files=data.split(",");
-                                           for(file in files){                                               
-                                              dlg.innerHTML+="<a id="+files[file]+" href=\"#\" onclick=DownlodMeasFiles(this)>"+files[file]+"</a></br>";
-                                           }
+                                            $dlg.dialog('open');
+                                            dlg.innerHTML = "数据列表 点击下载（最后一个是原始数据）</br>";
+                                            var files = data.split(",");
+                                            for (file in files) {
+                                                dlg.innerHTML += "<a id=" + files[file] + " href=\"#\" onclick=DownlodMeasFiles(this)>" + files[file] + "</a></br>";
+                                            }
                                         }
                                     }
                                 }
@@ -211,9 +212,9 @@
                         }
                     }
                 }];
-            function DownlodMeasFiles(obj){
+            function DownlodMeasFiles(obj) {
                 //alert(document.getElementById(obj.id).innerText);
-                 location.href ="DownloadMeasFiles?filename="+document.getElementById(obj.id).innerText+"&filetype="+ff;
+                location.href = "DownloadMeasFiles?filename=" + document.getElementById(obj.id).innerText + "&filetype=" + ff;
             }
         </script>
     </body>

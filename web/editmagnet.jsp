@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="modelcss.css">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
@@ -84,13 +85,13 @@
                         document.getElementById("magfamily").value = ff;
                     }
                 });
-                $('#maginfo').propertygrid('loadData', rowm);                
+                $('#maginfo').propertygrid('loadData', rowm);
             };
         </script>
         <title>修改-磁铁信息</title>
     </head>
     <body>
-        <h2>修改磁铁设备信息</h2> 
+        <h2 style="text-align:center">修改磁铁设备信息</h2> 
         <div class="easyui-panel" style="height:820px;padding:10px 60px" >            
             <form action="UpdateMagnet" method="post" target="" onsubmit="return submitform();">
                 <div style="width: 1200px;margin:1px 470px;font-size:14px;;position: relative;">
@@ -107,7 +108,7 @@
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 20px" onclick="newfamily()">新建型号</a>
                         <span id="num"></span>                        
                     </div>
-<!--                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges()">查看修改项</a>-->
+                    <!--                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges()">查看修改项</a>-->
                     <div id="table" style="position: absolute;top: 80px;width: 1200px;text-align: center">
                         <table id="maginfo" name="maginfo" class="easyui-propertygrid" style=" width: 800px;margin:auto" data-options="
                                method: 'get',
@@ -135,7 +136,7 @@
                        ">
                     <thead data-options="frozen:true">
                         <tr>
-                            <th data-options="field:'designid',width:80,sortable:true">ID</th>
+<!--                            <th data-options="field:'designid',width:80,sortable:true">ID</th>-->
                             <th data-options="field:'magtype',width:80">磁铁类型</th>
                             <th data-options="field:'magfamily',width:80">磁铁型号</th>
                         </tr>
@@ -203,7 +204,7 @@
                 </table>
             </div>
             <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
-                <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
+                <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >
             </div>
         </div>
         <script type="text/javascript">
@@ -277,12 +278,12 @@
                 }
             }
             function getChanges() {
-                    var s = '';
-                    var rows = $('#maginfo').propertygrid('getChanges');
-                    for (var i = 0; i < rows.length; i++) {
-                        s += rows[i].name + ':' + rows[i].value + ',';
-                    }
-                    alert(s);
+                var s = '';
+                var rows = $('#maginfo').propertygrid('getChanges');
+                for (var i = 0; i < rows.length; i++) {
+                    s += rows[i].name + ':' + rows[i].value + ',';
+                }
+                alert(s);
             }
             var mycolumns = [[
                     {field: 'name', title: '设备参数', width: 100, sortable: true},

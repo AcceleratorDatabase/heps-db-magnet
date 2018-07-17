@@ -92,13 +92,12 @@ public class UpdExcel extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setCharacterEncoding("utf-8");
-        request.setCharacterEncoding("UTF-8");
-
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         Integer magid = 0, status = 0;
         String filetype = null, measdate = null, measby = null, measat = null, remark = null;
-        String realPath = "E:/analysis";
+//        String realPath = "E:/analysis";
+        String realPath = this.getServletContext().getRealPath("/WEB-INF");
         String dir = "";
         Double hall_current = 0.0, hall_gage = 0.0;
         ArrayList<String> ana_files = new ArrayList<>();
@@ -138,13 +137,13 @@ public class UpdExcel extends HttpServlet {
                 } else {
                     switch (filetype){
                             case "sws":
-                              dir="sws";
+                              dir="uploadfile/analysis/sws";
                                 break;
                             case "rcs":
-                                 dir="rcs";
+                                 dir="uploadfile/analysis/rcs";
                                 break;
                             case "hall":
-                                 dir="hall";
+                                 dir="uploadfile/analysis/hall";
                                 break;                        
                         }
                     String srcName = f.getName();// 取得上传时的文件名                     

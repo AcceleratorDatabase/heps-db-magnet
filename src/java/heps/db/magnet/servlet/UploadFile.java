@@ -55,15 +55,18 @@ public class UploadFile extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {        
-        String realPath = "E:/plot";  
+        //String realPath = "E:/plot";  
+        String realPath = this.getServletContext().getRealPath("/WEB-INF");
         String plottype=request.getParameter("plottype");
         String dir="";      
         if(plottype.equals("0")){
-           dir="pplot";
+           dir="uploadfile/pplot";
         }else if(plottype.equals("1")){
-          dir="mplot";
+          dir="uploadfile/mplot";
         }
         File uploadPath = new File(realPath, dir);  
+//        System.out.println(uploadPath.getPath());
+//        System.out.println(uploadPath.getAbsolutePath());
         uploadPath.mkdirs();  
         // 解决Servelt to js乱码问题  
         response.setContentType("text/html;charset=UTF-8");  

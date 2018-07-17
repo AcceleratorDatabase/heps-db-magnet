@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="modelcss.css">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
@@ -62,51 +63,48 @@
             };
 
         </script>
+       
         <title>录入-磁铁设计</title>
     </head>
     <body>
-        <h2>录入磁铁设备信息</h2> 
-        <div class="easyui-panel" style="height:820px;padding:10px 60px" >            
-            <form action="NewMagnet" method="post" target="" onsubmit="return submitform();">
-                <div style="width: 1200px;margin:1px 470px;font-size:14px;position: relative;">
+        <h2 style="text-align:center">录入磁铁设备信息</h2>
+        <div class="easyui-panel" style="height: 820px;padding-top:20px" >  
+            <div style="margin:0 auto;width:800px">
+            <form action="NewMagnet" method="post" target="" onsubmit="return submitform();">                    
                     <div id="info1" >
                         <label for="magtype">磁铁种类: </label> 
-                        <select  id="magtype" name="magtype" style="width:10%;height: 25px" >
-                            <option value="二极铁">二极铁</option>
-                            <!--                            <option value="四极铁">四极铁</option>
-                                                        <option value="六极铁">六极铁</option>
-                                                        <option value="八极铁">八极铁</option>-->
+                            <select  id="magtype" name="magtype">
+                            <option value="二极铁">二极铁</option>                            
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 20px" onclick="newtype()">新建种类</a>
                         <label for="magfamily">磁铁型号: </label>
-                        <select  id="magfamily" name="magfamily" style="width:10%;height: 25px" >
-                            <option value="1">1</option>
-                            
+                        <select  id="magfamily" name="magfamily" style="" >
+                            <option value="1">1</option>                            
                         </select>
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 20px" onclick="newfamily()">新建型号</a>
                         <span id="num"></span>                        
                     </div>
-                    <div id="info2" style="position: absolute;top:40px;">   
+                    <div id="info2" style="padding-top:10px;padding-bottom: 10px">   
                         <input type="checkbox" id="batchinsert" name="batchinsert"  >批量录入
                         <label id="geshu" style="left: 20px;display: none" for="batchnum">    个数: </label>
                         <input id="batchnum" name="batchnum"style="display: none" value="">
-                    </div>                    
-                    <div id="table" style="position: absolute;top: 80px;width: 1200px;text-align: center">
-                        <table id="maginfo" name="maginfo" class="easyui-propertygrid" style=" width: 800px;margin:auto" data-options="
+                    </div> 
+                    <div id="table" >
+                        <table id="maginfo" name="maginfo" class="easyui-propertygrid" style=" width: 800px;" data-options="
                                method: 'get',
                                showGroup: true,
                                scrollbarSize: 0,                                  
                                columns: mycolumns                           
                                ">
                         </table>  
-                    </div>
-
-                    <div id="submit" style="position:absolute;top:380px;width: 800px;text-align: center">                    
+                    </div>              
+                    <div id="submit" style="text-align: center;padding-top: 10px">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
+                        <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >
                         <input type="hidden" id="hd1" name="hd1"/>                        
-                    </div>
-                </div>
+                    </div>               
             </form>
+        </div>
             <div id="dlg1" class="easyui-dialog" title="磁铁设计"  style="width:1200px;height:400px;padding:10px;text-align: center" data-options="iconCls:'icon-more',closed: true,resizable:true">
                 <table id="dg" name="dg" class="easyui-datagrid" title="查询结果" align="center"
                        data-options="
@@ -185,9 +183,9 @@
                     </thead>
                 </table>
             </div>
-            <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
+<!--            <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
                 <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
-            </div>
+            </div>-->
         </div>
 
         <script type="text/javascript">

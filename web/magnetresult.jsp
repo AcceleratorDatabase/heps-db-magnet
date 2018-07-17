@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="modelcss.css">
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
@@ -70,7 +71,7 @@
         <title>查询-磁铁信息及磁测数据</title>
     </head>
     <body>
-        <h2 >查询磁铁信息及磁测数据</h2>
+        <h2 style="text-align:center">查询磁铁信息及磁测数据</h2>
         <div class="easyui-panel" style="height:820px;padding:10px 60px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1300px;margin:0 auto;font-size:14px;">
                 <form action="QueryMagnet" method="post" target="" onsubmit="return submitform();">
@@ -109,7 +110,7 @@
                            collapsible:true">
                         <thead>
                             <tr>
-                                <th data-options="field:'magid',width:70">ID</th>
+<!--                                <th data-options="field:'magid',width:70">ID</th>-->
                                 <th data-options="field:'magname',width:100">名称</th>
                                 <th data-options="field:'designid',width:100,formatter:formatDesign">磁铁设计</th>                
                                 <th data-options="field:'weight',width:100">磁铁重量[Kg]</th>
@@ -130,7 +131,7 @@
                            ">
                         <thead data-options="frozen:true">
                             <tr>
-                                <th data-options="field:'designid',width:80,sortable:true">ID</th>
+<!--                                <th data-options="field:'designid',width:80,sortable:true">ID</th>-->
                                 <th data-options="field:'magtype',width:80">磁铁类型</th>
                                 <th data-options="field:'magfamily',width:80">磁铁型号</th>
                             </tr>
@@ -191,8 +192,8 @@
                     <a id="hall" name="hall"href="#" class="easyui-linkbutton" data-options="size:'large',iconAlign:'top'" onclick="showMeas(this)">霍尔元件测磁</a>
                     <input type="hidden" id="hd1" name="hd1"/>
                 </div>
-                <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
-                <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
+                <div style="position:absolute;top:770px;bottom: 0; left:0;right:0;text-align: center">  
+                <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >
             </div>
             </div>
         </div>
