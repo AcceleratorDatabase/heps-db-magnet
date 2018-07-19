@@ -90,7 +90,7 @@ public class RotCoilSystemTable implements Serializable {
     @Size(max = 45)
     @Column(name = "meas_at")
     private String measAt;
-    @Size(max = 45)
+    @Size(max = 255)
     @Column(name = "description")
     private String description;
     @JoinColumn(name = "device_id", referencedColumnName = "device_id")
