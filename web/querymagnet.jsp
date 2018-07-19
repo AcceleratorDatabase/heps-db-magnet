@@ -14,8 +14,8 @@
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
-        <script type="text/javascript">            
-           
+        <script type="text/javascript">
+
             window.onload = function () {
                 $.ajax({
                     type: 'POST',
@@ -55,6 +55,11 @@
                 });
             };
         </script>
+        <style type="text/css">             
+            label{
+                font-size: 16px
+            }
+        </style>
         <title>查询-磁铁信息及磁测数据</title>
     </head>
     <body>
@@ -91,7 +96,7 @@
                     <table class="easyui-datagrid"  title="查询结果"  data-options="singleSelect:true,toolbar:toolbar,collapsible:true">
                         <thead>
                             <tr>
-<!--                                <th data-options="field:'magid',width:100">ID</th>-->
+                                <!--                                <th data-options="field:'magid',width:100">ID</th>-->
                                 <th data-options="field:'magname',width:100">名称</th>
                                 <th data-options="field:'designid',width:100">磁铁设计</th>                
                                 <th data-options="field:'weight',width:100">磁铁重量[Kg]</th>
@@ -106,7 +111,7 @@
 
                 </div>  
                 <div style="position:absolute;top:770px;bottom: 0; left:0;right:0;text-align: center">  
-                    <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >
+                    <input style="width:90px; font-size: 14px;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >
                 </div>
             </div>
             <script type="text/javascript">

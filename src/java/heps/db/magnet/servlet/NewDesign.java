@@ -107,14 +107,6 @@ public class NewDesign extends HttpServlet {
         design.add(remark);
         mplot = request.getParameter("mplotn");
         pplot = request.getParameter("pplotn");
-        //del_dup_pplot=Integer.parseInt(request.getParameter("hd3"));
-        // del_dup_mplot=Integer.parseInt(request.getParameter("hd4"));
-//        if(del_dup_pplot==1){
-//        System.out.println("delp");
-//        }
-//         if(del_dup_mplot==1){
-//        System.out.println("delm");
-//        }
         design_plot.add(pplot);
         design_plot.add(mplot);
 

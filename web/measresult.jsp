@@ -36,6 +36,11 @@
                 }
             };
         </script>
+        <style type="text/css">             
+            label{
+                font-size: 16px
+            }
+        </style>
         <title>磁测数据</title>
     </head>
     <body>
@@ -121,17 +126,17 @@
                 </table>
             </div>
             <div id="rcsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px;" data-options="iconCls:'icon-calculate',closed: true,resizable:true">       
-                <table id="rcsdata" class="easyui-datagrid"  data-options="singleSelect:true,rownumbers: true">  
-                    <thead>
-                        <tr>                            
-                            <th data-options="field:'phi',width:80">phi</th>
-                            <th data-options="field:'angle',width:80">angle</th> 
-                            <th data-options="field:'bnb2',width:80">bnb2</th>
-                            <th data-options="field:'bn',width:80">bn</th>
-                            <th data-options="field:'an',width:80">an</th>                             
-                        </tr>
-                    </thead>
-                </table>
+                <!--                <table id="rcsdata" class="easyui-datagrid"  data-options="singleSelect:true,rownumbers: true">  
+                                    <thead>
+                                        <tr>                            
+                                            <th data-options="field:'phi',width:80">phi</th>
+                                            <th data-options="field:'angle',width:80">angle</th> 
+                                            <th data-options="field:'bnb2',width:80">bnb2</th>
+                                            <th data-options="field:'bn',width:80">bn</th>
+                                            <th data-options="field:'an',width:80">an</th>                             
+                                        </tr>
+                                    </thead>
+                                </table>-->
             </div>
             <div id="swsdlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
 
@@ -139,7 +144,7 @@
             <div id="halldlg" class="easyui-dialog" title="处理数据"  style="width:450px;height:700px;padding:10px" data-options="iconCls:'icon-calculate',closed: true,resizable:true">  
             </div>
             <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
-                <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >
+                <input style="width:90px; font-size: 14px;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >
             </div>
         </div>
         <script type="text/javascript">

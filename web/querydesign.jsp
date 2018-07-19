@@ -14,7 +14,12 @@
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
-<script type="text/javascript">           
+        <style type="text/css">             
+            label{
+                font-size: 16px
+            }
+        </style>
+        <script type="text/javascript">
             window.onload = function () {
                 $.ajax({
                     type: 'POST',
@@ -22,15 +27,15 @@
                     success: function (data) {
                         var b = data.split(",");
                         var x = document.getElementById("magtype");
-                        for (var i = 0; i < b.length; i++) {                            
-                                var option = document.createElement("option");
-                                option.text = b[i];
-                                option.value = b[i];
-                                try {
-                                    x.add(option, x.options[null]);
-                                } catch (e) {
-                                    x.add(option, null);
-                                }                            
+                        for (var i = 0; i < b.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = b[i];
+                            option.value = b[i];
+                            try {
+                                x.add(option, x.options[null]);
+                            } catch (e) {
+                                x.add(option, null);
+                            }
                         }
                     }
                 });
@@ -40,19 +45,19 @@
                     success: function (data) {
                         var b = data.split(",");
                         var x = document.getElementById("magfamily");
-                        for (var i = 0; i < b.length; i++) {                            
-                                var option = document.createElement("option");
-                                option.text = b[i];
-                                option.value = b[i];
-                                try {
-                                    x.add(option, x.options[null]);
-                                } catch (e) {
-                                    x.add(option, null);
-                                }                            
+                        for (var i = 0; i < b.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = b[i];
+                            option.value = b[i];
+                            try {
+                                x.add(option, x.options[null]);
+                            } catch (e) {
+                                x.add(option, null);
+                            }
                         }
                     }
                 });
-               
+
             };
 
         </script>
@@ -62,7 +67,7 @@
                 font-size: 14px;
                 font-weight: bold;
             }
-            
+
         </style>
     </head>
     <body>
@@ -124,7 +129,7 @@
                            ">
                         <thead data-options="frozen:true">
                             <tr>
-<!--                                <th data-options="field:'designid',width:60,sortable:true">ID</th>-->
+                                <!--                                <th data-options="field:'designid',width:60,sortable:true">ID</th>-->
                                 <th data-options="field:'magtype',width:60">磁铁类型</th>
                                 <th data-options="field:'magfamily',width:60">磁铁型号</th>
                             </tr>
@@ -179,7 +184,7 @@
                 </div>               
             </div>  
             <div style="position:absolute;top:780px;bottom: 0; left:0;right:0;text-align: center">  
-                 <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >
+                <input style="width:90px; font-size: 14px;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >
             </div>
         </div>
         <script type="text/javascript">
@@ -217,7 +222,7 @@
                     handler: function () {
                         alert('未查询');
                     }
-                },{
+                }, {
                     text: '下载物理设计图纸',
                     iconCls: 'icon-download',
                     handler: function () {

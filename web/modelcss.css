@@ -7,7 +7,9 @@ and open the template in the editor.
     Created on : 2018-7-17, 17:01:24
     Author     : qiaoys
 */
-
+          label{
+                font-size: 16px !important;
+            }
             .a-upload {
                 padding: 4px 10px;
                 width: 350px;

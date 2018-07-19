@@ -75,9 +75,10 @@ public class UploadFile extends HttpServlet {
         if (isMultipart) {  
             FileItemFactory factory = new DiskFileItemFactory();  
             ServletFileUpload upload = new ServletFileUpload(factory);  
-            ArrayList<String> pics;  
+            ArrayList<String> filename_new,filename_old;  
              String name;
-            pics = new ArrayList<>();
+            filename_new = new ArrayList<>();
+            filename_old = new ArrayList<>();
             try {  
                 @SuppressWarnings("unchecked")  
                 List<FileItem> items = upload.parseRequest(request);  
@@ -96,8 +97,8 @@ public class UploadFile extends HttpServlet {
                         name = srcName.substring(0, pos)+"-"+System.nanoTime()+extName;  
                         File file = new File(uploadPath, name);  
                         f.write(file);// 保存到指定的目录中去  
-                        pics.add(name);  
-                       
+                        filename_new.add(name);  
+                       filename_old.add(srcName); 
   //System.out.println(pics.get(0));
                     }  
                 }  
@@ -111,10 +112,11 @@ public class UploadFile extends HttpServlet {
                 }
             }  
             if(plottype.equals("0")){    
-                 response.getWriter().write("<script>parent.callback1(true,'上传成功!','" + pics.get(0) + "')</script>");
+                 response.getWriter().write("<script>parent.callback1(true,'文件:" + filename_old.get(0) + "上传成功!','" + filename_new.get(0) + "')</script>");
+                 
                 }else if(plottype.equals("1"))
                 {
-                response.getWriter().write("<script>parent.callback2(true,'上传成功!','" + pics.get(0) + "')</script>");
+                response.getWriter().write("<script>parent.callback2(true,'文件:" + filename_old.get(0) + "上传成功!','" + filename_new.get(0) + "')</script>");
                 }
            // response.getWriter().write("<script>parent.callback(true,'上传成功','" + pics.get(0) + "')</script>");  
             // 一般如果是直接表单提交的方法需要返回  

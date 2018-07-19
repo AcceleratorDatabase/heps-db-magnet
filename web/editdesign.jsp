@@ -27,7 +27,7 @@
                 String seldata = (String) session.getAttribute("seldata");
                 //JSONObject seljson = JSONObject.fromObject(seldata);
 //System.out.println("jsp json:"+seldata);
-%>
+            %>
             var tt = "<%=magtype%>";
             var mp = "<%=mplotname%>";
             var pp = "<%=pplotname%>";
@@ -128,6 +128,11 @@
                 ss = null;
             };
         </script>
+        <style type="text/css">             
+            label{
+                font-size: 16px
+            }
+        </style>
         <title>录入-磁铁设计</title>        
     </head>
     <body>
@@ -193,6 +198,7 @@
                     <div style="position:absolute;top:750px;bottom: 0; left:0;right:0;text-align: center"> 
                         <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges()">查看修改项</a>-->
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="更新" >
+                        <input style="width:90px; font-size: 14px;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >
                         <input type="hidden" id="hd1" name="hd1"/>
                         <input type="hidden" id="hd2" name="hd2"/> 
                         <input type="hidden" id="hd3" name="hd3"/>

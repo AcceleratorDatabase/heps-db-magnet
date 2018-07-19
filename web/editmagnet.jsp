@@ -88,6 +88,11 @@
                 $('#maginfo').propertygrid('loadData', rowm);
             };
         </script>
+        <style type="text/css">             
+            label{
+                font-size: 16px
+            }
+        </style>
         <title>修改-磁铁信息</title>
     </head>
     <body>
@@ -136,7 +141,7 @@
                        ">
                     <thead data-options="frozen:true">
                         <tr>
-<!--                            <th data-options="field:'designid',width:80,sortable:true">ID</th>-->
+                            <!--                            <th data-options="field:'designid',width:80,sortable:true">ID</th>-->
                             <th data-options="field:'magtype',width:80">磁铁类型</th>
                             <th data-options="field:'magfamily',width:80">磁铁型号</th>
                         </tr>
@@ -204,7 +209,7 @@
                 </table>
             </div>
             <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
-                <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >
+                <input style="width:90px; font-size: 14px;background:#97CBFF;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >
             </div>
         </div>
         <script type="text/javascript">

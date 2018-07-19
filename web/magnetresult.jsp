@@ -68,6 +68,11 @@
                 $('#datemax').datebox('setValue', ddmax);
             };
         </script>
+        <style type="text/css">             
+            label{
+                font-size: 16px
+            }
+        </style>
         <title>查询-磁铁信息及磁测数据</title>
     </head>
     <body>
@@ -110,7 +115,7 @@
                            collapsible:true">
                         <thead>
                             <tr>
-<!--                                <th data-options="field:'magid',width:70">ID</th>-->
+                                <!--                                <th data-options="field:'magid',width:70">ID</th>-->
                                 <th data-options="field:'magname',width:100">名称</th>
                                 <th data-options="field:'designid',width:100,formatter:formatDesign">磁铁设计</th>                
                                 <th data-options="field:'weight',width:100">磁铁重量[Kg]</th>
@@ -131,7 +136,7 @@
                            ">
                         <thead data-options="frozen:true">
                             <tr>
-<!--                                <th data-options="field:'designid',width:80,sortable:true">ID</th>-->
+                                <!--                                <th data-options="field:'designid',width:80,sortable:true">ID</th>-->
                                 <th data-options="field:'magtype',width:80">磁铁类型</th>
                                 <th data-options="field:'magfamily',width:80">磁铁型号</th>
                             </tr>
@@ -193,17 +198,17 @@
                     <input type="hidden" id="hd1" name="hd1"/>
                 </div>
                 <div style="position:absolute;top:770px;bottom: 0; left:0;right:0;text-align: center">  
-                <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >
-            </div>
+                    <input style="width:90px; font-size: 14px;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >
+                </div>
             </div>
         </div>
         <script type="text/javascript">
             function submitform() {
 
             }
-            function showMeas(obj){
+            function showMeas(obj) {
                 //alert("id:"+document.getElementById("hd1").value+"---id1:"+obj.id); 
-               location.href = 'QueryMeas?magId=' + document.getElementById("hd1").value + '&filetype='+obj.id;
+                location.href = 'QueryMeas?magId=' + document.getElementById("hd1").value + '&filetype=' + obj.id;
             }
             function formatPrice(val, row) {
                 if (val === 'null') {
@@ -226,7 +231,7 @@
                     success: function (data) {
                         //alert(data);
                         var str = '{"rows":' + data + '}';
-                        var s = $.parseJSON(str);                        
+                        var s = $.parseJSON(str);
                         $('#dlg1').dialog('open');
                         $('#dg').datagrid('loadData', s);
 //                        $('#maginfo').datagrid('updateRow', {
@@ -292,7 +297,7 @@
                         var row = $('#dg_magnet').datagrid('getSelected');
                         if (row) {
                             $('#dlg2').dialog('open');
-                            document.getElementById("hd1").value=row.magid;
+                            document.getElementById("hd1").value = row.magid;
 //                                $.ajax({
 //                                    type: 'POST',
 //                                    url: 'DeleteMagnet',
@@ -332,7 +337,7 @@
                         }
                     }
                 }];
-             
+
         </script>
     </body>
 </html>

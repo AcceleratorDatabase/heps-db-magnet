@@ -16,7 +16,7 @@
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="magnet.js?<%=Math.random()%>"></script>
         <script type="text/javascript">
-           
+
             window.onload = function () {
                 $.ajax({
                     type: 'POST',
@@ -63,17 +63,21 @@
             };
 
         </script>
-       
+        <style type="text/css">             
+            label{
+                font-size: 16px
+            }
+        </style>
         <title>录入-磁铁设计</title>
     </head>
     <body>
         <h2 style="text-align:center">录入磁铁设备信息</h2>
         <div class="easyui-panel" style="height: 820px;padding-top:20px" >  
             <div style="margin:0 auto;width:800px">
-            <form action="NewMagnet" method="post" target="" onsubmit="return submitform();">                    
+                <form action="NewMagnet" method="post" target="" onsubmit="return submitform();">                    
                     <div id="info1" >
                         <label for="magtype">磁铁种类: </label> 
-                            <select  id="magtype" name="magtype">
+                        <select  id="magtype" name="magtype">
                             <option value="二极铁">二极铁</option>                            
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 20px" onclick="newtype()">新建种类</a>
@@ -85,7 +89,7 @@
                         <span id="num"></span>                        
                     </div>
                     <div id="info2" style="padding-top:10px;padding-bottom: 10px">   
-                        <input type="checkbox" id="batchinsert" name="batchinsert"  >批量录入
+                        <input type="checkbox" id="batchinsert" name="batchinsert"  ><label>批量录入</label>
                         <label id="geshu" style="left: 20px;display: none" for="batchnum">    个数: </label>
                         <input id="batchnum" name="batchnum"style="display: none" value="">
                     </div> 
@@ -100,11 +104,11 @@
                     </div>              
                     <div id="submit" style="text-align: center;padding-top: 10px">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
-                        <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >
+                        <input style="width:90px; font-size: 14px ;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >
                         <input type="hidden" id="hd1" name="hd1"/>                        
                     </div>               
-            </form>
-        </div>
+                </form>
+            </div>
             <div id="dlg1" class="easyui-dialog" title="磁铁设计"  style="width:1200px;height:400px;padding:10px;text-align: center" data-options="iconCls:'icon-more',closed: true,resizable:true">
                 <table id="dg" name="dg" class="easyui-datagrid" title="查询结果" align="center"
                        data-options="
@@ -183,9 +187,9 @@
                     </thead>
                 </table>
             </div>
-<!--            <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
-                <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
-            </div>-->
+            <!--            <div style="position:absolute;top:850px;bottom: 0; left:0;right:0;text-align: center">  
+                            <a  href="index.html" class="easyui-linkbutton" data-options="">返回主页</a>
+                        </div>-->
         </div>
 
         <script type="text/javascript">
@@ -311,7 +315,7 @@
                     success: function (data) {
                         //alert(data);
                         var str = '{"rows":' + data + '}';
-                        var s = $.parseJSON(str);                        
+                        var s = $.parseJSON(str);
                         $('#dlg1').dialog('open');
                         $('#dg').datagrid('loadData', s);
 //                        $('#maginfo').datagrid('updateRow', {
@@ -347,9 +351,9 @@
                                 data: "designId=" + row.designid,
                                 success: function (data) {
                                     var str = '{"total":2,"rows":' + data + '}';
-                                    var s = $.parseJSON(str);                                   
+                                    var s = $.parseJSON(str);
                                     $('#dlg2').dialog('open');
-                                     $('#dg_other').datagrid('loadData', s);
+                                    $('#dg_other').datagrid('loadData', s);
                                     //$('#dlg').dialog('refresh', 'editdesign.jsp');                                   
                                 }
                             });

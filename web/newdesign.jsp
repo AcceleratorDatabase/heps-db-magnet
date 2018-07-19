@@ -17,9 +17,9 @@
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
         <script type="text/javascript" src="dr.js?<%=Math.random()%>"></script>
         <script type="text/javascript" src="dp.js?<%=Math.random()%>"></script>
-       <script>
-         window.onload = function () {     
-             $.ajax({
+        <script>
+            window.onload = function () {
+                $.ajax({
                     type: 'POST',
                     url: 'LoadType',
                     success: function (data) {
@@ -61,9 +61,10 @@
                 });
                 $('#design_require').propertygrid('loadData', rowr);
                 $('#design_para').propertygrid('loadData', rowp);
-               
+
             };
         </script>
+
         <title>录入-磁铁信息</title>
         <style type="text/css">             
             label{
@@ -92,8 +93,8 @@
                         <div id="table1" style=" float: left ">
                             <div style="margin:20px 0;"></div>
                             <label> 请输入磁铁设计要求：
-                           <div style="margin:5px 0;"></div>
-                            <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
+                                <div style="margin:5px 0;"></div>
+                                <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
                             </label>                                               
                             <table id="design_require" name="design_require" class="easyui-propertygrid" style="width:400px" data-options="
 
@@ -106,7 +107,7 @@
                             <div style="margin:5px 0;"></div>
                             <div class="easyui-panel" title="其他信息"  >
                                 <div style="margin-bottom:5px;margin-top: 5px">
-                                    
+
                                     <input  class="easyui-textbox" id="designed_by" name="designed_by" label="磁铁设计人：（多人请用分号隔开）" labelPosition="top" style="width:100%">
                                 </div>
                                 <div style="margin-bottom:5px">
@@ -119,12 +120,12 @@
                             </div>                                                          
                         </div>
                         <div id="table2" style="float: right">
-                             <div style="margin:20px 0;"></div>
+                            <div style="margin:20px 0;"></div>
                             <label>请输入磁铁设计参数：
                                 <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges2()">查看修改项</a>-->
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="addrow()">新增设计参数</a>
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow()">删除设计参数</a>
-                                 <div style="margin:5px 0;"></div>
+                                <div style="margin:5px 0;"></div>
                             </label>
                             <table id="design_para" name="design_para" class="easyui-propertygrid" style="width:400px" data-options="
                                    method: 'get',
@@ -137,123 +138,160 @@
                     </div>
                     <div style="position:relative;top:730px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
-                        <input style="width:90px; font-size: 14px" class="a-upload" type="button" onclick="location='index.html'" value="返回主页" >                        
+                        <input style="width:90px; font-size: 14px;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >                        
                         <input type="hidden" id="hd1" name="hd1"/>
                         <input type="hidden" id="hd2" name="hd2"/> 
-                        <input type="hidden" id="hd3" name="hd3"/>
-                        <input type="hidden" id="hd4" name="hd4"/> 
                         <input type="hidden" id="pplotn" name="pplotn"/>
                         <input type="hidden" id="mplotn" name="mplotn"/>
                     </div>
                 </form>
             </div>
-            
+
             <div style="width: 1000px;margin:0 auto">
-              
-            <div  class="easyui-panel"   style="float:left;width: 400px"> 
-<!--            <div  class="easyui-panel"   style=" position:absolute;left:450px; top:710px; width:404px;padding: 5px">  -->
-                <span >请上传物理设计文件（PDF格式）</span>  
-                <div style="margin:5px 0;"></div>
-                <form  id="formId1" action="UploadFile?plottype=0" method="post"  
-                       target="hiddenFrameName1" enctype="multipart/form-data">                       
-                    <div>                         
-                        <input id="pplotId" type="file" class="a-upload" name="pplotName"  
-                               onchange="uploadpplot()" /> 
-                        <div style="display: none; color: red;" id="errorTip1">未选择文件  
-                        </div>  
-                        <div style="display: none; color: green;" id="successTip1"></div>  
 
-                    </div> 
+                <div  class="easyui-panel"   style="float:left;width: 400px"> 
+                    <!--            <div  class="easyui-panel"   style=" position:absolute;left:450px; top:710px; width:404px;padding: 5px">  -->
+                    <span >请上传物理设计文件（PDF格式）</span>  
+                    <div style="margin:5px 0;"></div>
+                    <form  id="formId1" action="UploadFile?plottype=0" method="post"  
+                           target="hiddenFrameName1" enctype="multipart/form-data">                       
+                        <div>                         
+                            <input id="pplotId" type="file" class="a-upload" name="pplotName"  
+                                   onchange="uploadpplot()"style="width:250px;float: left" /> 
+                            <input id="subform1" type="submit" value="上传"  class="a-upload" style="width:120px;height:33px;float: left;visibility:hidden"/>
+                            <div style="display: none; color: red;" id="errorTip1">未选择文件  
+                            </div>  
+                            <div style="display: none; color: green;" id="successTip1"></div>  
+
+                        </div> 
                         <img id="img" src="" width="200" height="200" style="display: none;" /> 
-                </form>  
-                <iframe style="display: none" name='hiddenFrameName1' id="hidden_frame1"></iframe>  
+                    </form>  
+                    <iframe style="display: none" name='hiddenFrameName1' id="hidden_frame1"></iframe>  
 
-                <span >请上传机械设计文件（PDF格式）</span>  
-                <div style="margin:5px 0;"></div>
-                <form  id="formId2" action="UploadFile?plottype=1" method="post"  
-                       target="hiddenFrameName2" enctype="multipart/form-data">                       
-                    <div>                         
-                        <input id="mplotId" type="file" class="a-upload" name="mplotName"  
-                               onchange="uploadmplot()" /> 
-                        <div style="display: none; color: red;" id="errorTip2">未选择文件  
-                        </div>  
-                        <div style="display: none; color: green;" id="successTip2"></div>  
+                    <span >请上传机械设计文件（PDF格式）</span>  
+                    <div style="margin:5px 0;"></div>
+                    <form  id="formId2"  method="post"  
+                           target="hiddenFrameName2" action="UploadFile?plottype=1" enctype="multipart/form-data" class="search">                       
+                        <div>                           
+                            <input id="mplotId" type="file" class="a-upload" name="mplotName"  
+                                   onchange="uploadmplot()" style="width:250px;float: left"/> 
+                            <input id="subform2" type="submit" value="上传" class="a-upload"   style="width:120px;height:33px;float: left;visibility:hidden"/>
+                            <div style="display: none; color: red;" id="errorTip2">未选择文件  
+                            </div>  
+                            <div style="display: none; color: green;" id="successTip2"></div>  
 
-                    </div> 
+                        </div>
+
                         <img id="img" src="" width="200" height="200" style="display: none;" /> 
-                </form>  
-                <iframe style="display: none" name='hiddenFrameName2' id="hidden_frame2"></iframe>
-</div>
-                <div     style="float:right;width: 400px"> </div>
+                    </form>  
+                    <iframe style="display: none" name='hiddenFrameName2' id="hidden_frame2"></iframe>
+                </div>               
             </div>
         </div>
 
-        <script type="text/javascript"> 
-//            $('.datagrid-row  ').css('font-size','36px');
-           var pplotnum=0;
-            var mplotnum=0;
-             document.getElementById("hd3").value=0;
-             document.getElementById("hd4").value=0;
-            function uploadpplot() {
-                var names = $("#pplotId").val().split(".");
-                if (names[1] !== "pdf") {
-                    $("#errorTip1").html("文件格式必须为PDF");
-                    $("#errorTip1").show();
-                    return;
+        <script type="text/javascript">
+            $("#subform1").click(function (e) {
+                if ($('#successTip1').text() !== '') {
+                    var delname = document.getElementById("pplotn").value;
+                    var yn = window.confirm("再次提交会覆盖之前的文件，确认提交？");
+                    if (yn) {
+                        $.ajax({
+                            method: "POST",
+                            url: "deleteFile",
+                            data: {delname: delname, filetype: "pplot"},
+                            fail: function () {
+                                alert("上传有误");
+                                e.preventDefault();
+                            }
+                        });
+                    } else {
+                        e.preventDefault();
+                    }
                 }
-                $("#formId1").submit();
+            });
+            $("#subform2").click(function (e) {
+                if ($('#successTip2').text() !== '') {
+                    var delname = document.getElementById("mplotn").value;
+                    var yn = window.confirm("再次提交会覆盖之前的文件，确认提交？");
+                    if (yn) {
+                        $.ajax({
+                            method: "POST",
+                            url: "deleteFile",
+                            data: {delname: delname, filetype: "mplot"},
+                            fail: function () {
+                                alert("上传有误");
+                                e.preventDefault();
+                            }
+                        });
+                    } else {
+                        e.preventDefault();
+                    }
+                }
+            });
+            function uploadpplot() {
+                var file = $("#pplotId").val();
+                if (file !== "") {
+                    var names = $("#pplotId").val().split(".");
+                    if (names[1] !== "pdf") {
+                        $('#subform1').attr("style", 'width:120px;height:33px;float: left; visibility:hidden');
+                        $("#errorTip1").html("文件格式必须为PDF!");
+                        $("#errorTip1").show();
+                        return;
+                    } else {
+                        $('#subform1').attr("style", 'width:120px;height:33px;float: left;');
+                        $("#errorTip1").hide();
+                    }
+                }
+                // $("#formId1").submit();
             }
             function uploadmplot() {
-                var names = $("#mplotId").val().split(".");
-                if (names[1] !== "pdf") {
-                    $("#errorTip2").html("文件格式必须为PDF");
-                    $("#errorTip2").show();
-                    return;
+                var file = $("#mplotId").val();
+                if (file !== "") {
+                    var names = $("#mplotId").val().split(".");
+                    if (names[1] !== "pdf") {
+                        $('#subform2').attr("style", 'width:120px;height:33px;float: left; visibility:hidden');
+                        $("#errorTip2").html("文件格式必须为PDF!");
+                        $("#errorTip2").show();
+                        return;
+                    } else {
+                        $('#subform2').attr("style", 'width:120px;height:33px;float: left;');
+                        $("#errorTip2").hide();
+                    }
                 }
-                $("#formId2").submit();
+                // $("#formId2").submit();
             }
 
             function callback1(success, message, url) {
                 if (success === false) {
-                    $("#errorTip1").html(message + url);
+                    $("#errorTip1").html(message);
                     $("#errorTip1").show();
                 } else {
                     $("#errorTip1").hide();
-                    $("#successTip1").html(message + url);
+                    $("#successTip1").html(message);
                     $("#successTip1").show();
                     document.getElementById("pplotn").value = url;
-                   pplotnum++;
-                    //            $("#img").attr("src", "E:/plot/uploads/" + url);  
-                    //            $("#img").show();  
                 }
             }
             function callback2(success, message, url) {
                 if (success === false) {
-                    $("#errorTip2").html(message + url);
+                    $("#errorTip2").html(message);
                     $("#errorTip2").show();
                 } else {
+                    console.log("me:" + message);
+                    console.log("u:" + url);
                     $("#errorTip2").hide();
-                    $("#successTip2").html(message + url);
+                    $("#successTip2").html(message);
                     $("#successTip2").show();
                     document.getElementById("mplotn").value = url;
-                    mplotnum++;
-                    //            $("#img").attr("src", "E:/plot/uploads/" + url);  
-                    //            $("#img").show();  
                 }
             }
             function submitform() {
-                if(pplotnum>1){
-                    document.getElementById("hd3").value=1;                    
-                }
-                  if(mplotnum>1){
-                    document.getElementById("hd4").value=1;                    
-                }
                 var require = $("#design_require").datagrid("getData");
                 document.getElementById("hd1").value = JSON.stringify(require);
                 var parameter = $("#design_para").datagrid("getData");
                 document.getElementById("hd2").value = JSON.stringify(parameter);
-                console.log("require"+JSON.stringify(require).length);
-                 console.log("pa"+JSON.stringify(parameter).length);
+//                console.log("require"+JSON.stringify(require).length);
+//                 console.log("pa"+JSON.stringify(parameter).length);
                 if (JSON.stringify(require).length === 1055 || JSON.stringify(parameter).length === 2046) {
                     alert("设计要求和基本参数未填写");
                     return false;
