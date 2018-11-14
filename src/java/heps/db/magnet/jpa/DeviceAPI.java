@@ -70,7 +70,7 @@ public class DeviceAPI {
         emf.close();
     }
 
-    public void insertDevice(ArrayList maginfo, String type, Integer family) {
+    public void insertDevice(ArrayList maginfo, String type, String family) {
         MagnetDesignTable design;
         Long num;
         Integer numnow;
@@ -151,7 +151,7 @@ public class DeviceAPI {
         return re.toString();
     }
 
-    public String queryMagnetByFamily(Integer family) {
+    public String queryMagnetByFamily(String family) {
         Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) ");
         query.setParameter("family", family);
         List<EquipmentInfoTable> re = query.getResultList();
@@ -159,7 +159,7 @@ public class DeviceAPI {
         return re.toString();
     }
 
-    public String queryMagnetByTypeFamily(String type, Integer family) {
+    public String queryMagnetByTypeFamily(String type, String family) {
         Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) ");
         query.setParameter("type", type).setParameter("family", family);
         List<EquipmentInfoTable> re = query.getResultList();
@@ -209,7 +209,7 @@ public class DeviceAPI {
         return re.toString();
     }
 
-    public String queryMagnetByFamilyDate(Integer family, String datemin, String datemax) {
+    public String queryMagnetByFamilyDate(String family, String datemin, String datemax) {
         Date qmin, qmax;
         if (datemin.equals("")) {
             Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
@@ -230,7 +230,7 @@ public class DeviceAPI {
         return re.toString();
     }
 
-    public String queryMagnetByTypeFamilyDate(String type, Integer family, String datemin, String datemax) {
+    public String queryMagnetByTypeFamilyDate(String type, String family, String datemin, String datemax) {
         Date qmin, qmax;
         if (datemin.equals("")) {
             Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");

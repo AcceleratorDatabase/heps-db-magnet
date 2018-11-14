@@ -76,13 +76,13 @@ public class NewMagnet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        Integer family, batchnum;
-        String type, batchinsert, info;
+        Integer  batchnum;
+        String type,family, batchinsert, info;
         ArrayList maginfo;
        
         maginfo = new ArrayList();
         type = (String) request.getParameter("magtype");
-        family = Integer.parseInt(request.getParameter("magfamily"));
+        family = request.getParameter("magfamily");
         batchinsert = (String) request.getParameter("batchinsert");
         info = (String) request.getParameter("hd1");
         DeviceAPI a = new DeviceAPI();

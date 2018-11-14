@@ -74,11 +74,11 @@ public class EditMagnet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();    
         String magtype;
-        Integer magfamily;
+        String magfamily;
         String magname=request.getParameter("magname");  
         String[] maginfo=magname.split("-");
         magtype=maginfo[0];
-        magfamily=Integer.parseInt(maginfo[1]);
+        magfamily=maginfo[1];
         Integer magid=Integer.parseInt(request.getParameter("magid"));
         String seldata=request.getParameter("selData").replace(" ", "");          
         //System.out.println(magtype+magfamily+magid+seldata);

@@ -83,7 +83,7 @@ public Integer precalcInt(Object obj) {
         PrintWriter out = response.getWriter();
         String result = null;
         String type, datemin, datemax;
-        Integer family;
+        String family;
         Integer bydate;
         Integer bytype;
         Integer byfamily;
@@ -91,7 +91,7 @@ public Integer precalcInt(Object obj) {
         a.init();
         type = request.getParameter("magtype");
 
-        family = precalcInt(request.getParameter("magfamily"));
+        family = request.getParameter("magfamily");
 
         datemin = request.getParameter("datemin");
 
@@ -102,7 +102,7 @@ public Integer precalcInt(Object obj) {
         } else {
             bytype = 1;
         }
-        if (family == -1) {
+        if (family.equals("none")) {
             byfamily = 0;
         } else {
             byfamily = 1;

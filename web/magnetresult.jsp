@@ -17,12 +17,12 @@
         <script type="text/javascript">
             <%
                 String magtype = (String) session.getAttribute("magtype");
-                Integer magfamily = (Integer) session.getAttribute("magfamily");
+                String magfamily = (String) session.getAttribute("magfamily");
                 String datemin = (String) session.getAttribute("datemin");
                 String datemax = (String) session.getAttribute("datemax");
             %>
             var tt = "<%=magtype%>";
-            var ff = <%=magfamily%>;
+            var ff = "<%=magfamily%>";
             var ddmin = "<%=datemin%>";
             var ddmax = "<%=datemax%>";
             window.onload = function () {
@@ -77,6 +77,21 @@
     </head>
     <body>
         <h2 style="text-align:center">查询磁铁信息及磁测数据</h2>
+        <div style="background:#fafafa;padding:5px;width:200px;border:1px solid #ccc">
+            <a href="#" class="easyui-menubutton" menu="#inputmenu" iconCls="icon-add">录入</a>
+            <a href="#" class="easyui-menubutton" menu="#querymenu" iconCls="icon-help">查询</a>
+        </div>
+        <div id="inputmenu" style="width:150px;">
+            <div id='newdesign'>磁铁设计</div>
+            <div id='newmagnet'>磁铁设备</div>
+            <div id='newmeas'>磁铁测量</div>
+        </div>
+        <div id="querymenu" style="width:150px;">
+            <div id='querydesign'>磁铁设计</div>
+            <div id='querymagnet'>磁铁设备</div>
+            <div id='querymagnet'>磁铁测量</div>
+        </div>
+
         <div class="easyui-panel" style="height:820px;padding:10px 60px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1300px;margin:0 auto;font-size:14px;">
                 <form action="QueryMagnet" method="post" target="" onsubmit="return submitform();">
@@ -203,6 +218,16 @@
             </div>
         </div>
         <script type="text/javascript">
+             $("#inputmenu").menu({               
+              onClick: function (item) { 
+                 window.location = item.id+'.jsp';
+              } 
+             });
+            $("#querymenu").menu({               
+              onClick: function (item) {                  
+                 window.location = item.id+'.jsp';
+              } 
+             });
             function submitform() {
 
             }

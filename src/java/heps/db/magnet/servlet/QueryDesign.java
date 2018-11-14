@@ -93,7 +93,7 @@ public class QueryDesign extends HttpServlet {
         request.setCharacterEncoding("UTF-8");        
         String result = new String();
         String type;
-        Integer family;
+        String family;
         Double lengthmin, lengthmax;
         Integer intensity;
         Double intensitymin, intensitymax;
@@ -105,7 +105,7 @@ public class QueryDesign extends HttpServlet {
         DesignAPI a = new DesignAPI();
         a.init();
         type = request.getParameter("magtype");
-        family = precalcInt(request.getParameter("magfamily"));
+        family = request.getParameter("magfamily");
         lengthmin = precalcDouble(request.getParameter("lengthmin"));
         lengthmax = precalcDouble(request.getParameter("lengthmax"));
         intensity = precalcInt(request.getParameter("selintensity"));
@@ -117,7 +117,7 @@ public class QueryDesign extends HttpServlet {
         } else {
             bytype = 1;
         }
-        if (family == -1) {
+        if (family.equals("none")) {
             byfamily = 0;
         } else {
             byfamily = 1;

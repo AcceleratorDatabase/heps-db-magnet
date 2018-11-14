@@ -80,7 +80,7 @@ public class EditDesign extends HttpServlet {
          PrintWriter out = response.getWriter();
          Integer designId=Integer.parseInt(request.getParameter("designId"));
          String magtype=request.getParameter("magType");
-         Integer magfamily=Integer.parseInt(request.getParameter("magFamily"));
+         String magfamily=request.getParameter("magFamily");
          String seldata=request.getParameter("selData").replace(" ", "");
          //seldata=seldata.substring(9,seldata.length()-15);
          //String jsonMessage = "{\"语文\":\"88\",\"数学\":\"78\",\"计算机\":\"99\"}";

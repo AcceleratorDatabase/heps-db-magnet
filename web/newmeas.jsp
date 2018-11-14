@@ -67,7 +67,21 @@
         <title>录入-磁测数据</title>
     </head>
     <body >
-        <h2 style="text-align:center">录入磁测数据</h2> 
+        <h2 style="text-align:center">录入磁测数据</h2>
+        <div style="background:#fafafa;padding:5px;width:200px;border:1px solid #ccc">
+            <a href="#" class="easyui-menubutton" menu="#inputmenu" iconCls="icon-add">录入</a>
+            <a href="#" class="easyui-menubutton" menu="#querymenu" iconCls="icon-help">查询</a>
+        </div>
+        <div id="inputmenu" style="width:150px;">
+            <div id='newdesign'>磁铁设计</div>
+            <div id='newmagnet'>磁铁设备</div>
+            <div id='newmeas'>磁铁测量</div>
+        </div>
+        <div id="querymenu" style="width:150px;">
+            <div id='querydesign'>磁铁设计</div>
+            <div id='querymagnet'>磁铁设备</div>
+            <div id='querymagnet'>磁铁测量</div>
+        </div>
         <div class="easyui-panel" style="height: 820px;padding-top:20px" >  
             <div style="margin:0 auto;width:680px"> 
                 <form id="file_form" name="UpdExcel" action="UpdExcel" enctype="multipart/form-data" method="post">
@@ -154,6 +168,16 @@
                                     </table> 
                 </div>-->
         <script type="text/javascript">
+            $("#inputmenu").menu({               
+              onClick: function (item) { 
+                 window.location = item.id+'.jsp';
+              } 
+             });
+            $("#querymenu").menu({               
+              onClick: function (item) {                  
+                 window.location = item.id+'.jsp';
+              } 
+             });
             $(function () {
                 $("#file_form").submit(
                         function () {

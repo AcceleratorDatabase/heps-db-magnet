@@ -21,7 +21,7 @@
             <%
                 Integer designId = (Integer) session.getAttribute("designId");
                 String magtype = (String) session.getAttribute("magtype");
-                Integer magfamily = (Integer) session.getAttribute("magfamily");
+                String magfamily = (String) session.getAttribute("magfamily");
                 String mplotname = (String) session.getAttribute("mplotname");
                 String pplotname = (String) session.getAttribute("pplotname");
                 String seldata = (String) session.getAttribute("seldata");
@@ -32,7 +32,7 @@
             var mp = "<%=mplotname%>";
             var pp = "<%=pplotname%>";
             var id = <%=designId%>;
-            var ff = <%=magfamily%>;
+            var ff = "<%=magfamily%>";
             var ss =<%=seldata%>;
             // document.write(obj.length + "<br / >");
             for (var p in ss)
@@ -137,6 +137,20 @@
     </head>
     <body>
         <h2 style="text-align:center">录入磁铁设计信息</h2>  
+        <div style="background:#fafafa;padding:5px;width:200px;border:1px solid #ccc">
+            <a href="#" class="easyui-menubutton" menu="#inputmenu" iconCls="icon-add">录入</a>
+            <a href="#" class="easyui-menubutton" menu="#querymenu" iconCls="icon-help">查询</a>
+        </div>
+        <div id="inputmenu" style="width:150px;">
+            <div id='newdesign'>磁铁设计</div>
+            <div id='newmagnet'>磁铁设备</div>
+            <div id='newmeas'>磁铁测量</div>
+        </div>
+        <div id="querymenu" style="width:150px;">
+            <div id='querydesign'>磁铁设计</div>
+            <div id='querymagnet'>磁铁设备</div>
+            <div id='querymagnet'>磁铁测量</div>
+        </div>
         <div class="easyui-panel"   style="height: 820px;padding:20px 60px 20px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1000px;margin:0 auto;">
                 <form action="UpdateDesign" method="POST" target="_blank" onsubmit="return submitform();" >
@@ -246,7 +260,16 @@
         </div>
 
         <script type="text/javascript">
-
+            $("#inputmenu").menu({               
+              onClick: function (item) { 
+                 window.location = item.id+'.jsp';
+              } 
+             });
+            $("#querymenu").menu({               
+              onClick: function (item) {                  
+                 window.location = item.id+'.jsp';
+              } 
+             });
             function uploadpplot() {
                 var names = $("#pplotId").val().split(".");
 

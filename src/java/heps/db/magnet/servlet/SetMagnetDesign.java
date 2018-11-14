@@ -76,7 +76,7 @@ public class SetMagnetDesign extends HttpServlet {
         DesignAPI a = new DesignAPI();
         a.init();
         String type=(String)(request.getParameter("magType"));
-        Integer family=Integer.parseInt(request.getParameter("magFamily"));         
+        String family=request.getParameter("magFamily");         
         String result=a.queryDesignByTypeFamily(type,family);
         //System.out.println(result); 
         PrintWriter out = response.getWriter();

@@ -78,12 +78,12 @@ public class UpdateMagnet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-    Integer family;
+    String family;
     String type,info;
      ArrayList maginfo;
         maginfo = new ArrayList();
         type=(String)request.getParameter("magtype");
-        family=Integer.parseInt(request.getParameter("magfamily"));
+        family=(String)request.getParameter("magfamily");
         Integer Id=Integer.parseInt(request.getParameter("hd2"));
         info=(String)request.getParameter("hd1");  
  

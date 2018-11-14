@@ -150,14 +150,14 @@ public class DesignAPI {
         return re.toString();
     }
 
-    public String queryDesignByFamily(Integer family) {
+    public String queryDesignByFamily(String family) {
         Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family= :family");
         query.setParameter("family", family);
         List<MagnetDesignTable> re = query.getResultList();
         return re.toString();
     }
 
-    public String queryDesignByTypeFamily(String type, Integer family) {
+    public String queryDesignByTypeFamily(String type, String family) {
         Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.family= :family");
         query.setParameter("type", type).setParameter("family", family);
         List<MagnetDesignTable> re = query.getResultList();
@@ -287,7 +287,7 @@ public class DesignAPI {
         return res;
     }
 
-    public String queryDesignbyFamilyLengthIntensity(Integer family, Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
+    public String queryDesignbyFamilyLengthIntensity(String family, Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
         String res;
         if (intensitymin == null) {
             intensitymin = 0.0;
@@ -336,7 +336,7 @@ public class DesignAPI {
         return res;
     }
 
-    public String queryDesignbyTypeFamilyLengthIntensity(String type, Integer family, Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
+    public String queryDesignbyTypeFamilyLengthIntensity(String type, String family, Double lengthmin, Double lengthmax, Integer intensity, Double intensitymin, Double intensitymax) {
         String res;
         if (intensitymin == null) {
             intensitymin = 0.0;
@@ -471,7 +471,7 @@ public class DesignAPI {
         return res;
     }
 
-    public String queryDesignbyFamilyIntensity(Integer family, Integer intensity, Double intensitymin, Double intensitymax) {
+    public String queryDesignbyFamilyIntensity(String family, Integer intensity, Double intensitymin, Double intensitymax) {
         String res;
         if (intensitymin == null) {
             intensitymin = 0.0;
@@ -514,7 +514,7 @@ public class DesignAPI {
         return res;
     }
 
-    public String queryDesignbyTypeFamilyIntensity(String type, Integer family, Integer intensity, Double intensitymin, Double intensitymax) {
+    public String queryDesignbyTypeFamilyIntensity(String type, String family, Integer intensity, Double intensitymin, Double intensitymax) {
         String res;
         if (intensitymin == null) {
             intensitymin = 0.0;
@@ -571,7 +571,7 @@ public class DesignAPI {
 
     }
 
-    public String queryDesignbyFamilyLength(Integer family, Double lengthmin, Double lengthmax) {
+    public String queryDesignbyFamilyLength(String family, Double lengthmin, Double lengthmax) {
         if (lengthmin == null) {
             lengthmin = 0.0;
         }
@@ -585,7 +585,7 @@ public class DesignAPI {
 
     }
 
-    public String queryDesignbyTypeFamilyLength(String type, Integer family, Double lengthmin, Double lengthmax) {
+    public String queryDesignbyTypeFamilyLength(String type, String family, Double lengthmin, Double lengthmax) {
         if (lengthmin == null) {
             lengthmin = 0.0;
         }
