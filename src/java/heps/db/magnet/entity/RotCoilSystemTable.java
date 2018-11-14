@@ -50,6 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "RotCoilSystemTable.findByMeasDate", query = "SELECT r FROM RotCoilSystemTable r WHERE r.measDate = :measDate")
     , @NamedQuery(name = "RotCoilSystemTable.findByMeasBy", query = "SELECT r FROM RotCoilSystemTable r WHERE r.measBy = :measBy")
     , @NamedQuery(name = "RotCoilSystemTable.findByMeasAt", query = "SELECT r FROM RotCoilSystemTable r WHERE r.measAt = :measAt")
+    , @NamedQuery(name = "RotCoilSystemTable.findByRoomTemp", query = "SELECT r FROM RotCoilSystemTable r WHERE r.roomTemp = :roomTemp")
     , @NamedQuery(name = "RotCoilSystemTable.findByDescription", query = "SELECT r FROM RotCoilSystemTable r WHERE r.description = :description")})
 public class RotCoilSystemTable implements Serializable {
 
@@ -90,12 +91,14 @@ public class RotCoilSystemTable implements Serializable {
     @Size(max = 45)
     @Column(name = "meas_at")
     private String measAt;
-    @Size(max = 255)
+    @Column(name = "room_temp")
+    private Double roomTemp;
+    @Size(max = 255)    
     @Column(name = "description")
     private String description;
-    @JoinColumn(name = "device_id", referencedColumnName = "device_id")
+    @JoinColumn(name = "equipment_id", referencedColumnName = "equipment_id")
     @ManyToOne
-    private DeviceInfoTable deviceId;
+    private EquipmentInfoTable equipmentId;
     @OneToMany(mappedBy = "runId")
     private Collection<RcsDataTable> rcsDataTableCollection;
     @OneToMany(mappedBy = "runId")
@@ -219,7 +222,13 @@ public class RotCoilSystemTable implements Serializable {
     public void setMeasAt(String measAt) {
         this.measAt = measAt;
     }
+    public Double getRoomTemp() {
+        return roomTemp;
+    }
 
+    public void setRoomTemp(Double roomTemp) {
+        this.roomTemp = roomTemp;
+    }
     public String getDescription() {
         return description;
     }
@@ -228,12 +237,12 @@ public class RotCoilSystemTable implements Serializable {
         this.description = description;
     }
 
-    public DeviceInfoTable getDeviceId() {
-        return deviceId;
+    public EquipmentInfoTable getEquipmentId() {
+        return equipmentId;
     }
 
-    public void setDeviceId(DeviceInfoTable deviceId) {
-        this.deviceId = deviceId;
+    public void setEquipmentId(EquipmentInfoTable equipmentId) {
+        this.equipmentId = equipmentId;
     }
 
     @XmlTransient
@@ -286,7 +295,7 @@ public class RotCoilSystemTable implements Serializable {
                 + "\"startPosition\":\"" + startPosition + "\"," + "\"rotationRate\":\"" + rotationRate + "\"," + "\"rRef\":\"" + rRef
                 + "\"," + "\"dx\":\"" + dx + "\"," + "\"dy\":\"" + dy + "\"," + "\"dr\":\"" + dr + "\","
                 + "\"measDate\":\"" + DateToString(measDate) + "\"," + "\"measBy\":\"" + measBy + "\"," + "\"measAt\":\""
-                + measAt + "\"," + "\"description\":\"" + description + "\"}";
+                + measAt + "\"," + "\"roomTemp\":\"" + roomTemp + "\"," + "\"description\":\"" + description + "\"}";
     }
 
 }

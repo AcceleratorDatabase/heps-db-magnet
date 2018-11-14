@@ -89,7 +89,7 @@ public class LoadData extends HttpServlet {
                 break;
             case "rcs":
                 result=m.queryRCSAnaDataByrunid(runid).replace("[", "").replace("]", "");
-                result +="//"+ m.queryRCSDataByrunid(runid);
+               // result +="//"+ m.queryRCSDataByrunid(runid);
                 break;
             case "hall":
                 result = m.queryHallAnaDataByrunid(runid).replace("[", "").replace("]", "");

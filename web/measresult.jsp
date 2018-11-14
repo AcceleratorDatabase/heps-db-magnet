@@ -70,7 +70,8 @@
                             <th data-options="field:'measDate',width:80">测试时间</th>
                             <th data-options="field:'measBy',width:80">测试人</th>
                             <th data-options="field:'measAt',width:80">测试地点</th> 
-                            <th data-options="field:'description',width:80">备注</th> 
+                            <th data-options="field:'roomTemp',width:120">实验室温度[℃]</th> 
+                            <th data-options="field:'description',width:200">备注</th> 
                         </tr>
                     </thead>
                 </table>                
@@ -98,8 +99,9 @@
                             <th data-options="field:'dr',width:80">dr[mm]</th>
                             <th data-options="field:'measDate',width:80">测试时间</th>
                             <th data-options="field:'measBy',width:80">测试人</th>
-                            <th data-options="field:'measAt',width:80">测试地点</th> 
-                            <th data-options="field:'description',width:80">备注</th> 
+                            <th data-options="field:'measAt',width:80">测试地点</th>
+                            <th data-options="field:'roomTemp',width:120">实验室温度[℃]</th> 
+                            <th data-options="field:'description',width:200">备注</th> 
                         </tr>
                     </thead>
                 </table>
@@ -120,7 +122,8 @@
                             <th data-options="field:'measDate',width:80">测试时间</th>
                             <th data-options="field:'measBy',width:80">测试人</th>
                             <th data-options="field:'measAt',width:80">测试地点</th> 
-                            <th data-options="field:'description',width:80">备注</th> 
+                            <th data-options="field:'roomTemp',width:120">实验室温度[℃]</th> 
+                            <th data-options="field:'description',width:200">备注</th> 
                         </tr>
                     </thead>
                 </table>
@@ -188,27 +191,35 @@
                                     if (data === "[]" || data === "") {
                                         alert("没有相关数据");
                                     } else {
-                                        if (ff === "rcs") {
-                                            var datapiece = data.split("//");
-                                            var files = datapiece[0].split(",");
-                                            var str = '{"rows":' + datapiece[1] + '}';
-                                            var s = $.parseJSON(str);
+                                        dlg.innerHTML='';
+                                        //if (ff === "rcs") {
+                                            //console.log(data)
+                                            //var datapiece = data.split("//");
+                                            //var files = datapiece[0].split(",");
+                                              var files = data.split(",");
+                                           // var str = '{"rows":' + datapiece[1] + '}';
+                                            //var s = $.parseJSON(str);
                                             // alert(s);
                                             $dlg.dialog('open');
-                                            $datadg.datagrid('loadData', s);
-                                            dlg.innerHTML += "数据列表 点击下载（最后一个是原始数据）</br>";
+                                            //$datadg.datagrid('loadData', s);
+                                            dlg.innerHTML += "<label>数据列表 点击下载</label><div style=\"margin:5px 0;\"></div></br><label>其他数据及处理数据:</label></br>";
                                             for (file in files) {
-                                                dlg.innerHTML += "<a id=" + files[file] + " href=\"#\" onclick=DownlodMeasFiles(this)>" + files[file] + "</a></br>";
-                                            }
-
-                                        } else {
-                                            $dlg.dialog('open');
-                                            dlg.innerHTML = "数据列表 点击下载（最后一个是原始数据）</br>";
-                                            var files = data.split(",");
-                                            for (file in files) {
-                                                dlg.innerHTML += "<a id=" + files[file] + " href=\"#\" onclick=DownlodMeasFiles(this)>" + files[file] + "</a></br>";
-                                            }
+                                              if(parseInt(file)===files.length-1){
+                                                   dlg.innerHTML += "<label>原始数据:</label></br><a id=" + files[file] + " href=\"#\" onclick=DownlodMeasFiles(this)>" + files[file] + "</a><div style=\"margin:3px 0;\"></div></br>";
+                                              }else{
+                                                   dlg.innerHTML += "<a id=" + files[file] + " href=\"#\" onclick=DownlodMeasFiles(this)>" + files[file]+ "</a><div style=\"margin:3px 0;\"></div></br>";
+                                              }
                                         }
+
+//                                        } else {
+//                                             console.log(data)
+//                                            $dlg.dialog('open');
+//                                            dlg.innerHTML = "数据列表 点击下载</br>";
+//                                            var files = data.split(",");
+//                                            for (file in files) {
+//                                                dlg.innerHTML += "<a id=" + files[file] + " href=\"#\" onclick=DownlodMeasFiles(this)>" + files[file] + "</a><div style=\"margin:5px 0;\"></div></br>";
+//                                            }
+//                                        }
                                     }
                                 }
                             });
@@ -219,7 +230,7 @@
                 }];
             function DownlodMeasFiles(obj) {
                 //alert(document.getElementById(obj.id).innerText);
-                location.href = "DownloadMeasFiles?filename=" + document.getElementById(obj.id).innerText + "&filetype=" + ff;
+                location.href = "DownloadMeasFiles?filename=" + encodeURIComponent(document.getElementById(obj.id).innerText) + "&filetype=" + ff;
             }
         </script>
     </body>

@@ -33,33 +33,33 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author qiaoys
  */
 @Entity
-@Table(name = "device_info_table")
+@Table(name = "equipment_info_table")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "DeviceInfoTable.findAll", query = "SELECT d FROM DeviceInfoTable d")
-    , @NamedQuery(name = "DeviceInfoTable.findByDeviceId", query = "SELECT d FROM DeviceInfoTable d WHERE d.deviceId = :deviceId")
-    , @NamedQuery(name = "DeviceInfoTable.findByNumber", query = "SELECT d FROM DeviceInfoTable d WHERE d.number = :number")
-    , @NamedQuery(name = "DeviceInfoTable.findByDeviceName", query = "SELECT d FROM DeviceInfoTable d WHERE d.deviceName = :deviceName")
-    , @NamedQuery(name = "DeviceInfoTable.findByWeight", query = "SELECT d FROM DeviceInfoTable d WHERE d.weight = :weight")
-    , @NamedQuery(name = "DeviceInfoTable.findBySeries", query = "SELECT d FROM DeviceInfoTable d WHERE d.series = :series")
-    , @NamedQuery(name = "DeviceInfoTable.findByDateOfManu", query = "SELECT d FROM DeviceInfoTable d WHERE d.dateOfManu = :dateOfManu")
-    , @NamedQuery(name = "DeviceInfoTable.findByDesignedBy", query = "SELECT d FROM DeviceInfoTable d WHERE d.designedBy = :designedBy")
-    , @NamedQuery(name = "DeviceInfoTable.findByManuBy", query = "SELECT d FROM DeviceInfoTable d WHERE d.manuBy = :manuBy")
-    , @NamedQuery(name = "DeviceInfoTable.findByDescription", query = "SELECT d FROM DeviceInfoTable d WHERE d.description = :description")})
-public class DeviceInfoTable implements Serializable {
+    @NamedQuery(name = "EquipmentInfoTable.findAll", query = "SELECT e FROM EquipmentInfoTable e")
+    , @NamedQuery(name = "EquipmentInfoTable.findByEquipmentId", query = "SELECT e FROM EquipmentInfoTable e WHERE e.equipmentId = :equipmentId")
+    , @NamedQuery(name = "EquipmentInfoTable.findByNumber", query = "SELECT e FROM EquipmentInfoTable e WHERE e.number = :number")
+    , @NamedQuery(name = "EquipmentInfoTable.findByEquipmentName", query = "SELECT e FROM EquipmentInfoTable e WHERE e.equipmentName = :equipmentName")
+    , @NamedQuery(name = "EquipmentInfoTable.findByWeight", query = "SELECT e FROM EquipmentInfoTable e WHERE e.weight = :weight")
+    , @NamedQuery(name = "EquipmentInfoTable.findBySeries", query = "SELECT e FROM EquipmentInfoTable e WHERE e.series = :series")
+    , @NamedQuery(name = "EquipmentInfoTable.findByDateOfManu", query = "SELECT e FROM EquipmentInfoTable e WHERE e.dateOfManu = :dateOfManu")
+    , @NamedQuery(name = "EquipmentInfoTable.findByDesignedBy", query = "SELECT e FROM EquipmentInfoTable e WHERE e.designedBy = :designedBy")
+    , @NamedQuery(name = "EquipmentInfoTable.findByManuBy", query = "SELECT e FROM EquipmentInfoTable e WHERE e.manuBy = :manuBy")
+    , @NamedQuery(name = "EquipmentInfoTable.findByDescription", query = "SELECT e FROM EquipmentInfoTable e WHERE e.description = :description")})
+public class EquipmentInfoTable implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
 
-    @Column(name = "device_id")
-    private Integer deviceId;
+    @Column(name = "equipment_id")
+    private Integer equipmentId;
     @Column(name = "number")
     private Integer number;
     @Size(max = 45)
-    @Column(name = "device_name")
-    private String deviceName;
+    @Column(name = "equipment_name")
+    private String equipmentName;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "weight")
     private Double weight;
@@ -81,26 +81,26 @@ public class DeviceInfoTable implements Serializable {
     @JoinColumn(name = "design_id", referencedColumnName = "design_id")
     @ManyToOne
     private MagnetDesignTable designId;
-    @OneToMany(mappedBy = "deviceId")
+    @OneToMany(mappedBy = "equipmentId")
     private Collection<StretchedWireSystemTable> stretchedWireSystemTableCollection;
-    @OneToMany(mappedBy = "deviceId")
+    @OneToMany(mappedBy = "equipmentId")
     private Collection<HallProbeSystemTable> hallProbeSystemTableCollection;
-    @OneToMany(mappedBy = "deviceId")
+    @OneToMany(mappedBy = "equipmentId")
     private Collection<RotCoilSystemTable> rotCoilSystemTableCollection;
 
-    public DeviceInfoTable() {
+    public EquipmentInfoTable() {
     }
 
-    public DeviceInfoTable(Integer deviceId) {
-        this.deviceId = deviceId;
+    public EquipmentInfoTable(Integer equipmentId) {
+        this.equipmentId = equipmentId;
     }
 
-    public Integer getDeviceId() {
-        return deviceId;
+    public Integer getEquipmentId() {
+        return equipmentId;
     }
 
-    public void setDeviceId(Integer deviceId) {
-        this.deviceId = deviceId;
+    public void setEquipmentId(Integer equipmentId) {
+        this.equipmentId = equipmentId;
     }
 
     public Integer getNumber() {
@@ -111,12 +111,12 @@ public class DeviceInfoTable implements Serializable {
         this.number = number;
     }
 
-    public String getDeviceName() {
-        return deviceName;
+    public String getEquipmentName() {
+        return equipmentName;
     }
 
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
     }
 
     public Double getWeight() {
@@ -205,18 +205,18 @@ public class DeviceInfoTable implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (deviceId != null ? deviceId.hashCode() : 0);
+        hash += (equipmentId != null ? equipmentId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DeviceInfoTable)) {
+        if (!(object instanceof EquipmentInfoTable)) {
             return false;
         }
-        DeviceInfoTable other = (DeviceInfoTable) object;
-        if ((this.deviceId == null && other.deviceId != null) || (this.deviceId != null && !this.deviceId.equals(other.deviceId))) {
+        EquipmentInfoTable other = (EquipmentInfoTable) object;
+        if ((this.equipmentId == null && other.equipmentId != null) || (this.equipmentId != null && !this.equipmentId.equals(other.equipmentId))) {
             return false;
         }
         return true;
@@ -228,7 +228,7 @@ public class DeviceInfoTable implements Serializable {
     }
     @Override
     public String toString() {
-        return "{\"magid\":\"" + deviceId + "\"," + "\"magname\":\"" + deviceName + "\"," + "\"designid\":\"" + designId.getDesignId()
+        return "{\"magid\":\"" + equipmentId + "\"," + "\"magname\":\"" + equipmentName + "\"," + "\"designid\":\"" + designId.getDesignId()
                 + "\"," + "\"weight\":\"" + weight + "\"," + "\"series\":\"" + series + "\"," + "\"manudate\":\"" + DateToString(dateOfManu) + "\","
                 + "\"designedby\":\"" + designedBy + "\"," + "\"manuby\":\"" + manuBy + "\"," + "\"description\":\"" + description + "\"}";
     }

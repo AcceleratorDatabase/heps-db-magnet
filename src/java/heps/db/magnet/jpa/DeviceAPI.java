@@ -5,7 +5,7 @@
  */
 package heps.db.magnet.jpa;
 
-import heps.db.magnet.entity.DeviceInfoTable;
+import heps.db.magnet.entity.EquipmentInfoTable;
 import heps.db.magnet.entity.MagnetDesignTable;
 //import java.sql.Date;
 import java.util.Date;
@@ -82,15 +82,15 @@ public class DeviceAPI {
             name = null;
         } else {
             design = (MagnetDesignTable) em.createNamedQuery("MagnetDesignTable.findByDesignId").setParameter("designId", Integer.parseInt(maginfo.get(5).toString())).getSingleResult();
-            //num = Long.parseLong(em.createQuery("SELECT count(d) FROM DeviceInfoTable d WHERE d.designId=:designId").setParameter("designId", design).getSingleResult().toString());
+            //num = Long.parseLong(em.createQuery("SELECT count(d) FROM EquipmentInfoTable d WHERE d.designId=:designId").setParameter("designId", design).getSingleResult().toString());
             //numnow = 1 + num.intValue();
-            num = Long.parseLong(em.createQuery("SELECT count(d) FROM DeviceInfoTable d WHERE d.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family)").setParameter("type", type).setParameter("family", family).getSingleResult().toString());
+            num = Long.parseLong(em.createQuery("SELECT count(e) FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family)").setParameter("type", type).setParameter("family", family).getSingleResult().toString());
             numnow = 1 + num.intValue();
             name = type + "-" + family + "-" + numnow;
         }
         //System.out.println(design.toString());          
-        DeviceInfoTable device = new DeviceInfoTable();
-        device.setDeviceName(name);
+        EquipmentInfoTable device = new EquipmentInfoTable();
+        device.setEquipmentName(name);
         device.setWeight(precalc(maginfo.get(0).toString()));
         device.setSeries(maginfo.get(1).toString());
         device.setDesignedBy(maginfo.get(2).toString());
@@ -113,7 +113,7 @@ public class DeviceAPI {
         String manuBy=maginfo.get(3).toString();
         Date deteOfManu=strToDate(maginfo.get(4).toString());
         String description=maginfo.get(6).toString();        
-       DeviceInfoTable device =(DeviceInfoTable)em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magId).getSingleResult();
+       EquipmentInfoTable device =(EquipmentInfoTable)em.createNamedQuery("EquipmentInfoTable.findByEquipmentId").setParameter("equipmentId", magId).getSingleResult();
        device.setWeight(weight);
        device.setSeries(series);
        device.setDesignedBy(designedby);
@@ -127,8 +127,8 @@ public class DeviceAPI {
     }
 
     public String queryMagnetAll() {
-        Query query = em.createNamedQuery("DeviceInfoTable.findAll");
-        List<DeviceInfoTable> re = query.getResultList();
+        Query query = em.createNamedQuery("EquipmentInfoTable.findAll");
+        List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
     }
@@ -136,33 +136,33 @@ public class DeviceAPI {
     public String queryMagnetById(Integer designId) {
         MagnetDesignTable mag = new MagnetDesignTable();
         mag.setDesignId(designId);
-        Query query = em.createQuery("SELECT d FROM DeviceInfoTable d WHERE d.designId =:designId ");
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId =:designId ");
         query.setParameter("designId", mag);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         //System.out.println(designId+":"+re.toString());
         return re.toString();
     }
 
     public String queryMagnetByType(String type) {
-        Query query = em.createQuery(" SELECT d FROM DeviceInfoTable d WHERE d.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type) ");
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type) ");
         query.setParameter("type", type);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
     }
 
     public String queryMagnetByFamily(Integer family) {
-        Query query = em.createQuery(" SELECT d FROM DeviceInfoTable d WHERE d.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) ");
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) ");
         query.setParameter("family", family);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
     }
 
     public String queryMagnetByTypeFamily(String type, Integer family) {
-        Query query = em.createQuery(" SELECT d FROM DeviceInfoTable d WHERE d.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) ");
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) ");
         query.setParameter("type", type).setParameter("family", family);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
     }
@@ -170,20 +170,20 @@ public class DeviceAPI {
     public String queryMagnetByDate(String datemin, String datemax) {
         Date qmin, qmax;
         if (datemin.equals("")) {
-            Query query = em.createQuery(" SELECT MIN(d.dateOfManu) FROM DeviceInfoTable d");
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
             qmin = (Date) query.getSingleResult();
         } else {
             qmin = strToDate(datemin);
         }
         if (datemax.equals("")) {
-            Query query = em.createQuery(" SELECT MAX(d.dateOfManu) FROM DeviceInfoTable d");
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
             qmax = (Date) query.getSingleResult();
         } else {
             qmax = strToDate(datemax);
         }
-        Query query = em.createQuery(" SELECT d FROM DeviceInfoTable d WHERE d.dateOfManu BETWEEN :datemin AND :datemax");
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.dateOfManu BETWEEN :datemin AND :datemax");
         query.setParameter("datemin", qmin).setParameter("datemax", qmax);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
     }
@@ -191,20 +191,20 @@ public class DeviceAPI {
     public String queryMagnetByTypeDate(String type, String datemin, String datemax) {
         Date qmin, qmax;
         if (datemin.equals("")) {
-            Query query = em.createQuery(" SELECT MIN(d.dateOfManu) FROM DeviceInfoTable d");
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
             qmin = (Date) query.getSingleResult();
         } else {
             qmin = strToDate(datemin);
         }
         if (datemax.equals("")) {
-            Query query = em.createQuery(" SELECT MAX(d.dateOfManu) FROM DeviceInfoTable d");
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
             qmax = (Date) query.getSingleResult();
         } else {
             qmax = strToDate(datemax);
         }
-        Query query = em.createQuery("SELECT d FROM DeviceInfoTable d WHERE d.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type) AND d.dateOfManu BETWEEN :datemin AND :datemax");
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type) AND e.dateOfManu BETWEEN :datemin AND :datemax");
         query.setParameter("type", type).setParameter("datemin", qmin).setParameter("datemax", qmax);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
     }
@@ -212,20 +212,20 @@ public class DeviceAPI {
     public String queryMagnetByFamilyDate(Integer family, String datemin, String datemax) {
         Date qmin, qmax;
         if (datemin.equals("")) {
-            Query query = em.createQuery(" SELECT MIN(d.dateOfManu) FROM DeviceInfoTable d");
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
             qmin = (Date) query.getSingleResult();
         } else {
             qmin = strToDate(datemin);
         }
         if (datemax.equals("")) {
-            Query query = em.createQuery(" SELECT MAX(d.dateOfManu) FROM DeviceInfoTable d");
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
             qmax = (Date) query.getSingleResult();
         } else {
             qmax = strToDate(datemax);
         }
-        Query query = em.createQuery("SELECT d FROM DeviceInfoTable d WHERE d.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) AND d.dateOfManu BETWEEN :datemin AND :datemax");
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) AND e.dateOfManu BETWEEN :datemin AND :datemax");
         query.setParameter("family", family).setParameter("datemin", qmin).setParameter("datemax", qmax);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
     }
@@ -233,27 +233,27 @@ public class DeviceAPI {
     public String queryMagnetByTypeFamilyDate(String type, Integer family, String datemin, String datemax) {
         Date qmin, qmax;
         if (datemin.equals("")) {
-            Query query = em.createQuery(" SELECT MIN(d.dateOfManu) FROM DeviceInfoTable d");
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
             qmin = (Date) query.getSingleResult();
         } else {
             qmin = strToDate(datemin);
         }
         if (datemax.equals("")) {
-            Query query = em.createQuery(" SELECT MAX(d.dateOfManu) FROM DeviceInfoTable d");
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
             qmax = (Date) query.getSingleResult();
         } else {
             qmax = strToDate(datemax);
         }
-        Query query = em.createQuery("SELECT d FROM DeviceInfoTable d WHERE d.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) AND d.dateOfManu BETWEEN :datemin AND :datemax");
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) AND e.dateOfManu BETWEEN :datemin AND :datemax");
         query.setParameter("family", family).setParameter("datemin", qmin).setParameter("datemax", qmax);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
     }
 
     public Integer deleteMagnetById(Integer magid) {
         // et.begin();
-        DeviceInfoTable demag = em.find(DeviceInfoTable.class, magid);
+        EquipmentInfoTable demag = em.find(EquipmentInfoTable.class, magid);
         //Query query = em.createNamedQuery("MagnetDesignTable.findByDesignId");
         //query.setParameter("designId", designId);
         //MagnetDesignTable re = (MagnetDesignTable)query.getSingleResult();

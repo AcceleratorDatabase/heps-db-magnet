@@ -5,7 +5,7 @@
  */
 package heps.db.magnet.jpa;
 
-import heps.db.magnet.entity.DeviceInfoTable;
+import heps.db.magnet.entity.EquipmentInfoTable;
 import heps.db.magnet.entity.HallDataAllTable;
 import heps.db.magnet.entity.HallDataTable;
 import heps.db.magnet.entity.HallProbeSystemTable;
@@ -100,12 +100,12 @@ public class MeasureAPI {
         return json;
     }
 
-    public Integer insertSWSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, String rawdata,String ana_data) {
+    public Integer insertSWSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, Double roomtemp, String remark, String rawdata,String ana_data) {
         StretchedWireSystemTable sws = new StretchedWireSystemTable();
-        DeviceInfoTable device;
+        EquipmentInfoTable device;
         try {
-            device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
-            sws.setDeviceId(device);
+            device = (EquipmentInfoTable) em.createNamedQuery("EquipmentInfoTable.findByEquipmentId").setParameter("equipmentId", magid).getSingleResult();
+            sws.setEquipmentId(device);
             sws.setSamplingRate(Double.parseDouble(meascon.getString("采样率（Hz）")));
             sws.setSpeed(Double.parseDouble(meascon.getString("移动速度（m/s）")));
             sws.setAcceleratedSpeed(Double.parseDouble(meascon.getString("a加速度（m/s2）")));
@@ -117,6 +117,7 @@ public class MeasureAPI {
             sws.setCutOffFrequency(Double.parseDouble(meascon.getString("截止频率(Hz)")));
             sws.setMeasBy(measby);
             sws.setMeasAt(measat);
+            sws.setRoomTemp(roomtemp);
             sws.setDescription(remark);
             sws.setMeasDate(strToDate(measdate));
             em.persist(sws);
@@ -136,10 +137,10 @@ public class MeasureAPI {
     }
     
     public String querySWSBymagid(Integer magid) {
-        DeviceInfoTable device;
-        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
-        Query query = em.createQuery("SELECT s FROM StretchedWireSystemTable s WHERE s.deviceId =:deviceId ");
-        query.setParameter("deviceId", device);
+        EquipmentInfoTable device;
+        device = (EquipmentInfoTable) em.createNamedQuery("EquipmentInfoTable.findByEquipmentId").setParameter("equipmentId", magid).getSingleResult();
+        Query query = em.createQuery("SELECT s FROM StretchedWireSystemTable s WHERE s.equipmentId =:equipmentId ");
+        query.setParameter("equipmentId", device);
         List<StretchedWireSystemTable> re = query.getResultList();
         return re.toString();
     }
@@ -149,7 +150,7 @@ public class MeasureAPI {
         sws = (StretchedWireSystemTable) em.createNamedQuery("StretchedWireSystemTable.findBySwRunId").setParameter("swRunId", runid).getSingleResult();
         Query query = em.createQuery("SELECT s.rawData FROM SwsDataTable s WHERE s.runId =:runId ");
         query.setParameter("runId", sws);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         //System.out.println(re.toString());
         return re.toString();
     }
@@ -158,17 +159,17 @@ public class MeasureAPI {
         sws = (StretchedWireSystemTable) em.createNamedQuery("StretchedWireSystemTable.findBySwRunId").setParameter("swRunId", runid).getSingleResult();
         Query query = em.createQuery("SELECT s.analysisData FROM SwsDataTable s WHERE s.runId =:runId ");
         query.setParameter("runId", sws);
-        List<DeviceInfoTable> re = query.getResultList();
+        List<EquipmentInfoTable> re = query.getResultList();
         //System.out.println(re.toString());
         return re.toString();
     }
-    public Integer insertRCSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat, String remark, String anadata, List<Object> rawdata, String[] analysis) {
+    public Integer insertRCSMeas(JSONObject meascon, Integer magid, String measdate, String measby, String measat,Double roomtemp, String remark, String anadata, List<Object> rawdata, String[] analysis) {
         String[] analysis_piece;
         RotCoilSystemTable rcs = new RotCoilSystemTable();
-        DeviceInfoTable device;
+        EquipmentInfoTable device;
         try {
-            device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
-            rcs.setDeviceId(device);            
+            device = (EquipmentInfoTable) em.createNamedQuery("EquipmentInfoTable.findByEquipmentId").setParameter("equipmentId", magid).getSingleResult();
+            rcs.setEquipmentId(device);            
             rcs.setPolarity(meascon.getString("Polarity"));
             rcs.setGivenCurrent(Double.parseDouble(meascon.getString("给定电流(A)")));
             rcs.setActualCurrent(Double.parseDouble(meascon.getString("实际电流(A)")));
@@ -181,6 +182,7 @@ public class MeasureAPI {
             rcs.setDr(Double.parseDouble(meascon.getString("dr(mm)")));
             rcs.setMeasBy(measby);
             rcs.setMeasAt(measat);
+            rcs.setRoomTemp(roomtemp);
             rcs.setDescription(remark);
             rcs.setMeasDate(strToDate(measdate));
             em.persist(rcs);
@@ -214,10 +216,10 @@ public class MeasureAPI {
     }
 
     public String queryRCSBymagid(Integer magid) {
-        DeviceInfoTable device;
-        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
-        Query query = em.createQuery("SELECT r FROM RotCoilSystemTable r WHERE r.deviceId =:deviceId ");
-        query.setParameter("deviceId", device);
+        EquipmentInfoTable device;
+        device = (EquipmentInfoTable) em.createNamedQuery("EquipmentInfoTable.findByEquipmentId").setParameter("equipmentId", magid).getSingleResult();
+        Query query = em.createQuery("SELECT r FROM RotCoilSystemTable r WHERE r.equipmentId =:equipmentId ");
+        query.setParameter("equipmentId", device);
         List<RotCoilSystemTable> re = query.getResultList();
         return re.toString();
     }
@@ -408,19 +410,21 @@ public class MeasureAPI {
         }
     }
 
-    public Integer insertHallMeas(Integer magid, Double current, Double pressure, String measdate, String measby, String measat, String remark,String rawfiles,String anafiles) {
+    public Integer insertHallMeas(Integer magid, Double current, Double pressure, String measdate, String measby, String measat, Double roomtemp, String remark,String rawfiles,String anafiles) {
 //        JSONObject jsondata;
 //        jsondata = combine2Json(sheetNames, measdata);
         HallProbeSystemTable hall = new HallProbeSystemTable();
-        DeviceInfoTable device;
+        EquipmentInfoTable device;
         //measure condition 
-        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
-        hall.setDeviceId(device);
+
+        device = (EquipmentInfoTable) em.createNamedQuery("EquipmentInfoTable.findByEquipmentId").setParameter("equipmentId", magid).getSingleResult();
+        hall.setEquipmentId(device);
         hall.setMeasCurrent(current);
         hall.setWaterGage(pressure);
         hall.setMeasAt(measat);
         hall.setMeasBy(measby);
         hall.setMeasDate(strToDate(measdate));
+        hall.setRoomTemp(roomtemp);
         hall.setDescription(remark);
         em.persist(hall);
         et.commit();        
@@ -433,10 +437,10 @@ public class MeasureAPI {
     }
 
     public String queryHallBymagid(Integer magid) {
-        DeviceInfoTable device;
-        device = (DeviceInfoTable) em.createNamedQuery("DeviceInfoTable.findByDeviceId").setParameter("deviceId", magid).getSingleResult();
-        Query query = em.createQuery("SELECT h FROM HallProbeSystemTable h WHERE h.deviceId =:deviceId ");
-        query.setParameter("deviceId", device);
+        EquipmentInfoTable device;
+        device = (EquipmentInfoTable) em.createNamedQuery("EquipmentInfoTable.findByEquipmentId").setParameter("equipmentId", magid).getSingleResult();
+        Query query = em.createQuery("SELECT h FROM HallProbeSystemTable h WHERE h.equipmentId =:equipmentId ");
+        query.setParameter("equipmentId", device);
         List<HallProbeSystemTable> re = query.getResultList();
         return re.toString();
     }

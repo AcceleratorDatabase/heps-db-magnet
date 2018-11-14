@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "HallProbeSystemTable.findByMeasDate", query = "SELECT h FROM HallProbeSystemTable h WHERE h.measDate = :measDate")
     , @NamedQuery(name = "HallProbeSystemTable.findByMeasBy", query = "SELECT h FROM HallProbeSystemTable h WHERE h.measBy = :measBy")
     , @NamedQuery(name = "HallProbeSystemTable.findByMeasAt", query = "SELECT h FROM HallProbeSystemTable h WHERE h.measAt = :measAt")
+    , @NamedQuery(name = "HallProbeSystemTable.findByRoomTemp", query = "SELECT h FROM HallProbeSystemTable h WHERE h.roomTemp = :roomTemp")  
     , @NamedQuery(name = "HallProbeSystemTable.findByDescription", query = "SELECT h FROM HallProbeSystemTable h WHERE h.description = :description")})
 public class HallProbeSystemTable implements Serializable {
 
@@ -65,16 +66,18 @@ public class HallProbeSystemTable implements Serializable {
     @Size(max = 45)
     @Column(name = "meas_at")
     private String measAt;
-    @Size(max = 255)
+    @Column(name = "room_temp")
+    private Double roomTemp;
+    @Size(max = 255)    
     @Column(name = "description")
     private String description;
     @OneToMany(mappedBy = "runId")
     private Collection<HallDataAllTable> hallDataAllTableCollection;
     @OneToMany(mappedBy = "runId")
     private Collection<HallDataTable> hallDataTableCollection;
-    @JoinColumn(name = "device_id", referencedColumnName = "device_id")
+    @JoinColumn(name = "equipment_id", referencedColumnName = "equipment_id")
     @ManyToOne
-    private DeviceInfoTable deviceId;
+    private EquipmentInfoTable equipmentId;
 
     public HallProbeSystemTable() {
     }
@@ -130,7 +133,13 @@ public class HallProbeSystemTable implements Serializable {
     public void setMeasAt(String measAt) {
         this.measAt = measAt;
     }
+    public Double getRoomTemp() {
+        return roomTemp;
+    }
 
+    public void setRoomTemp(Double roomTemp) {
+        this.roomTemp = roomTemp;
+    }
     public String getDescription() {
         return description;
     }
@@ -157,12 +166,12 @@ public class HallProbeSystemTable implements Serializable {
         this.hallDataTableCollection = hallDataTableCollection;
     }
 
-    public DeviceInfoTable getDeviceId() {
-        return deviceId;
+    public EquipmentInfoTable getEquipmentId() {
+        return equipmentId;
     }
 
-    public void setDeviceId(DeviceInfoTable deviceId) {
-        this.deviceId = deviceId;
+    public void setEquipmentId(EquipmentInfoTable equipmentId) {
+        this.equipmentId = equipmentId;
     }
 
     @Override
@@ -194,7 +203,7 @@ public class HallProbeSystemTable implements Serializable {
     public String toString() {
         return "{\"runid\":\"" + hallProbeRunId + "\"," + "\"measCurrent\":\"" + measCurrent + "\"," + "\"waterGage\":\""
                 + waterGage + "\"," + "\"measDate\":\"" + DateToString(measDate) + "\"," + "\"measBy\":\"" + measBy + "\","
-                + "\"measAt\":\"" + measAt + "\"," + "\"description\":\"" + description + "\"}";
+                + "\"measAt\":\"" + measAt + "\"," + "\"roomTemp\":\"" + roomTemp+ "\"," + "\"description\":\"" + description + "\"}";
     }
 
 } 

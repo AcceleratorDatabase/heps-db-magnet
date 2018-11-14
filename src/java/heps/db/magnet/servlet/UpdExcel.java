@@ -99,20 +99,21 @@ public class UpdExcel extends HttpServlet {
 //        String realPath = "E:/analysis";
         String realPath = this.getServletContext().getRealPath("/WEB-INF");
         String dir = "";
-        Double hall_current = 0.0, hall_gage = 0.0;
+        Double hall_current = 0.0, hall_gage = 0.0, roomtemp=0.0;
         ArrayList<String> ana_files = new ArrayList<>();
 //        String button=request.getParameter("button");
-//        System.out.println(button);
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setHeaderEncoding(request.getCharacterEncoding());
         ArrayList sheetname = new ArrayList();
         ReadExl readexcel = new ReadExl();
         try {
-            List<FileItem> list = upload.parseRequest(request);            
-            for (int i = 0; i < list.size(); i++) {
+            List<FileItem> list = upload.parseRequest(request);   
+            for (int i = 0; i <11; i++) {
+                System.out.println(i);
                 FileItem f = list.get(i);
                 if (f.isFormField()) {
+                     System.out.println("field");
                     if (f.getFieldName().equals("identity")) {
                         filetype = f.getString();
                         filetype = new String(filetype.getBytes("ISO-8859-1"), "utf-8");
@@ -130,23 +131,35 @@ public class UpdExcel extends HttpServlet {
                     } else if (f.getFieldName().equals("measat")) {
                         measat = f.getString();
                         measat = new String(measat.getBytes("ISO-8859-1"), "utf-8");
-                    } else if (f.getFieldName().equals("remark")) {
+                    }  else if (f.getFieldName().equals("roomtemp")) {
+                        roomtemp =precalc(f.getString()) ;            
+                    }  else if (f.getFieldName().equals("remark")) {
                         remark = f.getString();
                         remark = new String(remark.getBytes("ISO-8859-1"), "utf-8");
                     }
+                } else {                   
+                }
+
+            }            
+            for (int i = list.size()-1; i >10; i--) {               
+                FileItem f = list.get(i);
+                if (f.isFormField()) {                    
                 } else {
+                   
                     switch (filetype){
                             case "sws":
-                              dir="uploadfile/analysis/sws";
+                              dir="uploadfile/meas/sws";
                                 break;
                             case "rcs":
-                                 dir="uploadfile/analysis/rcs";
+                                 dir="uploadfile/meas/rcs";
+                                 System.out.println("rcs");
                                 break;
                             case "hall":
-                                 dir="uploadfile/analysis/hall";
+                                 dir="uploadfile/meas/hall";
                                 break;                        
                         }
-                    String srcName = f.getName();// 取得上传时的文件名                     
+                    String srcName = f.getName();// 取得上传时的文件名  
+                    System.out.println(i+':'+srcName);
                     srcName = srcName.toLowerCase();// 统一将文件名改为小写  
                     String extName = "";// 扩展名  
                     int pos = srcName.lastIndexOf('.');
@@ -169,7 +182,8 @@ public class UpdExcel extends HttpServlet {
                     }
 
                     ana_files.add(ana_name);
-                    if (i == list.size() - 1) {
+                    System.out.println(ana_files.toString());
+                    if (i == 11) {
                         try {
                             //System.out.println("working");
                             Workbook wb = ReadExl.getWorkbook(f.getInputStream());
@@ -182,13 +196,13 @@ public class UpdExcel extends HttpServlet {
                                 }
                                 switch (filetype) {
                                     case "sws":
-                                        status = readexcel.insertSWSData(wb, sheetname, magid, measdate, measby, measat, remark, ana_files.toString());
+                                        status = readexcel.insertSWSData(wb, sheetname, magid, measdate, measby, measat, roomtemp, remark, ana_files.toString());
                                         break;
                                     case "rcs":
-                                        status = readexcel.insertRCSData(wb, sheetname, magid, measdate, measby, measat, remark, ana_files.toString());
+                                        status = readexcel.insertRCSData(wb, sheetname, magid, measdate, measby, measat, roomtemp, remark, ana_files.toString());
                                         break;
                                     case "hall":
-                                        status = readexcel.insertHallData(wb, sheetname, magid, hall_current, hall_gage, measdate, measby, measat, remark, ana_files.get(ana_files.size() - 1), ana_files.toString());
+                                        status = readexcel.insertHallData(wb, sheetname, magid, hall_current, hall_gage, measdate, measby, measat, roomtemp, remark, ana_files.get(ana_files.size() - 1), ana_files.toString());
                                         break;
                                     default:
                                         break;

@@ -62,8 +62,10 @@ public class DownloadMeasFiles extends HttpServlet {
             throws ServletException, IOException {
         String FileName=request.getParameter("filename");
         String filetype=request.getParameter("filetype");
-        String FilePath ="E:/analysis/"+filetype+"/";
-        //System.out.println(FilePath+FileName);
+        String realPath = this.getServletContext().getRealPath("/WEB-INF");
+        String FilePath =realPath+"\\uploadfile\\meas\\"+filetype+"\\";   
+        //String FilePath ="E:/analysis/"+filetype+"/";
+        System.out.println(FilePath+FileName);
                 if (!FileName.equals("")) {
             File f = new File(FilePath + FileName);
             if (f.exists()) {

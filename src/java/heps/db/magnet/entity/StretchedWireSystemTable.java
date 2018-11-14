@@ -49,6 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "StretchedWireSystemTable.findByMeasBy", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.measBy = :measBy")
     , @NamedQuery(name = "StretchedWireSystemTable.findByMeasDate", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.measDate = :measDate")
     , @NamedQuery(name = "StretchedWireSystemTable.findByMeasAt", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.measAt = :measAt")
+    , @NamedQuery(name = "StretchedWireSystemTable.findByRoomTemp", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.roomTemp = :roomTemp")
     , @NamedQuery(name = "StretchedWireSystemTable.findByDescription", query = "SELECT s FROM StretchedWireSystemTable s WHERE s.description = :description")})
 public class StretchedWireSystemTable implements Serializable {
 
@@ -86,14 +87,16 @@ public class StretchedWireSystemTable implements Serializable {
     @Size(max = 45)
     @Column(name = "meas_at")
     private String measAt;
-    @Size(max = 255)
+    @Column(name = "room_temp")
+    private Double roomTemp;
+    @Size(max = 255)    
     @Column(name = "description")
     private String description;
     @OneToMany(mappedBy = "runId")
     private Collection<SwsDataTable> swsDataTableCollection;
-    @JoinColumn(name = "device_id", referencedColumnName = "device_id")
+    @JoinColumn(name = "equipment_id", referencedColumnName = "equipment_id")
     @ManyToOne
-    private DeviceInfoTable deviceId;
+    private EquipmentInfoTable equipmentId;
 
     public StretchedWireSystemTable() {
     }
@@ -205,7 +208,13 @@ public class StretchedWireSystemTable implements Serializable {
     public void setMeasAt(String measAt) {
         this.measAt = measAt;
     }
+    public Double getRoomTemp() {
+        return roomTemp;
+    }
 
+    public void setRoomTemp(Double roomTemp) {
+        this.roomTemp = roomTemp;
+    }
     public String getDescription() {
         return description;
     }
@@ -223,12 +232,12 @@ public class StretchedWireSystemTable implements Serializable {
         this.swsDataTableCollection = swsDataTableCollection;
     }
 
-    public DeviceInfoTable getDeviceId() {
-        return deviceId;
+    public EquipmentInfoTable getEquipmentId() {
+        return equipmentId;
     }
 
-    public void setDeviceId(DeviceInfoTable deviceId) {
-        this.deviceId = deviceId;
+    public void setEquipmentId(EquipmentInfoTable equipmentId) {
+        this.equipmentId = equipmentId;
     }
 
     @Override
@@ -261,7 +270,7 @@ public String DateToString(Date date) {
                 + "\"startEX0\":\"" + startEX0 + "\"," + "\"startEY0\":\"" + startEY0 + "\"," + "\"strain\":\"" + strain 
                 + "\"," + "\"measCurrent\":\"" + measCurrent + "\"," + "\"cutOffFrequency\":\"" + cutOffFrequency + "\","
                 + "\"measDate\":\"" + DateToString(measDate) + "\"," + "\"measBy\":\"" + measBy + "\"," + "\"measAt\":\"" 
-                + measAt + "\"," + "\"description\":\"" + description + "\"}";
+                + measAt + "\"," + "\"roomTemp\":\"" + roomTemp+ "\"," + "\"description\":\"" + description + "\"}";
     }
     
 }

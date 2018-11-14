@@ -206,7 +206,7 @@ public class ReadExl {
         return data;
     }
 
-    public Integer insertSWSData(Workbook wb, ArrayList sheetNames, Integer magid, String measdate, String measby, String measat, String remark,String ana_data) {
+    public Integer insertSWSData(Workbook wb, ArrayList sheetNames, Integer magid, String measdate, String measby, String measat, Double roomtemp,String remark,String ana_data) {
         Integer status;
         List<Object> meascon;
         List<Object> measrawdata;
@@ -219,7 +219,7 @@ public class ReadExl {
             //System.out.println(meascon.toString()+"\n原始\n"+measrawdata.toString());
             MeasureAPI m = new MeasureAPI();
             m.init();
-            status = m.insertSWSMeas(JSONArray.fromObject(meascon).getJSONObject(0), magid, measdate, measby, measat, remark, measrawdata.toString(),ana_data);
+            status = m.insertSWSMeas(JSONArray.fromObject(meascon).getJSONObject(0), magid, measdate, measby, measat, roomtemp, remark, measrawdata.toString(),ana_data);
             m.destroy();
         } else {
             status = 0;
@@ -228,7 +228,7 @@ public class ReadExl {
         return status;
     }
 
-    public Integer insertRCSData(Workbook wb, ArrayList sheetNames,Integer magid, String measdate, String measby, String measat, String remark,String anadata) {
+    public Integer insertRCSData(Workbook wb, ArrayList sheetNames,Integer magid, String measdate, String measby, String measat, Double roomtemp, String remark,String anadata) {
         Integer status = 0;
         List<Object> meascon, measdata;
         List<Object> measanadata;
@@ -249,7 +249,7 @@ public class ReadExl {
                 analysis = measanadata.toString().split(";");
                 //measrawdata = measdata.subList(splitIndex + 1, measdata.size());
                 //System.out.println(measanadata.toString());
-                status = m.insertRCSMeas(JSONArray.fromObject(meascon).getJSONObject(0), magid, measdate, measby, measat, remark, anadata, measdata, analysis);
+                status = m.insertRCSMeas(JSONArray.fromObject(meascon).getJSONObject(0), magid, measdate, measby, measat, roomtemp, remark, anadata, measdata, analysis);
                 m.destroy();
             }
         } else {
@@ -258,13 +258,13 @@ public class ReadExl {
         return status;
     }
 
-    public Integer insertHallData(Workbook wb, ArrayList sheetNames,  Integer magid, Double current, Double pressure, String measdate, String measby, String measat, String remark,String rawfiles,String anafiles) {
+    public Integer insertHallData(Workbook wb, ArrayList sheetNames,  Integer magid, Double current, Double pressure, String measdate, String measby, String measat, Double roomtemp, String remark,String rawfiles,String anafiles) {
         Integer status;
         ArrayList measdata;
         MeasureAPI m = new MeasureAPI();
         m.init();
         measdata = getSheetsData(wb, sheetNames, 0);
-        status = m.insertHallMeas(magid, current, pressure, measdate, measby, measat, remark,rawfiles,anafiles);
+        status = m.insertHallMeas(magid, current, pressure, measdate, measby, measat, roomtemp, remark,rawfiles,anafiles);
         //System.out.println(measdata.toString());
         m.destroy();
         return status;

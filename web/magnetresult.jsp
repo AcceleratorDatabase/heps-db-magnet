@@ -193,7 +193,7 @@
                 <div id="dlg2" class="easyui-dialog" title="查看磁测数据" data-options="iconCls:'icon-save',closed: true" style="width:400px;height:200px;padding:10px;text-align: center">
                     <h5>请选择要查看的磁测数据类型</h5>
                     <a id="sws" name="sws" href="#" class="easyui-linkbutton" data-options="size:'large',iconAlign:'top'" onclick="showMeas(this)">张力线测磁</a>
-                    <a id="rcs" name="rcs"href="#" class="easyui-linkbutton" data-options="size:'large',iconAlign:'top'" onclick="showMeas(this)">旋转螺线圈测磁</a>
+                    <a id="rcs" name="rcs"href="#" class="easyui-linkbutton" data-options="size:'large',iconAlign:'top'" onclick="showMeas(this)">旋转线圈测磁</a>
                     <a id="hall" name="hall"href="#" class="easyui-linkbutton" data-options="size:'large',iconAlign:'top'" onclick="showMeas(this)">霍尔元件测磁</a>
                     <input type="hidden" id="hd1" name="hd1"/>
                 </div>

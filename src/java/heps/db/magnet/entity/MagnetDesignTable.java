@@ -50,8 +50,9 @@ public class MagnetDesignTable implements Serializable {
     @Size(max = 45)
     @Column(name = "type")
     private String type;
+    @Size(max = 45)
     @Column(name = "family")
-    private Integer family;
+    private String family;
     @Size(max = 45)
     @Column(name = "design_name")
     private String designName;
@@ -65,7 +66,7 @@ public class MagnetDesignTable implements Serializable {
     @Column(name = "remark")
     private String remark;
     @OneToMany(mappedBy = "designId")
-    private Collection<DeviceInfoTable> deviceInfoTableCollection;
+    private Collection<EquipmentInfoTable> equipmentInfoTableCollection;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "magnetDesignTable")
     private MagnetDesignRequirementTable magnetDesignRequirementTable;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "magnetDesignTable")
@@ -96,11 +97,11 @@ public class MagnetDesignTable implements Serializable {
         this.type = type;
     }
 
-    public Integer getFamily() {
+    public String getFamily() {
         return family;
     }
 
-    public void setFamily(Integer family) {
+    public void setFamily(String family) {
         this.family = family;
     }
 
@@ -137,12 +138,12 @@ public class MagnetDesignTable implements Serializable {
     }
 
     @XmlTransient
-    public Collection<DeviceInfoTable> getDeviceInfoTableCollection() {
-        return deviceInfoTableCollection;
+    public Collection<EquipmentInfoTable> getEquipmentInfoTableCollection() {
+        return equipmentInfoTableCollection;
     }
 
-    public void setDeviceInfoTableCollection(Collection<DeviceInfoTable> deviceInfoTableCollection) {
-        this.deviceInfoTableCollection = deviceInfoTableCollection;
+    public void setEquipmentInfoTableCollection(Collection<EquipmentInfoTable> equipmentInfoTableCollection) {
+        this.equipmentInfoTableCollection = equipmentInfoTableCollection;
     }
 
     public MagnetDesignRequirementTable getMagnetDesignRequirementTable() {

@@ -15,8 +15,8 @@
         <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.3/themes/icon.css?<%=Math.random()%>">     
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.min.js"></script>
         <script type="text/javascript" src="jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
-        <script type="text/javascript" src="dr.js?<%=Math.random()%>"></script>
-        <script type="text/javascript" src="dp.js?<%=Math.random()%>"></script>
+        <script type="text/javascript" src="dr_en.js?<%=Math.random()%>"></script>
+        <script type="text/javascript" src="dp_en.js?<%=Math.random()%>"></script>
         <script>
             window.onload = function () {
                 $.ajax({
@@ -73,29 +73,26 @@
         </style>
     </head>
     <body>
-        <h2 style="text-align:center">录入磁铁设计信息</h2>  
+        <h2 style="text-align:center">Upload Magnet Design Information</h2>  
         <div class="easyui-panel"   style="height: 820px;padding:20px 60px;" >
             <div style="width: 1000px;margin:0 auto;">
                 <form action="NewDesign" method="POST" target="_blank" onsubmit="return submitform();" >
                     <div id="info" >
-                        <label for="magtype" >磁铁种类: </label> 
+                        <label for="magtype" >Magnet Type: </label> 
                         <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
-                            <option value="二极铁">二极铁</option>                            
+                            <option value="二极铁">Dipole</option>                            
                         </select>
-                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 50px" onclick="newtype()">新建种类</a>
-                        <label for="magfamily">磁铁型号: </label>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 50px" onclick="newtype()">New Type</a>
+                        <label for="magfamily">Magnet Family: </label>
                         <select  id="magfamily" name="magfamily" style="width:15%;height: 25px" >
                             <option value="1">1</option>                            
                         </select>
-                        <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newfamily()">新建型号</a>
+                        <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newfamily()">New Family</a>
                     </div>
                     <div id="table">
                         <div id="table1" style=" float: left ">
                             <div style="margin:20px 0;"></div>
-                            <label> 请输入磁铁设计要求：
-                                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="addrow_r()">新增设计要求</a>
-                                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow_r()">删除设计要求</a>
-                                <div style="margin:5px 0;"></div>
+                            <label> Physical Design：
                                 <div style="margin:5px 0;"></div>
                                 <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
                             </label>                                               
@@ -108,26 +105,26 @@
                                    ">
                             </table>   
                             <div style="margin:5px 0;"></div>
-                            <div class="easyui-panel" title="其他信息"  >
+                            <div class="easyui-panel" title="Other Information"  >
                                 <div style="margin-bottom:5px;margin-top: 5px">
 
-                                    <input  class="easyui-textbox" id="designed_by" name="designed_by" label="磁铁设计人：（多人请用分号隔开）" labelPosition="top" style="width:100%">
+                                    <input  class="easyui-textbox" id="designed_by" name="designed_by" label="Designed by:" labelPosition="top" style="width:100%">
                                 </div>
                                 <div style="margin-bottom:5px">
-                                    <input class="easyui-textbox" id="approved_by" name="approved_by" label="磁铁负责人：（多人请用分号隔开）" labelPosition="top" style="width:100%">
+                                    <input class="easyui-textbox" id="approved_by" name="approved_by" label="Approved by:" labelPosition="top" style="width:100%">
                                 </div>
                                 <!--                               -->
                                 <div style="margin-bottom:5px">
-                                    <input class="easyui-textbox" id="remark" name="remark" label="备注" labelPosition="top" style="width:100%">
+                                    <input class="easyui-textbox" id="remark" name="remark" label="Remark:" labelPosition="top" style="width:100%">
                                 </div>
                             </div>                                                          
                         </div>
                         <div id="table2" style="float: right">
                             <div style="margin:20px 0;"></div>
-                            <label>请输入磁铁设计参数：
+                            <label>Engineering Design：
                                 <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges2()">查看修改项</a>-->
-                                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="addrow_p()">新增设计参数</a>
-                                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow_p()">删除设计参数</a>
+                                <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="addrow()">New Parameter</a>
+                                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow()">Delete Parameter</a>
                                 <div style="margin:5px 0;"></div>
                             </label>
                             <table id="design_para" name="design_para" class="easyui-propertygrid" style="width:400px" data-options="
@@ -140,8 +137,8 @@
                         </div>
                     </div>
                     <div style="position:relative;top:730px;bottom: 0; left:0;right:0;text-align: center">                    
-                        <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
-                        <input style="width:90px; font-size: 14px;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >                        
+                        <input style="width:70px; font-size: 14px" class="a-upload" type="submit" value="Submit" >
+                        <input style="width:70px; font-size: 14px;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="Home" >                        
                         <input type="hidden" id="hd1" name="hd1"/>
                         <input type="hidden" id="hd2" name="hd2"/> 
                         <input type="hidden" id="pplotn" name="pplotn"/>
@@ -154,13 +151,13 @@
 
                 <div  class="easyui-panel"   style="float:left;width: 400px"> 
                     <!--            <div  class="easyui-panel"   style=" position:absolute;left:450px; top:710px; width:404px;padding: 5px">  -->
-                    <label >请上传物理设计文件（PDF格式）</label>  
+                    <span >Physical Drawing(.PDF)</span>  
                     <div style="margin:5px 0;"></div>
                     <form  id="formId1" action="UploadFile?plottype=0" method="post"  
                            target="hiddenFrameName1" enctype="multipart/form-data">                       
                         <div>                         
                             <input id="pplotId" type="file" class="a-upload" name="pplotName"  
-                                   onchange="uploadpplot()"style="width:250px;float: left" /> 
+                                   onchange="uploadpplot()"style="width:250px;float: left" value="No"/> 
                             <input id="subform1" type="submit" value="上传"  class="a-upload" style="width:120px;height:33px;float: left;visibility:hidden"/>
                             <div style="display: none; color: red;" id="errorTip1">未选择文件  
                             </div>  
@@ -171,7 +168,7 @@
                     </form>  
                     <iframe style="display: none" name='hiddenFrameName1' id="hidden_frame1"></iframe>  
 
-                    <label style="float:left">请上传机械设计文件（PDF格式）</label>  
+                    <span >Engineering Drawing(.PDF)</span>  
                     <div style="margin:5px 0;"></div>
                     <form  id="formId2"  method="post"  
                            target="hiddenFrameName2" action="UploadFile?plottype=1" enctype="multipart/form-data" class="search">                       
@@ -385,7 +382,7 @@
                 }
                 alert(s);
             }
-            function addrow_p() {
+            function addrow() {
                 var input = window.prompt("新建设计参数,格式：参数名/参数组名/参数类型(text或number)", "property/其他/text");
                 var slice = input.split("/");
                 var property = slice[0];
@@ -406,40 +403,11 @@
                 };
                 $('#design_para').propertygrid('appendRow', row);
             }
-            function delrow_p() {
+            function delrow() {
                 var row = $('#design_para').propertygrid('getSelected');
                 var index = $('#design_para').propertygrid('getRowIndex', row);
                 if (index > 19) {
                     $('#design_para').propertygrid('deleteRow', index);
-                } else
-                    alert("只能删除自定义参数！");
-            }
-            function addrow_r() {
-                var input = window.prompt("新建设计要求,格式：参数名/参数组名/参数类型(text或number)", "property/其他/text");
-                var slice = input.split("/");
-                var property = slice[0];
-                var group = slice[1];
-                var type;
-                if (slice[2] === "text") {
-                    type = "text";
-                } else if (slice[2] === "number") {
-                    type = "numberbox";
-                } else {
-                    alert("格式错误");
-                }
-                var row = {
-                    name: property,
-                    value: '',
-                    group: group,
-                    editor: {type: type, options: {precision: 5}}
-                };
-                $('#design_require').propertygrid('appendRow', row);
-            }
-            function delrow_r() {
-                var row = $('#design_require').propertygrid('getSelected');
-                var index = $('#design_require').propertygrid('getRowIndex', row);
-                if (index > 9) {
-                    $('#design_require').propertygrid('deleteRow', index);
                 } else
                     alert("只能删除自定义参数！");
             }

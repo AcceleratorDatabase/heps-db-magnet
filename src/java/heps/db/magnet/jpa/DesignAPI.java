@@ -62,8 +62,8 @@ public class DesignAPI {
     public void insertDesign(ArrayList designall, ArrayList design_requirement, ArrayList design_para, ArrayList design_plot, int other_flag, ArrayList design_others) {
 //System.out.println(design_para);
         design.setType(designall.get(0).toString());
-        design.setFamily(Integer.parseInt(designall.get(1).toString()));
-        design.setDesignName(designall.get(0).toString() + "-" + Integer.parseInt(designall.get(1).toString()));
+        design.setFamily(designall.get(1).toString());
+        design.setDesignName(designall.get(0).toString() + "-" + designall.get(1).toString());
         design.setDesignBy(designall.get(2).toString());
         design.setApprovedBy(designall.get(3).toString());
         design.setRemark(designall.get(4).toString());
