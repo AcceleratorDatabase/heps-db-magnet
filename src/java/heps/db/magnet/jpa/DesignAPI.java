@@ -64,9 +64,10 @@ public class DesignAPI {
         design.setType(designall.get(0).toString());
         design.setFamily(designall.get(1).toString());
         design.setDesignName(designall.get(0).toString() + "-" + designall.get(1).toString());
-        design.setDesignBy(designall.get(2).toString());
-        design.setApprovedBy(designall.get(3).toString());
-        design.setRemark(designall.get(4).toString());
+         design.setProject(designall.get(2).toString());
+        design.setDesignBy(designall.get(3).toString());
+        design.setApprovedBy(designall.get(4).toString());
+        design.setRemark(designall.get(5).toString());
         em.persist(design);
         et.commit();
 
@@ -132,7 +133,7 @@ public class DesignAPI {
 
     public String queryDesignAll() {
         Query query = em.createNamedQuery("MagnetDesignTable.findAll");
-        List<MagnetDesignTable> re = query.getResultList();
+        List<MagnetDesignTable> re = query.getResultList();        
         return re.toString();
     }
 
@@ -149,17 +150,90 @@ public class DesignAPI {
         List<MagnetDesignTable> re = query.getResultList();
         return re.toString();
     }
-
-    public String queryDesignByFamily(String family) {
-        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family= :family");
-        query.setParameter("family", family);
+     public String queryDesignByDesignby(String designBy) {
+        Query query = em.createNamedQuery("MagnetDesignTable.findByDesignBy");
+        query.setParameter("designBy", designBy);
         List<MagnetDesignTable> re = query.getResultList();
         return re.toString();
     }
 
+    public String queryDesignByFamily(String family) {
+         Query query = em.createNamedQuery("MagnetDesignTable.findByFamily");
+        query.setParameter("family", family);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+    public String queryDesignByProject(String project) {
+        Query query = em.createNamedQuery("MagnetDesignTable.findByProject");
+        query.setParameter("project", project);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+    
+
     public String queryDesignByTypeFamily(String type, String family) {
         Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.family= :family");
         query.setParameter("type", type).setParameter("family", family);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryDesignByTypeProject(String type, String project) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.project= :project");
+        query.setParameter("type", type).setParameter("project", project);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryDesignByTypeDesignby(String type, String designBy) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.type = :type AND m.designBy= :designBy");
+        query.setParameter("type", type).setParameter("designBy", designBy);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryDesignByFamilyProject(String family, String project) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family = :family AND m.project= :project");
+        query.setParameter("family", family).setParameter("project", project);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryDesignByFamilyDesignby(String family, String designBy) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.family = :family AND m.designBy= :designBy");
+        query.setParameter("family", family).setParameter("designBy", designBy);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryDesignByProjectDesignby(String project, String designBy) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE m.project = :project AND m.designBy= :designBy");
+        query.setParameter("project", project).setParameter("designBy", designBy);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryDesignByTypeFamilyProject(String type, String family, String project) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND m.project= :project");
+        query.setParameter("type", type).setParameter("family", family).setParameter("project", project);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryDesignByTypeFamilyDesignby(String type, String family, String designBy) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND m.designBy= :designBy");
+        query.setParameter("type", type).setParameter("family", family).setParameter("designBy", designBy);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryDesignByTypeProjectDesignby(String type, String project, String designBy) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.project = :project AND m.designBy= :designBy");
+        query.setParameter("type", type).setParameter("project", project).setParameter("designBy", designBy);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryDesignByFamilyProjectDesignby(String family, String project, String designBy) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND m.designBy= :designBy");
+        query.setParameter("family", family).setParameter("project", project).setParameter("designBy", designBy);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+      public String queryDesignByTypeFamilyProjectDesignby(String type, String family, String project, String designBy) {
+        Query query = em.createQuery("SELECT m FROM MagnetDesignTable m WHERE  m.type = :type AND m.family = :family AND m.project = :project AND m.designBy= :designBy");
+        query.setParameter("type", type).setParameter("family", family).setParameter("project", project).setParameter("designBy", designBy);
         List<MagnetDesignTable> re = query.getResultList();
         return re.toString();
     }
@@ -638,6 +712,14 @@ public class DesignAPI {
     public String queryAllFamilys() {
         String re;
         Query query = em.createQuery("SELECT DISTINCT m.family from MagnetDesignTable m");
+        List s = query.getResultList();
+        re = s.toString().substring(1, s.toString().length() - 1);
+//System.out.println(re);
+        return re;
+    }
+     public String queryAllProjects() {
+        String re;
+        Query query = em.createQuery("SELECT DISTINCT m.project from MagnetDesignTable m");
         List s = query.getResultList();
         re = s.toString().substring(1, s.toString().length() - 1);
 //System.out.println(re);

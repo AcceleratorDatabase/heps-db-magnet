@@ -22,6 +22,7 @@
                 Integer designId = (Integer) session.getAttribute("designId");
                 String magtype = (String) session.getAttribute("magtype");
                 String magfamily = (String) session.getAttribute("magfamily");
+                String magproject = (String) session.getAttribute("magproject");
                 String mplotname = (String) session.getAttribute("mplotname");
                 String pplotname = (String) session.getAttribute("pplotname");
                 String seldata = (String) session.getAttribute("seldata");
@@ -30,6 +31,7 @@
             %>
             var tt = "<%=magtype%>";
             var mp = "<%=mplotname%>";
+            var mpr = "<%=magproject%>";
             var pp = "<%=pplotname%>";
             var id = <%=designId%>;
             var ff = "<%=magfamily%>";
@@ -113,6 +115,25 @@
                         document.getElementById("magfamily").value = ff;
                     }
                 });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadProject',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magproject");
+                        for (var i = 0; i < b.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = b[i];
+                            option.value = b[i];
+                            try {
+                                x.add(option, x.options[null]);
+                            } catch (e) {
+                                x.add(option, null);
+                            }
+                        }
+                        document.getElementById("magproject").value = mpr;
+                    }
+                });
 
                 $("#successTip1").html("现有文件名：" + mp);
                 $("#successTip1").show();
@@ -156,14 +177,19 @@
                 <form action="UpdateDesign" method="POST" target="_blank" onsubmit="return submitform();" >
                     <div id="info" >
                         <span>磁铁种类: </span> 
-                        <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
+                        <select  id="magtype" name="magtype" style="width:12%;height: 25px" >
 
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 50px" onclick="newtype()">新建种类</a>
                         <span>磁铁型号: </span>
-                        <select  id="magfamily" name="magfamily" style="width:15%;height: 25px" >                            
+                        <select  id="magfamily" name="magfamily" style="width:12%;height: 25px" >                            
                         </select>
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newfamily()">新建型号</a>
+                        <label for="magproject">所属工程: </label>
+                        <select  id="magproject" name="magproject" style="width:12%;height: 25px" >
+                            <option value="HEPS">HEPS</option>                            
+                        </select>
+                        <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newproject()">新建工程</a>
                     </div>
                     <div id="table">
                         <div id="table1" style=" ;float: left ">
@@ -360,6 +386,22 @@
                 if (name !== null && name !== "")
                 {
                     var x = document.getElementById("magfamily");
+                    var option = document.createElement("option");
+                    option.text = name;
+                    option.value = name;
+                    try {
+                        x.add(option, x.options[null]);
+                    } catch (e) {
+                        x.add(option, null);
+                    }
+                }
+            }
+             function newproject()
+            {
+                var name = window.prompt("新建工程", "");
+                if (name !== null && name !== "")
+                {
+                    var x = document.getElementById("magproject");
                     var option = document.createElement("option");
                     option.text = name;
                     option.value = name;

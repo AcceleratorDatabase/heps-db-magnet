@@ -94,23 +94,20 @@ public class QueryDesign extends HttpServlet {
         String result = new String();
         String type;
         String family;
-        Double lengthmin, lengthmax;
-        Integer intensity;
-        Double intensitymin, intensitymax;
-        Integer bylength;
+        String project;
+        String designby;
         Integer bytype;
         Integer byfamily;
-        Integer byintensity;
+        Integer byproject;
+        Integer bydesignby;
 
         DesignAPI a = new DesignAPI();
         a.init();
         type = request.getParameter("magtype");
         family = request.getParameter("magfamily");
-        lengthmin = precalcDouble(request.getParameter("lengthmin"));
-        lengthmax = precalcDouble(request.getParameter("lengthmax"));
-        intensity = precalcInt(request.getParameter("selintensity"));
-        intensitymin = precalcDouble(request.getParameter("intensitymin"));
-        intensitymax = precalcDouble(request.getParameter("intensitymax"));
+        project = request.getParameter("magproject");
+        designby = request.getParameter("magdesignby");
+       
 
         if (type.equals("none")) {
             bytype = 0;
@@ -122,60 +119,57 @@ public class QueryDesign extends HttpServlet {
         } else {
             byfamily = 1;
         }
-        if (lengthmin == null & lengthmax == null) {
-            bylength = 0;
+        if (project.equals("none")) {
+            byproject = 0;
         } else {
-            bylength = 1;
+            byproject = 1;
         }
-        if (intensity == -1) {
-            byintensity = 0;
+        if (designby.equals("")) {
+            bydesignby = 0;
         } else {
-            byintensity = 1;
-            // System.out.println(intensitymin+"----"+intensitymax);
+            bydesignby = 1;
+        }
+        //System.out.println(bytype+"~"+byfamily+"~"+byproject+"~"+bydesignby);
+        if (bytype == 0 && byfamily == 0 && byproject == 0 && bydesignby == 0) {//no query conditions
+            result = a.queryDesignAll();
+        } else if (bytype == 1 && byfamily == 0 && byproject == 0 && bydesignby == 0 ) {//query by type             
+            result = a.queryDesignByType(type);            
+        } else if (bytype == 0 && byfamily == 1 && byproject == 0 && bydesignby == 0) {//query by family
+            result = a.queryDesignByFamily(family);
+        } else if (bytype == 0 && byfamily == 0 && byproject == 1 && bydesignby == 0) {//query by project
+            result = a.queryDesignByProject(project);
+        } else if (bytype == 0 && byfamily == 0 && byproject == 0 && bydesignby == 1) {//query by designby
+            result = a.queryDesignByDesignby(designby);
+        } else if (bytype == 1 && byfamily == 1 && byproject == 0 && bydesignby == 0) {//query by type & family
+            result = a.queryDesignByTypeFamily(type, family);
+        } else if (bytype == 1 && byfamily == 0 && byproject == 1 && bydesignby == 0) {//query by type & project
+            result = a.queryDesignByTypeProject(type, project);
+        }else if (bytype == 1 && byfamily == 0 && byproject == 0 && bydesignby == 1) {//query by type & designby
+            result = a.queryDesignByTypeDesignby(type, designby);
+        } else if (bytype == 0 && byfamily == 1 && byproject == 1 && bydesignby == 0) {//query by family & project
+            result = a.queryDesignByFamilyProject(family, project);
+        }else if (bytype == 0 && byfamily == 1 && byproject == 0 && bydesignby == 1) {//query by family & designby
+            result = a.queryDesignByFamilyDesignby(family, designby);
+        }else if (bytype == 0 && byfamily == 0 && byproject == 1 && bydesignby == 1) {//query by project & designby
+            result = a.queryDesignByProjectDesignby(project, designby);
+        }else if (bytype == 1 && byfamily == 1 && byproject == 1 && bydesignby == 0) {//query by type & family & project
+            result = a.queryDesignByTypeFamilyProject(type, family, project);
+        }else if (bytype == 1 && byfamily == 1 && byproject == 0 && bydesignby == 1) {//query by type & family & designby
+            result = a.queryDesignByTypeFamilyDesignby(type, family, designby);
+        }else if (bytype == 1 && byfamily == 0 && byproject == 1 && bydesignby == 1) {//query by type & project & designby
+            result = a.queryDesignByTypeProjectDesignby(type, project, designby);
+        }else if (bytype == 0 && byfamily == 1 && byproject == 1 && bydesignby == 1) {//query by family & project & designby
+            result = a.queryDesignByFamilyProjectDesignby(family, project, designby);
+        }else if (bytype == 1 && byfamily == 1 && byproject == 1 && bydesignby == 1) {//query by type & family & project & designby 
+            result = a.queryDesignByTypeFamilyProjectDesignby(type, family, project, designby);
         }
 
-        if (bytype == 0 && byfamily == 0 && bylength == 0 && byintensity == 0) {//no query conditions
-            result = a.queryDesignAll();
-        } else if (bytype == 1 && byfamily == 0 && bylength == 0 && byintensity == 0) {//query by type             
-            result = a.queryDesignByType(type);            
-        } else if (bytype == 0 && byfamily == 1 && bylength == 0 && byintensity == 0) {//query by family
-            result = a.queryDesignByFamily(family);
-        } else if (bytype == 0 && byfamily == 0 && bylength == 1 && byintensity == 0) {//query by length
-            result = a.queryDesignbyLength(lengthmin, lengthmax);
-        } else if (bytype == 0 && byfamily == 0 && bylength == 0 && byintensity == 1) {//query by intensity
-            result = a.queryDesignbyIntensity(intensity, intensitymin, intensitymax);
-        } else if (bytype == 1 && byfamily == 1 && bylength == 0 && byintensity == 0) {//query by type & family
-            result = a.queryDesignByTypeFamily(type, family);
-        } else if (bytype == 1 && byfamily == 0 && bylength == 1 && byintensity == 0) {//query by type & length
-            result = a.queryDesignbyTypeLength(type, lengthmin, lengthmax);
-        } else if (bytype == 1 && byfamily == 0 && bylength == 0 && byintensity == 1) {//query by type & intensity
-            result = a.queryDesignbyTypeIntensity(type, intensity, intensitymin, intensitymax);
-        } else if (bytype == 0 && byfamily == 1 && bylength == 1 && byintensity == 0) {//query by family & length
-            result = a.queryDesignbyFamilyLength(family, lengthmin, lengthmax);
-        } else if (bytype == 0 && byfamily == 1 && bylength == 0 && byintensity == 1) {//query by family & intensity
-            result = a.queryDesignbyFamilyIntensity(family, intensity, intensitymin, intensitymax);
-        } else if (bytype == 0 && byfamily == 0 && bylength == 1 && byintensity == 1) {//query by length & intensity
-            result = a.queryDesignbyLengthIntensity(lengthmin, lengthmax, intensity, intensitymin, intensitymax);
-        } else if (bytype == 1 && byfamily == 1 && bylength == 1 && byintensity == 0) {//query by type & family & length
-            result = a.queryDesignbyTypeFamilyLength(type, family, lengthmin, lengthmax);
-        } else if (bytype == 1 && byfamily == 1 && bylength == 0 && byintensity == 1) {//query by type & family & intensity
-            result = a.queryDesignbyTypeFamilyIntensity(type, family, intensity, intensitymin, intensitymax);
-        } else if (bytype == 0 && byfamily == 1 && bylength == 1 && byintensity == 1) {//query by family & length & intensity
-            result = a.queryDesignbyFamilyLengthIntensity(family, lengthmin, lengthmax, intensity, intensitymin, intensitymax);
-        } else if (bytype == 1 && byfamily == 0 && bylength == 1 && byintensity == 1) {//query by type & length & intensity
-            result = a.queryDesignbyTypeLengthIntensity(type, lengthmin, lengthmax, intensity, intensitymin, intensitymax);
-        } else if (bytype == 1 && byfamily == 0 && bylength == 1 && byintensity == 1) {//query by type & family & length & intensity
-            result = a.queryDesignbyTypeFamilyLengthIntensity(type, family, lengthmin, lengthmax, intensity, intensitymin, intensitymax);
-        }
         a.destroy();
         request.getSession().setAttribute("designvalue", "{\"rows\":" + result + "}");
         request.getSession().setAttribute("magtype", type);
         request.getSession().setAttribute("magfamily", family);
-        request.getSession().setAttribute("lengthmin", lengthmin);
-        request.getSession().setAttribute("lengthmax", lengthmax);
-        request.getSession().setAttribute("intensity", intensity);
-        request.getSession().setAttribute("intensitymin", intensitymin);
-        request.getSession().setAttribute("intensitymax", intensitymax);
+        request.getSession().setAttribute("magproject", project);
+        request.getSession().setAttribute("magdesignby", designby);
         request.getRequestDispatcher("designresult.jsp").forward(request, response);
         // processRequest(request, response);
     }

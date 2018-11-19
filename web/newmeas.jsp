@@ -92,7 +92,7 @@
                         </select>                                            
                         <label for="magfamily">磁铁型号：</label>
                         <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
-                            <option value="-1">未选择</option>                                
+                            <option value="none">未选择</option>                                
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 20px" onclick="chooseMag()">选择磁铁</a>
                     </div>
@@ -138,14 +138,18 @@
                 </form>
             </div>
         </div>
-        <div id="dlg" class="easyui-dialog" title="选择磁铁"  style="text-align: center;width:900px;height:500px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
+        <div id="dlg" class="easyui-dialog" title="选择磁铁"  style="text-align: center;width:1150px;height:500px;padding:10px" data-options="iconCls:'icon-more',closed: true,resizable:true">
             <table id="dg" class="easyui-datagrid"  data-options="singleSelect:true,collapsible:true">
                 <thead>
                     <tr>
                         <th data-options="field:'magid',width:70">ID</th>
-                        <th data-options="field:'magname',width:100">名称</th>
-                        <th data-options="field:'designid',width:100">磁铁设计</th>                
+                         <th data-options="field:'magtype',width:100">种类</th>
+                         <th data-options="field:'magfamily',width:100">型号</th>
+<!--                        <th data-options="field:'magname',width:100">名称</th>-->
+                        <th data-options="field:'designid',width:100">磁铁设计</th> 
+                        <th data-options="field:'magsection',width:100">所属区域</th>
                         <th data-options="field:'weight',width:100">磁铁重量[Kg]</th>
+                        <th data-options="field:'price',width:100">磁铁价钱[万元]</th>
                         <th data-options="field:'series',width:100">生产序号</th>
                         <th data-options="field:'manudate',width:100">生产日期</th>                
                         <th data-options="field:'designedby',width:100">设计单位</th>
@@ -239,7 +243,7 @@
                     type: 'POST',
                     url: 'QueryMagnet?<%=Math.random()%>',
                     scriptCharset: 'UTF-8',
-                    data: "magtype=" + document.getElementById("magtype").value + "&magfamily=" + document.getElementById("magfamily").value + "&datemin=" + "" + "&datemax=" + "",
+                    data: "magtype=" + document.getElementById("magtype").value + "&magfamily=" + document.getElementById("magfamily").value + "&magsection=" + "none" + "&manuby=" + "" + "&datemin=" + "" + "&datemax=" + "",
                     success: function (data) {
                         var str = '{"rows":' + data + '}';
                         var s = $.parseJSON(str);

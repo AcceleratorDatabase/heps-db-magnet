@@ -37,7 +37,7 @@ public class NewDesign extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+       // try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
@@ -49,7 +49,7 @@ public class NewDesign extends HttpServlet {
 //            out.println("</body>");
 //            out.println("</html>");
 
-        }
+    //    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -82,11 +82,11 @@ public class NewDesign extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        String type, family, require, parameter, designed_by, approved_by, remark, mplot, pplot;
+        String type, family,project, require, parameter, designed_by, approved_by, remark, mplot, pplot;
         ArrayList design, design_requirement, design_para, design_plot, design_others;
         Integer other_flag;
         String result = "成功";
-        PrintWriter out = response.getWriter();
+        
         design = new ArrayList();
         design_requirement = new ArrayList();
         design_para = new ArrayList();
@@ -97,11 +97,13 @@ public class NewDesign extends HttpServlet {
 
         type = request.getParameter("magtype");
         family = request.getParameter("magfamily");
+        project = request.getParameter("magproject");
         designed_by = request.getParameter("designed_by");
         approved_by = request.getParameter("approved_by");
         remark = request.getParameter("remark");
         design.add(type);
         design.add(family);
+        design.add(project);
         design.add(designed_by);
         design.add(approved_by);
         design.add(remark);
@@ -162,6 +164,7 @@ public class NewDesign extends HttpServlet {
         // }catch(UnsupportedEncodingException e){
         // result="失败！"+e;
         // }
+        PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<meta http-equiv=\"refresh\" content=\"3;url=index.html\">");
         out.println("<html>");

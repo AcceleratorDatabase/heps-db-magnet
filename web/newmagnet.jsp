@@ -87,7 +87,7 @@
             <div id='querymagnet'>磁铁测量</div>
         </div>
         <div class="easyui-panel" style="height: 820px;padding-top:20px" >  
-            <div style="margin:0 auto;width:800px">
+            <div style="margin:0 auto;width:1000px">
                 <form action="NewMagnet" method="post" target="" onsubmit="return submitform();">                    
                     <div id="info1" >
                         <label for="magtype">磁铁种类: </label> 
@@ -100,6 +100,15 @@
                             <option value="1">1</option>                            
                         </select>
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 20px" onclick="newfamily()">新建型号</a>
+                        <label for="magsection">所属区域: </label>
+                        <select  id="magsection" name="magsection" style="" >
+                            <option value="Linac">Linac</option>  
+                            <option value="Booster">Booster</option>
+                            <option value="StorageRing">StorageRing</option>
+                            <option value="StorageRing">LowEnergyBeamline</option>
+                            <option value="StorageRing">HighEnergyBeamline</option>
+                        </select>
+                        <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 20px" onclick="newsection()">新建区域</a>
                         <span id="num"></span>                        
                     </div>
                     <div id="info2" style="padding-top:10px;padding-bottom: 10px">   
@@ -108,7 +117,7 @@
                         <input id="batchnum" name="batchnum"style="display: none" value="">
                     </div> 
                     <div id="table" >
-                        <table id="maginfo" name="maginfo" class="easyui-propertygrid" style=" width: 800px;" data-options="
+                        <table id="maginfo" name="maginfo" class="easyui-propertygrid" style=" width: 1000px;" data-options="
                                method: 'get',
                                showGroup: true,
                                scrollbarSize: 0,                                  
@@ -136,6 +145,7 @@
                             <th data-options="field:'designid',width:80,sortable:true">ID</th>
                             <th data-options="field:'magtype',width:80">磁铁类型</th>
                             <th data-options="field:'magfamily',width:80">磁铁型号</th>
+                            <th data-options="field:'magproject',width:80">所属工程</th>
                         </tr>
                     </thead>
                     <thead>
@@ -223,7 +233,7 @@
 
                 $('#dlg1').dialog('close');
                 $('#maginfo').datagrid('updateRow', {
-                    index: 5,
+                    index: 6,
                     row: {
                         value: design + "<a href=\"#\" style=\"display:block;float:right\" onclick=\"chooseDesign()\">*更改磁铁设计*</a>"
                     }
@@ -301,6 +311,22 @@
                 if (name !== null && name !== "")
                 {
                     var x = document.getElementById("magfamily");
+                    var option = document.createElement("option");
+                    option.text = name;
+                    option.value = name;
+                    try {
+                        x.add(option, x.options[null]);
+                    } catch (e) {
+                        x.add(option, null);
+                    }
+                }
+            }
+            function newsection()
+            {
+                var name = window.prompt("新建区域", "");
+                if (name !== null && name !== "")
+                {
+                    var x = document.getElementById("magsection");
                     var option = document.createElement("option");
                     option.text = name;
                     option.value = name;

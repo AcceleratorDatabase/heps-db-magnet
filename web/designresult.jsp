@@ -17,32 +17,15 @@
             <%
                 String magtype = (String) session.getAttribute("magtype");
                 String magfamily = (String) session.getAttribute("magfamily");
-                Double lengthmin = (Double) session.getAttribute("lengthmin");
-                Double lengthmax = (Double) session.getAttribute("lengthmax");
-                Integer intensity = (Integer) session.getAttribute("intensity");
-                Double intensitymin = (Double) session.getAttribute("intensitymin");
-                Double intensitymax = (Double) session.getAttribute("intensitymax");
+                String magproject = (String) session.getAttribute("magproject");
+                String magdesignby = (String) session.getAttribute("magdesignby");
+                
             %>
             var tt = "<%=magtype%>";
             var ff = "<%=magfamily%>";
-
-            var llmin =<%=lengthmin%>;
-            if (llmin === null) {
-                var llmin = "";
-            }
-            var llmax =<%=lengthmax%>;
-            if (llmax === null) {
-                var llmax = "";
-            }
-            var ii = "<%=intensity%>";
-            var iimin =<%=intensitymin%>;
-            if (iimin === null) {
-                var iimin = "";
-            }
-            var iimax =<%=intensitymax%>;
-            if (iimax === null) {
-                var iimax = "";
-            }
+            var pp = "<%=magproject%>";
+            var db = "<%=magdesignby%>";
+           
             window.onload = function () {
                 $.ajax({
                     type: 'POST',
@@ -82,11 +65,27 @@
                         document.getElementById("magfamily").value = ff;
                     }
                 });
-                document.getElementById("lengthmin").value = llmin;
-                document.getElementById("lengthmax").value = llmax;
-                document.getElementById("selintensity").value = ii;
-                document.getElementById("intensitymin").value = iimin;
-                document.getElementById("intensitymax").value = iimax;
+                 $.ajax({
+                    type: 'POST',
+                    url: 'LoadProject',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magproject");
+                        for (var i = 0; i < b.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = b[i];
+                            option.value = b[i];
+                            try {
+                                x.add(option, x.options[null]);
+                            } catch (e) {
+                                x.add(option, null);
+                            }
+                        }
+                        document.getElementById("magproject").value = pp;
+                    }
+                });
+                document.getElementById("magdesignby").value = db;
+               
             };
         </script>
         <style type="text/css">
@@ -127,30 +126,20 @@
                         <div id="info2" style="position:absolute;width: 200px;left:600px">
                             <label for="magfamily">磁铁型号：</label>
                             <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
-                                <option value="-1">未选择</option>  
+                                <option value="none">未选择</option>  
+                            </select>
+                        </div>
+                        <div id="info3" style="position:absolute;width: 200px;left:800px">
+                            <label for="magproject">所属工程：</label>
+                            <select  id="magproject" name="magproject" style="width: 100px;height: 25px" >
+                                <option value="none">未选择</option>  
                             </select>
                         </div>
                         <div style="margin:10px 0;"></div>
-                        <div id="length" style="position:absolute;top: 50px;left: 400px" >                     
-                            <label for="lengthmin">有效长度范围[mm]：</label>                                  
-                            <input id="lengthmin" name="lengthmin"type="text"  size= 8 autocomplete="off" value="">
-                            <span> - </span>                         
-                            <input id="lengthmax" name="lengthmax"type="text" size= 8 autocomplete="off" value="">
-                        </div>                  
-
-                        <div id="intensity" style="position:absolute;top: 90px;left: 400px" >
-                            <label for="selintensity">磁场强度范围[T]：</label>
-                            <select  id="selintensity" name="selintensity" style="width: 100px;height: 25px" >
-                                <option value="-1">未选择</option>
-                                <option value="1">二极分量</option>
-                                <option value="2">四极分量</option>
-                                <option value="3">六极分量</option>
-                                <option value="4">八极分量</option>
-                            </select>                         
-                            <input id="intensitymin" name="intensitymin" type="text" size=8 autocomplete="off" value="">
-                            <span> - </span>
-                            <input id="intensitymax" name="intensitymax" type="text" size= 8 autocomplete="off" value="">                        
-                        </div>
+                       <div id="designby" style="position:absolute;top: 50px;left: 400px" >                     
+                            <label for="magdesignby">设计人：</label>                                
+                            <input id="magdesignby" name="magdesignby" type="text"  size= 10 autocomplete="off" value="">                            
+                        </div>                       
                     </div>
                     <div style="position:absolute;top:130px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >                      
@@ -176,6 +165,7 @@
                                 <!--                                <th data-options="field:'designid',width:80,sortable:true">ID</th>-->
                                 <th data-options="field:'magtype',width:80">磁铁类型</th>
                                 <th data-options="field:'magfamily',width:80">磁铁型号</th>
+                                <th data-options="field:'magproject',width:80">所属工程</th>
                             </tr>
                         </thead>
                         <thead>
@@ -248,14 +238,17 @@
                     <thead>
                         <tr>
                             <!--                                <th data-options="field:'magid',width:70">ID</th>-->
-                            <th data-options="field:'magname',width:100">名称</th>
-                            <th data-options="field:'designid',width:100">磁铁设计</th>                
+                             <th data-options="field:'magtype',width:100">种类</th>
+                                <th data-options="field:'magfamily',width:100">型号</th>
+<!--                            <th data-options="field:'magname',width:100">名称</th>-->
+<!--                            <th data-options="field:'designid',width:100">磁铁设计</th>                -->
                             <th data-options="field:'weight',width:100">磁铁重量[Kg]</th>
+                            <th data-options="field:'price',width:100">磁铁价钱[万元]</th>
                             <th data-options="field:'series',width:100">生产序号</th>
                             <th data-options="field:'manudate',width:100">生产日期</th>                
                             <th data-options="field:'designedby',width:100">设计单位</th>
                             <th data-options="field:'manuby',width:100">制造单位</th>
-                            <th data-options="field:'description',width:98">备注</th>                
+                            <th data-options="field:'description',width:115">备注</th>                
                         </tr>
                     </thead>
                 </table>
@@ -276,20 +269,7 @@
               } 
              });
             function submitform() {
-                var selintensity = document.getElementById("selintensity");
-                var intensitymin = document.getElementById("intensitymin");
-                var intensitymax = document.getElementById("intensitymax");
-                if (selintensity.value !== '-1') {
-                    if (intensitymin.value === '' && intensitymax.value === '') {
-                        alert("请输入范围");
-                        return false;
-                    }
-                } else {
-                    if (intensitymin.value !== '' || intensitymax.value !== '') {
-                        alert("请选择分量");
-                        return false;
-                    }
-                }
+               
             }
             function formatPrice(val, row) {
                 if (val === 'null') {
@@ -313,7 +293,7 @@
                                 $.ajax({
                                     type: 'POST',
                                     url: 'EditDesign',
-                                    data: "designId=" + row.designid + "&magType=" + row.magtype + "&magFamily=" + row.magfamily + "&selData=" + document.getElementById("hd").value,
+                                    data: "designId=" + row.designid + "&magType=" + row.magtype  + "&magFamily=" + row.magfamily + "&magProject=" + row.magproject+ "&selData=" + document.getElementById("hd").value,
                                     success: function (data) {
                                         window.location.href = 'editdesign.jsp';
                                     }

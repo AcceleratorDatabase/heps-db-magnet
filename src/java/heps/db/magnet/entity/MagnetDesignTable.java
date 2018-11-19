@@ -34,8 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MagnetDesignTable.findAll", query = "SELECT m FROM MagnetDesignTable m")
     , @NamedQuery(name = "MagnetDesignTable.findByDesignId", query = "SELECT m FROM MagnetDesignTable m WHERE m.designId = :designId")
     , @NamedQuery(name = "MagnetDesignTable.findByType", query = "SELECT m FROM MagnetDesignTable m WHERE m.type = :type")
-    , @NamedQuery(name = "MagnetDesignTable.findByFamily", query = "SELECT m FROM MagnetDesignTable m WHERE m.family = :family")
+    , @NamedQuery(name = "MagnetDesignTable.findByFamily", query = "SELECT m FROM MagnetDesignTable m WHERE m.family = :family")    
     , @NamedQuery(name = "MagnetDesignTable.findByDesignName", query = "SELECT m FROM MagnetDesignTable m WHERE m.designName = :designName")
+    , @NamedQuery(name = "MagnetDesignTable.findByProject", query = "SELECT m FROM MagnetDesignTable m WHERE m.project = :project")
     , @NamedQuery(name = "MagnetDesignTable.findByDesignBy", query = "SELECT m FROM MagnetDesignTable m WHERE m.designBy = :designBy")
     , @NamedQuery(name = "MagnetDesignTable.findByApprovedBy", query = "SELECT m FROM MagnetDesignTable m WHERE m.approvedBy = :approvedBy")
     , @NamedQuery(name = "MagnetDesignTable.findByRemark", query = "SELECT m FROM MagnetDesignTable m WHERE m.remark = :remark")})
@@ -52,10 +53,13 @@ public class MagnetDesignTable implements Serializable {
     private String type;
     @Size(max = 45)
     @Column(name = "family")
-    private String family;
+    private String family;   
     @Size(max = 45)
     @Column(name = "design_name")
     private String designName;
+    @Size(max = 45)
+    @Column(name = "project")
+    private String project;
     @Size(max = 45)
     @Column(name = "design_by")
     private String designBy;
@@ -111,6 +115,13 @@ public class MagnetDesignTable implements Serializable {
 
     public void setDesignName(String designName) {
         this.designName = designName;
+    }
+     public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
     }
 
     public String getDesignBy() {
@@ -195,7 +206,7 @@ public class MagnetDesignTable implements Serializable {
     public String toString() {
         //return "heps.db.magnet.entity.MagnetDesignTable[ designId=" + designId + " ]";
     return "{\"designid\":\"" + designId + "\"," + "\"magtype\":\"" + type + "\"," + "\"magfamily\":\"" + family + 
-            "\"," + "\"designedby\":\"" + designBy + "\"," + "\"approvedby\":\"" + approvedBy + "\"," + "\"remark\":\"" 
+            "\"," + "\"magproject\":\"" + project+ "\","+"\"designedby\":\"" + designBy + "\"," + "\"approvedby\":\"" + approvedBy + "\"," + "\"remark\":\"" 
             + remark + "\"," + "\"length\":\"" + magnetDesignRequirementTable.getElength() +  "\"," + "\"aperture\":\"" +
             magnetDesignRequirementTable.getAperture()+ "\"," + "\"min_gap\":\"" + magnetDesignRequirementTable.getMinimumGap()+
             "\"," + "\"useful_field\":\"" + magnetDesignRequirementTable.getUsefulField()+"\"," + "\"intensityB\":\"" + 

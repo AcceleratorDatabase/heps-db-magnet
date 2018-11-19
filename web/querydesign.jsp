@@ -57,6 +57,24 @@
                         }
                     }
                 });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadProject',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magproject");
+                        for (var i = 0; i < b.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = b[i];
+                            option.value = b[i];
+                            try {
+                                x.add(option, x.options[null]);
+                            } catch (e) {
+                                x.add(option, null);
+                            }
+                        }
+                    }
+                });
 
             };
 
@@ -99,29 +117,19 @@
                         <div id="info2" style="position:absolute;width: 200px;left:600px">
                             <label for="magfamily">磁铁型号：</label>
                             <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
-                                <option value="-1">未选择</option>                                
+                                <option value="none">未选择</option>                                
+                            </select>
+                        </div>
+                        <div id="info3" style="position:absolute;width: 200px;left:800px">
+                            <label for="magproject">所属工程：</label>
+                            <select  id="magproject" name="magproject" style="width: 100px;height: 25px" >
+                                <option value="none">未选择</option>                                
                             </select>
                         </div>
                         <div style="margin:10px 0;"></div>
-                        <div id="length" style="position:absolute;top: 50px;left: 400px" >                     
-                            <label for="lengthmin">有效长度范围[mm]：</label>                                
-                            <input id="lengthmin" name="lengthmin" type="text"  size= 8 autocomplete="off" value="">
-                            <span> - </span>                         
-                            <input id="lengthmax" name="lengthmax" type="text" size= 8 autocomplete="off" value="">
-                        </div>                  
-
-                        <div id="intensity" style="position:absolute;top: 90px;left: 400px" >
-                            <label for="selintensity">磁场强度范围[T]：</label>
-                            <select  id="selintensity" name="selintensity" style="width: 100px;height: 25px" >
-                                <option value="-1">未选择</option>
-                                <option value="1">二极分量</option>
-                                <option value="2">四极分量</option>
-                                <option value="3">六极分量</option>
-                                <option value="4">八极分量</option>
-                            </select>                         
-                            <input id="intensitymin" name="intensitymin" type="text" size=8 autocomplete="off" value="">
-                            <span> - </span>
-                            <input id="intensitymax" name="intensitymax" type="text" size= 8 autocomplete="off" value="">                        
+                        <div id="designby" style="position:absolute;top: 50px;left: 400px" >                     
+                            <label for="magdesignby">设计人：</label>                                
+                            <input id="magdesignby" name="magdesignby" type="text"  size= 10 autocomplete="off" value="">                            
                         </div>
                     </div>
                     <div style="position:absolute;top:130px;bottom: 0; left:0;right:0;text-align: center">                    
@@ -146,6 +154,7 @@
                                 <!--                                <th data-options="field:'designid',width:60,sortable:true">ID</th>-->
                                 <th data-options="field:'magtype',width:60">磁铁类型</th>
                                 <th data-options="field:'magfamily',width:60">磁铁型号</th>
+                                 <th data-options="field:'magproject',width:60">所属工程</th>
                             </tr>
                         </thead>
                         <thead>
@@ -213,20 +222,7 @@
               } 
              });
             function submitform() {
-                var selintensity = document.getElementById("selintensity");
-                var intensitymin = document.getElementById("intensitymin");
-                var intensitymax = document.getElementById("intensitymax");
-                if (selintensity.value !== '-1') {
-                    if (intensitymin.value === '' && intensitymax.value === '') {
-                        alert("请输入范围");
-                        return false;
-                    }
-                } else {
-                    if (intensitymin.value !== '' || intensitymax.value !== '') {
-                        alert("请选择分量");
-                        return false;
-                    }
-                }
+
             }
             var toolbar = [{
                     text: '编辑',

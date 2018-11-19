@@ -18,11 +18,15 @@
             <%
                 String magtype = (String) session.getAttribute("magtype");
                 String magfamily = (String) session.getAttribute("magfamily");
+                String magsection = (String) session.getAttribute("magsection");
+                String manuby = (String) session.getAttribute("manuby");
                 String datemin = (String) session.getAttribute("datemin");
                 String datemax = (String) session.getAttribute("datemax");
             %>
             var tt = "<%=magtype%>";
             var ff = "<%=magfamily%>";
+            var ms = "<%=magsection%>";
+             var mb = "<%=manuby%>";
             var ddmin = "<%=datemin%>";
             var ddmax = "<%=datemax%>";
             window.onload = function () {
@@ -64,8 +68,28 @@
                         document.getElementById("magfamily").value = ff;
                     }
                 });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadSection',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magsection");
+                        for (var i = 0; i < b.length; i++) {
+                            var option = document.createElement("option");
+                            option.text = b[i];
+                            option.value = b[i];
+                            try {
+                                x.add(option, x.options[null]);
+                            } catch (e) {
+                                x.add(option, null);
+                            }
+                        }
+                        document.getElementById("magsection").value = ms;
+                    }
+                });
                 $('#datemin').datebox('setValue', ddmin);
                 $('#datemax').datebox('setValue', ddmax);
+                document.getElementById("manuby").value = mb;
             };
         </script>
         <style type="text/css">             
@@ -95,7 +119,7 @@
         <div class="easyui-panel" style="height:820px;padding:10px 60px;position: relative;" >
             <div style="position:absolute;left:0;right:0;width: 1300px;margin:0 auto;font-size:14px;">
                 <form action="QueryMagnet" method="post" target="" onsubmit="return submitform();">
-                    <div style="width: 1200px;height: 30px">
+                    <div style="width: 1300px;height: 30px">
                         <div id="info1" style="position:absolute;width: 200px;left: 400px">
                             <label for="magtype">磁铁种类：</label> 
                             <select  id="magtype" name="magtype" style="width: 100px; height: 25px" >
@@ -105,7 +129,13 @@
                         <div id="info2" style="position:absolute;width: 200px;left:600px">
                             <label for="magfamily">磁铁型号：</label>
                             <select  id="magfamily" name="magfamily" style="width: 100px;height: 25px" >
-                                <option value="-1">未选择</option>                                
+                                <option value="none">未选择</option>                                
+                            </select>
+                        </div>
+                        <div id="info3" style="position:absolute;width: 200px;left:800px">
+                            <label for="magsection">所属区域：</label>
+                            <select  id="magsection" name="magsection" style="width: 100px;height: 25px" >
+                                <option value="none">未选择</option>                                
                             </select>
                         </div>
                         <div style="margin:10px 0;"></div>
@@ -115,12 +145,17 @@
                             <span> - </span>                         
                             <input id="datemax" name="datemax" class="easyui-datebox"  style="width:35%;">
                         </div> 
+                         <div id="manu" style="position:absolute;top: 50px;left: 800px" >                     
+                            <label for="manuby">制造单位：</label>                                
+                            <input id="manuby"  name="manuby" class="text"  style="width:40%;">
+                            
+                        </div>
                     </div>
                     <div style="position:absolute;top:100px;bottom: 0; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="查询" >
                     </div> 
                 </form> 
-                <div style="position: absolute;left:220px;top:170px;width:900px">
+                <div style="position: absolute;left:100px;top:170px;width:1150px">
                     <table id="dg_magnet" class="easyui-datagrid"  height=550 title="查询结果"  data-options="singleSelect:true, 
                            rownumbers: true,
                            dataType:'json',                           
@@ -131,14 +166,18 @@
                         <thead>
                             <tr>
                                 <!--                                <th data-options="field:'magid',width:70">ID</th>-->
-                                <th data-options="field:'magname',width:100">名称</th>
-                                <th data-options="field:'designid',width:100,formatter:formatDesign">磁铁设计</th>                
-                                <th data-options="field:'weight',width:100">磁铁重量[Kg]</th>
+                                <th data-options="field:'magtype',width:100">种类</th>
+                                <th data-options="field:'magfamily',width:100">型号</th>
+<!--                                <th data-options="field:'magname',width:100">名称</th>-->
+                                <th data-options="field:'designid',width:100,formatter:formatDesign">磁铁设计</th>   
+                                <th data-options="field:'magsection',width:100">所属区域</th>
+                                <th data-options="field:'weight',width:100,formatter:formatPrice">磁铁重量[Kg]</th>
+                                <th data-options="field:'price',width:100,formatter:formatPrice">磁铁价钱[万元]</th>
                                 <th data-options="field:'series',width:100">生产序号</th>
                                 <th data-options="field:'manudate',width:100">生产日期</th>                
                                 <th data-options="field:'designedby',width:100">设计单位</th>
                                 <th data-options="field:'manuby',width:100">制造单位</th>
-                                <th data-options="field:'description',width:98">备注</th>                
+                                <th data-options="field:'description',width:115">备注</th>                
                             </tr>
                         </thead>
                     </table>
@@ -154,6 +193,7 @@
                                 <!--                                <th data-options="field:'designid',width:80,sortable:true">ID</th>-->
                                 <th data-options="field:'magtype',width:80">磁铁类型</th>
                                 <th data-options="field:'magfamily',width:80">磁铁型号</th>
+                                <th data-options="field:'magproject',width:80">所属工程</th>
                             </tr>
                         </thead>
                         <thead>
@@ -281,7 +321,7 @@
                             $.ajax({
                                 type: 'POST',
                                 url: 'EditMagnet',
-                                data: "magid=" + row.magid + "&magname=" + row.magname + "&selData=" + document.getElementById("hd").value,
+                                data: "magid=" + row.magid + "&magname=" + row.magname+ "&magsection=" + row.magsection + "&selData=" + document.getElementById("hd").value,
                                 success: function (data) {
                                     window.location.href = 'editmagnet.jsp';
                                 }

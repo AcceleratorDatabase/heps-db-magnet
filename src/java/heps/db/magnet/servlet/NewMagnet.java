@@ -77,12 +77,13 @@ public class NewMagnet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         Integer  batchnum;
-        String type,family, batchinsert, info;
+        String type, family, magsection, batchinsert, info;
         ArrayList maginfo;
        
         maginfo = new ArrayList();
         type = (String) request.getParameter("magtype");
         family = request.getParameter("magfamily");
+        magsection = request.getParameter("magsection");
         batchinsert = (String) request.getParameter("batchinsert");
         info = (String) request.getParameter("hd1");
         DeviceAPI a = new DeviceAPI();
@@ -92,21 +93,22 @@ public class NewMagnet extends HttpServlet {
         if (info_jsonarray.size() > 0) {
             for (int i = 0; i < info_jsonarray.size(); i++) {
                 JSONObject job = info_jsonarray.getJSONObject(i);  // 遍历 
-                if (i == 5) {
+                if (i == 6) {
                     maginfo.add(job.get("value").toString().split("<")[0]);
                 } else {
                     maginfo.add(job.get("value"));
                 }
             }
         }
+        //System.out.println(maginfo);
         if (batchinsert != null) {
             batchnum = Integer.parseInt(request.getParameter("batchnum"));
             //System.out.println(batchnum);
             for (int i = 0; i < batchnum; i++) {
-                a.insertDevice(maginfo, type, family);
+                a.insertDevice(maginfo, type, family,magsection);
             }
         } else {
-            a.insertDevice(maginfo, type, family);
+            a.insertDevice(maginfo, type, family,magsection);
         }
         a.destroy();
          PrintWriter out = response.getWriter();

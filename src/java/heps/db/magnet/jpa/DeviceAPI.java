@@ -70,59 +70,63 @@ public class DeviceAPI {
         emf.close();
     }
 
-    public void insertDevice(ArrayList maginfo, String type, String family) {
+    public void insertDevice(ArrayList maginfo, String type, String family, String eqsection) {
         MagnetDesignTable design;
         Long num;
         Integer numnow;
         String name;
 
-        if (maginfo.get(5).toString().isEmpty()) {
+        if (maginfo.get(6).toString().isEmpty()) {
             design = null;
             numnow = null;
             name = null;
         } else {
-            design = (MagnetDesignTable) em.createNamedQuery("MagnetDesignTable.findByDesignId").setParameter("designId", Integer.parseInt(maginfo.get(5).toString())).getSingleResult();
+            design = (MagnetDesignTable) em.createNamedQuery("MagnetDesignTable.findByDesignId").setParameter("designId", Integer.parseInt(maginfo.get(6).toString())).getSingleResult();
             //num = Long.parseLong(em.createQuery("SELECT count(d) FROM EquipmentInfoTable d WHERE d.designId=:designId").setParameter("designId", design).getSingleResult().toString());
             //numnow = 1 + num.intValue();
             num = Long.parseLong(em.createQuery("SELECT count(e) FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family)").setParameter("type", type).setParameter("family", family).getSingleResult().toString());
             numnow = 1 + num.intValue();
             name = type + "-" + family + "-" + numnow;
         }
-        //System.out.println(design.toString());          
+        System.out.println(maginfo.toString());          
         EquipmentInfoTable device = new EquipmentInfoTable();
         device.setEquipmentName(name);
+        device.setEqsection(eqsection);
         device.setWeight(precalc(maginfo.get(0).toString()));
-        device.setSeries(maginfo.get(1).toString());
-        device.setDesignedBy(maginfo.get(2).toString());
-        device.setManuBy(maginfo.get(3).toString());
-        device.setDateOfManu(strToDate(maginfo.get(4).toString()));
+        device.setPrice(precalc(maginfo.get(1).toString()));
+        device.setSeries(maginfo.get(2).toString());
+        device.setDesignedBy(maginfo.get(3).toString());
+        device.setManuBy(maginfo.get(4).toString());
+        device.setDateOfManu(strToDate(maginfo.get(5).toString()));
         device.setDesignId(design);
-        device.setDescription(maginfo.get(6).toString());
+        device.setDescription(maginfo.get(7).toString());
         device.setNumber(numnow);
         em.persist(device);
         et.commit();
     }
 
-    public void updateDevice(ArrayList maginfo, Integer magId) {
+    public void updateDevice(ArrayList maginfo, Integer magId, String eqsection) {
         MagnetDesignTable design;
         design = (MagnetDesignTable) em.createNamedQuery("MagnetDesignTable.findByDesignId").setParameter("designId", Integer.parseInt(maginfo.get(5).toString())).getSingleResult();
         Double weight=precalc(maginfo.get(0).toString());
-        String series=maginfo.get(1).toString();
-        System.out.println(series);
-        String designedby=maginfo.get(2).toString();
-        String manuBy=maginfo.get(3).toString();
-        Date deteOfManu=strToDate(maginfo.get(4).toString());
+        Double price=precalc(maginfo.get(1).toString());
+        String series=maginfo.get(2).toString();
+        String designedby=maginfo.get(3).toString();
+        String manuBy=maginfo.get(4).toString();
+        Date deteOfManu=strToDate(maginfo.get(5).toString());
         String description=maginfo.get(6).toString();        
        EquipmentInfoTable device =(EquipmentInfoTable)em.createNamedQuery("EquipmentInfoTable.findByEquipmentId").setParameter("equipmentId", magId).getSingleResult();
+       device.setEqsection(eqsection);
        device.setWeight(weight);
+       device.setPrice(price);
        device.setSeries(series);
        device.setDesignedBy(designedby);
        device.setManuBy(manuBy);
        device.setDateOfManu(deteOfManu);
        device.setDesignId(design);
        device.setDescription(description);
-        em.persist(device);
-        et.commit();
+       em.persist(device);
+       et.commit();
 
     }
 
@@ -131,6 +135,13 @@ public class DeviceAPI {
         List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();
+    }
+    public String queryAllSections() {
+        String re;
+        Query query = em.createQuery("SELECT DISTINCT e.eqsection from EquipmentInfoTable e");
+        List s = query.getResultList();
+        re = s.toString().substring(1, s.toString().length() - 1);
+        return re;
     }
 
     public String queryMagnetById(Integer designId) {
@@ -166,7 +177,88 @@ public class DeviceAPI {
         // System.out.println(re.toString());
         return re.toString();
     }
-
+    public String queryMagnetByTypeFamilySection(String type, String family, String eqsection) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) AND e.eqsection=:eqsection");
+        query.setParameter("type", type).setParameter("family", family).setParameter("eqsection", eqsection);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetByTypeFamilyManuby(String type, String family, String manuBy) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) AND e.manuBy=:manuBy");
+        query.setParameter("type", type).setParameter("family", family).setParameter("manuBy", manuBy);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetByTypeSectionManuby(String type, String eqsection, String manuBy) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type) AND e.eqsection=:eqsection AND e.manuBy=:manuBy");
+        query.setParameter("type", type).setParameter("eqsection", eqsection).setParameter("manuBy", manuBy);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetByTypeFamilySectionManuby(String type, String family, String eqsection, String manuBy) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) AND e.eqsection=:eqsection AND e.manuBy=:manuBy");
+        query.setParameter("type", type).setParameter("family", family).setParameter("eqsection", eqsection).setParameter("manuBy", manuBy);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetBySection(String eqsection) {
+        Query query = em.createNamedQuery("EquipmentInfoTable.findByEqsection");
+        query.setParameter("eqsection", eqsection);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
+     public String queryMagnetByTypeSection(String type, String eqsection) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type) AND e.eqsection=:eqsection ");
+        query.setParameter("type", type).setParameter("eqsection", eqsection);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+     public String queryMagnetByFamilySection(String family, String eqsection) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) AND e.eqsection=:eqsection ");
+        query.setParameter("family", family).setParameter("eqsection", eqsection);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+      public String queryMagnetByFamilySectionManuby(String family, String eqsection, String manuBy) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) AND e.eqsection=:eqsection AND e.manuBy=:manuBy");
+        query.setParameter("family", family).setParameter("eqsection", eqsection).setParameter("manuBy", manuBy);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+     public String queryMagnetByTypeManuby(String type, String manuBy) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type) AND e.manuBy=:manuBy ");
+        query.setParameter("type", type).setParameter("manuBy", manuBy);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+     public String queryMagnetByFamilyManuby(String family, String manuBy) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) AND e.manuBy=:manuBy ");
+        query.setParameter("family", family).setParameter("manuBy", manuBy);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+     public String queryMagnetBySectionManuby(String eqsection, String manuBy) {
+        Query query = em.createQuery(" SELECT e FROM EquipmentInfoTable e WHERE e.eqsection=:eqsection AND e.manuBy=:manuBy ");
+        query.setParameter("eqsection", eqsection).setParameter("manuBy", manuBy);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetByManuby(String manuBy) {
+        Query query = em.createNamedQuery("EquipmentInfoTable.findByManuBy");
+        query.setParameter("manuBy", manuBy);
+        List<MagnetDesignTable> re = query.getResultList();
+        return re.toString();
+    }
     public String queryMagnetByDate(String datemin, String datemax) {
         Date qmin, qmax;
         if (datemin.equals("")) {
@@ -229,7 +321,86 @@ public class DeviceAPI {
         // System.out.println(re.toString());
         return re.toString();
     }
-
+    public String queryMagnetByFamilySectionDate(String family, String eqsection, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) AND e.eqsection=:eqsection AND e.dateOfManu BETWEEN :datemin AND :datemax");
+        query.setParameter("family", family).setParameter("eqsection", eqsection).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+public String queryMagnetBySectionDate(String eqsection, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.eqsection=:eqsection AND( e.dateOfManu BETWEEN :datemin AND :datemax)");
+        query.setParameter("eqsection", eqsection).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+public String queryMagnetBySectionManubyDate(String eqsection, String manuBy, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.eqsection=:eqsection AND e.manuBy=:manuBy AND ( e.dateOfManu BETWEEN :datemin AND :datemax)");
+        query.setParameter("eqsection", eqsection).setParameter("manuBy", manuBy).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+public String queryMagnetByManubyDate(String manuBy, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.manuBy=:manuBy AND( e.dateOfManu BETWEEN :datemin AND :datemax)");
+        query.setParameter("manuBy", manuBy).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
     public String queryMagnetByTypeFamilyDate(String type, String family, String datemin, String datemax) {
         Date qmin, qmax;
         if (datemin.equals("")) {
@@ -245,7 +416,167 @@ public class DeviceAPI {
             qmax = strToDate(datemax);
         }
         Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) AND e.dateOfManu BETWEEN :datemin AND :datemax");
-        query.setParameter("family", family).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        query.setParameter("type", type).setParameter("family", family).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetByTypeSectionDate(String type, String eqsection, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type)  AND e.eqsection=:eqsection AND e.dateOfManu BETWEEN :datemin AND :datemax");
+        query.setParameter("type", type).setParameter("eqsection", eqsection).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetByTypeManubyDate(String type, String manuBy, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type)  AND e.manuBy=:manuBy AND e.dateOfManu BETWEEN :datemin AND :datemax");
+        query.setParameter("type", type).setParameter("manuBy", manuBy).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+     public String queryMagnetByFamilyManubyDate(String family, String manuBy, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family)  AND e.manuBy=:manuBy AND e.dateOfManu BETWEEN :datemin AND :datemax");
+        query.setParameter("family", family).setParameter("manuBy", manuBy).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetByTypeFamilySectionDate(String type, String family, String eqsection, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) AND e.eqsection=:eqsection AND e.dateOfManu BETWEEN :datemin AND :datemax");
+        query.setParameter("type", type).setParameter("family", family).setParameter("eqsection", eqsection).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetByTypeFamilyManubyDate(String type, String family, String manuBy, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) AND e.manuBy=:manuBy AND e.dateOfManu BETWEEN :datemin AND :datemax");
+        query.setParameter("type", type).setParameter("family", family).setParameter("manuBy", manuBy).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+    public String queryMagnetByTypeSectionManubyDate(String type, String eqsection, String manuBy, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type) AND e.eqsection=:eqsection AND e.manuBy=:manuBy AND e.dateOfManu BETWEEN :datemin AND :datemax");
+        query.setParameter("type", type).setParameter("eqsection", eqsection).setParameter("manuBy", manuBy).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+     public String queryMagnetByFamilySectionManubyDate(String family, String eqsection, String manuBy, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.family=:family) AND e.eqsection=:eqsection AND e.manuBy=:manuBy AND e.dateOfManu BETWEEN :datemin AND :datemax");
+        query.setParameter("family", family).setParameter("eqsection", eqsection).setParameter("manuBy", manuBy).setParameter("datemin", qmin).setParameter("datemax", qmax);
+        List<EquipmentInfoTable> re = query.getResultList();
+        // System.out.println(re.toString());
+        return re.toString();
+    }
+     public String queryMagnetByTypeFamilySectionManubyDate(String type, String family, String eqsection, String manuBy, String datemin, String datemax) {
+        Date qmin, qmax;
+        if (datemin.equals("")) {
+            Query query = em.createQuery(" SELECT MIN(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmin = (Date) query.getSingleResult();
+        } else {
+            qmin = strToDate(datemin);
+        }
+        if (datemax.equals("")) {
+            Query query = em.createQuery(" SELECT MAX(e.dateOfManu) FROM EquipmentInfoTable e");
+            qmax = (Date) query.getSingleResult();
+        } else {
+            qmax = strToDate(datemax);
+        }
+        Query query = em.createQuery("SELECT e FROM EquipmentInfoTable e WHERE e.designId IN(SELECT m FROM MagnetDesignTable m WHERE m.type=:type AND m.family=:family) AND e.eqsection=:eqsection AND e.manuBy=:manuBy AND e.dateOfManu BETWEEN :datemin AND :datemax");
+        query.setParameter("family", family).setParameter("family", family).setParameter("eqsection", eqsection).setParameter("manuBy", manuBy).setParameter("datemin", qmin).setParameter("datemax", qmax);
         List<EquipmentInfoTable> re = query.getResultList();
         // System.out.println(re.toString());
         return re.toString();

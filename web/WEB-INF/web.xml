@@ -108,6 +108,14 @@
         <servlet-name>deleteFile</servlet-name>
         <servlet-class>heps.db.magnet.servlet.deleteFile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoadProject</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.LoadProject</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadSection</servlet-name>
+        <servlet-class>heps.db.magnet.servlet.LoadSection</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UploadFile</servlet-name>
         <url-pattern>/UploadFile</url-pattern>
@@ -215,6 +223,14 @@
     <servlet-mapping>
         <servlet-name>deleteFile</servlet-name>
         <url-pattern>/deleteFile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadProject</servlet-name>
+        <url-pattern>/LoadProject</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadSection</servlet-name>
+        <url-pattern>/LoadSection</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

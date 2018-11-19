@@ -78,12 +78,13 @@ public class UpdateMagnet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-    String family;
-    String type,info;
+    String family, type, eqsection, info;
+
      ArrayList maginfo;
         maginfo = new ArrayList();
         type=(String)request.getParameter("magtype");
         family=(String)request.getParameter("magfamily");
+        eqsection=(String)request.getParameter("magsection");
         Integer Id=Integer.parseInt(request.getParameter("hd2"));
         info=(String)request.getParameter("hd1");  
  
@@ -101,7 +102,7 @@ public class UpdateMagnet extends HttpServlet {
         }
         DeviceAPI a = new DeviceAPI();
         a.init();
-        a.updateDevice(maginfo, Id);
+        a.updateDevice(maginfo, Id,eqsection);
         //a.insertDevice(maginfo,type,family);        
         a.destroy();
         out.println("<!DOCTYPE html>");

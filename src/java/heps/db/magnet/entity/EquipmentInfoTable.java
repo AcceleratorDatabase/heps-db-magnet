@@ -40,7 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "EquipmentInfoTable.findByEquipmentId", query = "SELECT e FROM EquipmentInfoTable e WHERE e.equipmentId = :equipmentId")
     , @NamedQuery(name = "EquipmentInfoTable.findByNumber", query = "SELECT e FROM EquipmentInfoTable e WHERE e.number = :number")
     , @NamedQuery(name = "EquipmentInfoTable.findByEquipmentName", query = "SELECT e FROM EquipmentInfoTable e WHERE e.equipmentName = :equipmentName")
+    , @NamedQuery(name = "EquipmentInfoTable.findByEqsection", query = "SELECT e FROM EquipmentInfoTable e WHERE e.eqsection = :eqsection")
     , @NamedQuery(name = "EquipmentInfoTable.findByWeight", query = "SELECT e FROM EquipmentInfoTable e WHERE e.weight = :weight")
+    , @NamedQuery(name = "EquipmentInfoTable.findByPrice", query = "SELECT e FROM EquipmentInfoTable e WHERE e.price = :price")
     , @NamedQuery(name = "EquipmentInfoTable.findBySeries", query = "SELECT e FROM EquipmentInfoTable e WHERE e.series = :series")
     , @NamedQuery(name = "EquipmentInfoTable.findByDateOfManu", query = "SELECT e FROM EquipmentInfoTable e WHERE e.dateOfManu = :dateOfManu")
     , @NamedQuery(name = "EquipmentInfoTable.findByDesignedBy", query = "SELECT e FROM EquipmentInfoTable e WHERE e.designedBy = :designedBy")
@@ -60,9 +62,14 @@ public class EquipmentInfoTable implements Serializable {
     @Size(max = 45)
     @Column(name = "equipment_name")
     private String equipmentName;
+    @Size(max = 45)
+    @Column(name = "eqsection")
+    private String eqsection;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "weight")
     private Double weight;
+    @Column(name = "price")
+    private Double price;
     @Size(max = 45)
     @Column(name = "series")
     private String series;
@@ -118,13 +125,27 @@ public class EquipmentInfoTable implements Serializable {
     public void setEquipmentName(String equipmentName) {
         this.equipmentName = equipmentName;
     }
+    public String getEqsection() {
+        return eqsection;
+    }
 
+    public void setEqsection(String eqsection) {
+        this.eqsection = eqsection;
+    }
     public Double getWeight() {
         return weight;
     }
 
     public void setWeight(Double weight) {
         this.weight = weight;
+    }
+    
+    public Double getPrice() {
+        return weight;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getSeries() {
@@ -226,10 +247,11 @@ public class EquipmentInfoTable implements Serializable {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     return sdf.format(date);
     }
+
     @Override
     public String toString() {
-        return "{\"magid\":\"" + equipmentId + "\"," + "\"magname\":\"" + equipmentName + "\"," + "\"designid\":\"" + designId.getDesignId()
-                + "\"," + "\"weight\":\"" + weight + "\"," + "\"series\":\"" + series + "\"," + "\"manudate\":\"" + DateToString(dateOfManu) + "\","
+        return "{\"magid\":\"" + equipmentId + "\"," + "\"magtype\":\"" + designId.getType() + "\","+ "\"magfamily\":\"" + designId.getFamily() + "\","+ "\"magname\":\"" + equipmentName + "\"," + "\"magsection\":\"" + eqsection + "\","+ "\"designid\":\"" + designId.getDesignId()
+                + "\"," + "\"weight\":\"" + weight + "\"," + "\"price\":\"" + price + "\"," + "\"series\":\"" + series + "\"," + "\"manudate\":\"" + DateToString(dateOfManu) + "\","
                 + "\"designedby\":\"" + designedBy + "\"," + "\"manuby\":\"" + manuBy + "\"," + "\"description\":\"" + description + "\"}";
     }
 

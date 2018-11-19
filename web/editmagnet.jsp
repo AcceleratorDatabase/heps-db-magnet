@@ -20,11 +20,13 @@
                 Integer magid = (Integer) session.getAttribute("magid");
                 String magtype = (String) session.getAttribute("magtype");
                 String magfamily = (String) session.getAttribute("magfamily");
+                String magsection = (String) session.getAttribute("magsection");
                 String seldata = (String) session.getAttribute("seldata");
             %>
             var id = <%=magid%>;
             var tt = "<%=magtype%>";
             var ff = "<%=magfamily%>";
+            var sec = "<%=magsection%>";
             var ss =<%=seldata%>;
             for (var p in ss)
             {
@@ -34,13 +36,14 @@
             }
             if (ss !== null) {
                 rowm[0].value = ss["weight"];
-                rowm[1].value = ss["series"];
-                rowm[2].value = ss["designedby"];
-                rowm[3].value = ss["manuby"];
+                rowm[1].value = ss["price"];
+                rowm[2].value = ss["series"];
+                rowm[3].value = ss["designedby"];
+                rowm[4].value = ss["manuby"];
                 var date = ss["manudate"].split("-");
-                rowm[4].value = date[1] + "/" + date[2] + "/" + date[0];
-                rowm[5].value = ss["designid"] + "<a href=\"#\" style=\"display:block;float:right\" onclick=\"chooseDesign()\">*更改磁铁设计*</a>";
-                rowm[6].value = ss["description"];
+                rowm[5].value = date[1] + "/" + date[2] + "/" + date[0];
+                rowm[6].value = ss["designid"] + "<a href=\"#\" style=\"display:block;float:right\" onclick=\"chooseDesign()\">*更改磁铁设计*</a>";
+                rowm[7].value = ss["description"];
             }
             window.onload = function () {
                 $.ajax({
@@ -85,6 +88,27 @@
                         document.getElementById("magfamily").value = ff;
                     }
                 });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadSection',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magsection");
+                        for (var i = 0; i < b.length; i++) {
+                            if (b[i] !== "Linac") {
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }
+                            }
+                        }
+                        document.getElementById("magsection").value = sec;
+                    }
+                });
                 $('#maginfo').propertygrid('loadData', rowm);
             };
         </script>
@@ -125,6 +149,11 @@
                             <option value="1">1</option>
                         </select>
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 20px" onclick="newfamily()">新建型号</a>
+                        <label for="magsection">所在区域: </label>
+                        <select  id="magsection" name="magsection" style="" >
+                            <option value="Linac">Linac</option>
+                        </select>
+                        <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 20px" onclick="newsection()">新建区域</a>
                         <span id="num"></span>                        
                     </div>
                     <!--                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges()">查看修改项</a>-->
@@ -158,6 +187,7 @@
                             <!--                            <th data-options="field:'designid',width:80,sortable:true">ID</th>-->
                             <th data-options="field:'magtype',width:80">磁铁类型</th>
                             <th data-options="field:'magfamily',width:80">磁铁型号</th>
+                            <th data-options="field:'magproject',width:80">所属工程</th>
                         </tr>
                     </thead>
                     <thead>
@@ -242,7 +272,7 @@
                 var design = row.designid;
                 $('#dlg1').dialog('close');
                 $('#maginfo').datagrid('updateRow', {
-                    index: 5,
+                    index: 6,
                     row: {
                         value: design + "<a href=\"#\" style=\"display:block;float:right\" onclick=\"chooseDesign()\">*更改磁铁设计*</a>"
                     }
@@ -296,6 +326,22 @@
                 if (name !== null && name !== "")
                 {
                     var x = document.getElementById("magfamily");
+                    var option = document.createElement("option");
+                    option.text = name;
+                    option.value = name;
+                    try {
+                        x.add(option, x.options[null]);
+                    } catch (e) {
+                        x.add(option, null);
+                    }
+                }
+            }
+            function newsection()
+            {
+                var name = window.prompt("新建区域", "");
+                if (name !== null && name !== "")
+                {
+                    var x = document.getElementById("magsection");
                     var option = document.createElement("option");
                     option.text = name;
                     option.value = name;

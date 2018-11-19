@@ -59,6 +59,26 @@
                         }
                     }
                 });
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoadProject',
+                    success: function (data) {
+                        var b = data.split(",");
+                        var x = document.getElementById("magproject");
+                        for (var i = 0; i < b.length; i++) {
+                            if (b[i] !== "1") {
+                                var option = document.createElement("option");
+                                option.text = b[i];
+                                option.value = b[i];
+                                try {
+                                    x.add(option, x.options[null]);
+                                } catch (e) {
+                                    x.add(option, null);
+                                }
+                            }
+                        }
+                    }
+                });
                 $('#design_require').propertygrid('loadData', rowr);
                 $('#design_para').propertygrid('loadData', rowp);
 
@@ -94,15 +114,20 @@
                 <form action="NewDesign" method="POST" target="_blank" onsubmit="return submitform();" >
                     <div id="info" >
                         <label for="magtype" >磁铁种类: </label> 
-                        <select  id="magtype" name="magtype" style="width:15%;height: 25px" >
+                        <select  id="magtype" name="magtype" style="width:12%;height: 25px" >
                             <option value="二极铁">二极铁</option>                            
                         </select>
                         <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="margin-right: 50px" onclick="newtype()">新建种类</a>
                         <label for="magfamily">磁铁型号: </label>
-                        <select  id="magfamily" name="magfamily" style="width:15%;height: 25px" >
+                        <select  id="magfamily" name="magfamily" style="width:12%;height: 25px" >
                             <option value="1">1</option>                            
                         </select>
                         <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newfamily()">新建型号</a>
+                         <label for="magproject">所属工程: </label>
+                        <select  id="magproject" name="magproject" style="width:12%;height: 25px" >
+                            <option value="HEPS">HEPS</option>                            
+                        </select>
+                        <a href="#"  class="easyui-linkbutton" data-options="iconCls:'icon-add'"style="margin-right: 50px" onclick="newproject()">新建工程</a>
                     </div>
                     <div id="table">
                         <div id="table1" style=" float: left ">
@@ -357,6 +382,22 @@
                 if (name !== null && name !== "")
                 {
                     var x = document.getElementById("magfamily");
+                    var option = document.createElement("option");
+                    option.text = name;
+                    option.value = name;
+                    try {
+                        x.add(option, x.options[null]);
+                    } catch (e) {
+                        x.add(option, null);
+                    }
+                }
+            }
+            function newproject()
+            {
+                var name = window.prompt("新建工程", "");
+                if (name !== null && name !== "")
+                {
+                    var x = document.getElementById("magproject");
                     var option = document.createElement("option");
                     option.text = name;
                     option.value = name;

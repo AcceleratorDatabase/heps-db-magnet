@@ -8,18 +8,16 @@ package heps.db.magnet.servlet;
 import heps.db.magnet.jpa.DesignAPI;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSONObject;
 
 /**
  *
  * @author qiaoys
  */
-public class EditDesign extends HttpServlet {
+public class LoadProject extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,7 +28,6 @@ public class EditDesign extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -39,10 +36,10 @@ public class EditDesign extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet EditDesign</title>");            
+//            out.println("<title>Servlet LoadProject</title>");            
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet EditDesign at " + request.getContextPath() + "</h1>");
+//            out.println("<h1>Servlet LoadProject at " + request.getContextPath() + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -74,42 +71,14 @@ public class EditDesign extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         ArrayList sellist, design_para;
-         response.setContentType("text/html;charset=UTF-8");
-//         sellist= new ArrayList();
-         PrintWriter out = response.getWriter();
-         Integer designId=Integer.parseInt(request.getParameter("designId"));
-         String magtype=request.getParameter("magType");
-         String magfamily=request.getParameter("magFamily");
-         String magproject=request.getParameter("magProject");
-         String seldata=request.getParameter("selData").replace(" ", "");
-         //seldata=seldata.substring(9,seldata.length()-15);
-         //String jsonMessage = "{\"语文\":\"88\",\"数学\":\"78\",\"计算机\":\"99\"}";
-          JSONObject seljson = JSONObject.fromObject(seldata); 
-          //System.out.println("json:"+seljson.getString("length"));
-//        JSONObject jsonobj = JSONObject.fromObject(seldata);
-//       JSONArray require_jsonarray = require_jsonobj.getJSONArray("rows");       
-//       if (seljson.size() > 0) {
-//            for (int i = 0; i < seljson.size(); i++) {               
-//                sellist.add(seljson.get("value"));
-//           }
-//        }
-        DesignAPI a=new DesignAPI();
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        DesignAPI a = new DesignAPI();
         a.init();
-        String mplotname=a.queryMplot(designId);
-        String pplotname=a.queryPplot(designId);
-        a.destroy();
-        
-         //System.out.println("servelt:"+seljson.toString());
-         request.getSession().setAttribute("designId", designId);
-         request.getSession().setAttribute("magtype", magtype);
-         request.getSession().setAttribute("magfamily", magfamily);
-         request.getSession().setAttribute("magproject", magproject);
-         request.getSession().setAttribute("mplotname", mplotname);
-         request.getSession().setAttribute("pplotname", pplotname);
-         request.getSession().setAttribute("seldata",seljson.toString());
-        
-        request.getRequestDispatcher("editdesign.jsp").forward(request, response);
+        String re = a.queryAllProjects();
+        // System.out.println(re);
+        out.print(re.replace(" ", ""));
         processRequest(request, response);
     }
 
