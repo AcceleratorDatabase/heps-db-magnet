@@ -84,6 +84,8 @@ public class DesignAPI {
         require.setIntensityO(precalc(design_requirement.get(7).toString()));
         require.setSystemComponent(precalc(design_requirement.get(8).toString()));
         require.setNonSystemComponent(precalc(design_requirement.get(9).toString()));
+        require.setTransverseEvenness(precalc(design_requirement.get(10).toString()));
+        require.setInteFieldConsistency(precalc(design_requirement.get(11).toString()));
         em.persist(require);
         et.commit();
 
@@ -107,7 +109,7 @@ public class DesignAPI {
         parameter.setCFlow(precalc(design_para.get(14).toString()));
         parameter.setCTemp(precalc(design_para.get(15).toString()));
         parameter.setCoreLength(precalc(design_para.get(16).toString()));
-        parameter.setCoreSection(precalc(design_para.get(17).toString()));
+        parameter.setCoreSection(design_para.get(17).toString());
         parameter.setCoreWeight(precalc(design_para.get(18).toString()));
         parameter.setCopperWeight(precalc(design_para.get(19).toString()));
         //design_plot

@@ -213,8 +213,10 @@
                                 <th data-options="field:'intensityQ',width:90,formatter:formatPrice">四极分量[T/m]</th>
                                 <th data-options="field:'intensityS',width:100,formatter:formatPrice">六极分量[T/m2]</th>
                                 <th data-options="field:'intensityO',width:100,formatter:formatPrice">八极分量[T/m3]</th>
-                                <th data-options="field:'sys',width:70,formatter:formatPrice">系统分量</th>
-                                <th data-options="field:'non_sys',width:70,formatter:formatPrice">非系统分量</th>
+                                <th data-options="field:'sys',width:120,formatter:formatPrice">系统高阶场分量[E-4]</th>
+                                <th data-options="field:'non_sys',width:130,formatter:formatPrice">非系统高阶场分量[E-4]</th>
+                                <th data-options="field:'trans_even',width:140,formatter:formatPrice">积分磁场横向均匀度[E-4]</th>
+                                <th data-options="field:'inte_consistency',width:180,formatter:formatPrice">磁铁间积分场一致性（或离散性）</th>
 
                                 <th data-options="field:'offset',width:120,formatter:formatPrice">偏置安装偏移量[mm]</th>
                                 <th data-options="field:'ampere_turns',width:100,formatter:formatPrice">励磁安匝数[AT]</th>
@@ -222,7 +224,7 @@
                                 <th data-options="field:'current',width:90,formatter:formatPrice">励磁电流[A]</th>
                                 <th data-options="field:'wire',width:90,formatter:formatPrice">导线规格[mm]</th>
                                 <th data-options="field:'current_density',width:110,formatter:formatPrice">电流密度[A/mm2]</th>
-                                <th data-options="field:'wire_length',width:140,formatter:formatPrice">磁铁导线总长度[T/m2]</th>
+                                <th data-options="field:'wire_length',width:120,formatter:formatPrice">磁铁导线总长度[m]</th>
                                 <th data-options="field:'resistence',width:100,formatter:formatPrice">磁铁总电阻[mΩ]</th>
                                 <th data-options="field:'inductance',width:90,formatter:formatPrice">磁铁电感[mH]</th>
                                 <th data-options="field:'voltage',width:90,formatter:formatPrice">励磁电压[V]</th>
@@ -235,7 +237,7 @@
                                 <th data-options="field:'c_temp',width:80,formatter:formatPrice">水温升[℃]</th>
 
                                 <th data-options="field:'core_length',width:90,formatter:formatPrice">铁芯长度[mm]</th>
-                                <th data-options="field:'core_section',width:110,formatter:formatPrice">铁芯截面尺寸[mm]</th>
+                                <th data-options="field:'core_section',width:150,formatter:formatPrice">铁芯截面尺寸[mm宽*高]</th>
                                 <th data-options="field:'core_weight',width:80,formatter:formatPrice">铁芯重[kg]</th>
                                 <th data-options="field:'copper_weight',width:60,formatter:formatPrice">铜重[kg]</th>
                                 <th data-options="field:'designedby',width:70">设计人</th>

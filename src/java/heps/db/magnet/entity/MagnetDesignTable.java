@@ -213,7 +213,8 @@ public class MagnetDesignTable implements Serializable {
             magnetDesignRequirementTable.getIntensityB()+"\"," + "\"intensityQ\":\"" + magnetDesignRequirementTable.getIntensityQ()+
             "\"," + "\"intensityS\":\"" + magnetDesignRequirementTable.getIntensityS()+"\"," + "\"intensityO\":\"" + 
             magnetDesignRequirementTable.getIntensityO()+"\"," + "\"sys\":\"" + magnetDesignRequirementTable.getSystemComponent()+
-            "\"," + "\"non_sys\":\"" + magnetDesignRequirementTable.getNonSystemComponent()+"\"," + "\"offset\":\"" + 
+            "\"," + "\"non_sys\":\"" + magnetDesignRequirementTable.getNonSystemComponent() +"\"," + "\"trans_even\":\"" + magnetDesignRequirementTable.getTransverseEvenness()+
+             "\"," + "\"inte_consistency\":\"" + magnetDesignRequirementTable.getInteFieldConsistency()+"\"," + "\"offset\":\"" + 
             magnetDesignParameterTable.getOffset()+"\"," + "\"ampere_turns\":\"" + magnetDesignParameterTable.getAmpereTurns()+
             "\"," + "\"ampere_turns_each\":\"" + magnetDesignParameterTable.getAmpereTurnsEach()+"\"," + "\"current\":\"" +
             magnetDesignParameterTable.getCur()+ "\"," + "\"wire\":\"" + magnetDesignParameterTable.getWire()+ 

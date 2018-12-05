@@ -118,7 +118,7 @@ public class NewDesign extends HttpServlet {
         JSONObject require_jsonobj = JSONObject.fromObject(require);
         JSONArray require_jsonarray = require_jsonobj.getJSONArray("rows");
         if (require_jsonarray.size() > 0) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 12; i++) {
                 JSONObject job = require_jsonarray.getJSONObject(i);  // 遍历 
                 design_requirement.add(job.get("value"));
             }
@@ -138,7 +138,7 @@ public class NewDesign extends HttpServlet {
                 design_others.add(job.getJSONObject("editor").get("type"));
                 design_others.add(job.get("value"));
             }
-            for (int i = 10; i < require_jsonarray.size(); i++) {
+            for (int i = 12; i < require_jsonarray.size(); i++) {
                 JSONObject job1 = require_jsonarray.getJSONObject(i);
                 design_others.add(job1.get("name"));
                 design_others.add(job1.getJSONObject("editor").get("type"));

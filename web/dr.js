@@ -12,7 +12,9 @@ var rowr=[
     {"name":"四极分量[T/m]","value":"","group":"磁场强度","editor":{"type":"numberbox","options":{"precision":2}}},
     {"name":"六极分量[T/m2]","value":"","group":"磁场强度","editor":{"type":"numberbox","options":{"precision":2}}},
     {"name":"八极分量[T/m3]","value":"","group":"磁场强度","editor":{"type":"numberbox","options":{"precision":2}}},    
-    {"name":"系统分量","value":"","group":"高阶场分量Bn/B2","editor":{"type":"numberbox","options":{"precision":5}}},
-    {"name":"非系统分量","value":"","group":"高阶场分量Bn/B2","editor":{"type":"numberbox","options":{"precision":5}}}
+    {"name":"系统高阶场分量[E-4]","value":"","group":"磁场质量要求","editor":{"type":"numberbox","options":{"precision":5}}},
+    {"name":"非系统高阶场分量[E-4]","value":"","group":"磁场质量要求","editor":{"type":"numberbox","options":{"precision":5}}},
+    {"name":"积分磁场横向均匀度[E-4]","value":"","group":"磁场质量要求","editor":{"type":"numberbox","options":{"precision":5}}},
+    {"name":"磁铁间积分场一致性（或离散性）","value":"","group":"磁场质量要求","editor":{"type":"numberbox","options":{"precision":5}}}
 ];
 

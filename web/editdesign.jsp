@@ -55,6 +55,8 @@
                 rowr[7].value = ss["intensityO"];
                 rowr[8].value = ss["sys"];
                 rowr[9].value = ss["non_sys"];
+                rowr[10].value = ss["trans_even"];
+                rowr[11].value = ss["inte_consistency"];
                 rowp[0].value = ss["offset"];
                 rowp[1].value = ss["ampere_turns"];
                 rowp[2].value = ss["ampere_turns_each"];

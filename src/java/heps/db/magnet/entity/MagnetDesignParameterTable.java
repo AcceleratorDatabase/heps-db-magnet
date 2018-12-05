@@ -95,8 +95,9 @@ public class MagnetDesignParameterTable implements Serializable {
     private Double cTemp;
     @Column(name = "core_length")
     private Double coreLength;
+    @Size(max = 45)
     @Column(name = "core_section")
-    private Double coreSection;
+    private String coreSection;
     @Column(name = "core_weight")
     private Double coreWeight;
     @Column(name = "copper_weight")
@@ -154,7 +155,7 @@ public class MagnetDesignParameterTable implements Serializable {
         return cur;
     }
 
-    public void setCur(Double curt) {
+    public void setCur(Double cur) {
         this.cur = cur;
     }
 
@@ -262,11 +263,11 @@ public class MagnetDesignParameterTable implements Serializable {
         this.coreLength = coreLength;
     }
 
-    public Double getCoreSection() {
+    public String getCoreSection() {
         return coreSection;
     }
 
-    public void setCoreSection(Double coreSection) {
+    public void setCoreSection(String coreSection) {
         this.coreSection = coreSection;
     }
 

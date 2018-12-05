@@ -131,7 +131,7 @@
                     </div>
                     <div id="table">
                         <div id="table1" style=" float: left ">
-                            <div style="margin:20px 0;"></div>
+                            <div style="margin:10px 0;"></div>
                             <label> 请输入磁铁设计要求：
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="addrow_r()">新增设计要求</a>
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow_r()">删除设计要求</a>
@@ -139,7 +139,7 @@
                                 <div style="margin:5px 0;"></div>
                                 <!--                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="getChanges1()">查看修改项</a>                         -->
                             </label>                                               
-                            <table id="design_require" name="design_require" class="easyui-propertygrid" style="width:400px" data-options="
+                            <table id="design_require" name="design_require" class="easyui-propertygrid" style="width:400px;height:393px" data-options="
 
                                    method: 'get',
                                    showGroup: true,
@@ -170,7 +170,7 @@
                                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="delrow_p()">删除设计参数</a>
                                 <div style="margin:5px 0;"></div>
                             </label>
-                            <table id="design_para" name="design_para" class="easyui-propertygrid" style="width:400px" data-options="
+                            <table id="design_para" name="design_para" class="easyui-propertygrid" style="width:400px;height:593px" data-options="
                                    method: 'get',
                                    showGroup: true,
                                    scrollbarSize: 0,                                   
@@ -179,7 +179,7 @@
                             </table>                    
                         </div>
                     </div>
-                    <div style="position:relative;top:730px;bottom: 0; left:0;right:0;text-align: center">                    
+                    <div style="position:relative;top:740px; left:0;right:0;text-align: center">                    
                         <input style="width:90px; font-size: 14px" class="a-upload" type="submit" value="提交" >
                         <input style="width:90px; font-size: 14px;background:#97CBFF ;" class="a-upload" type="button" onclick="location = 'index.html'" value="返回主页" >                        
                         <input type="hidden" id="hd1" name="hd1"/>
@@ -453,8 +453,8 @@
                 alert(s);
             }
             function addrow_p() {
-                var input = window.prompt("新建设计参数,格式：参数名/参数组名/参数类型(text或number)", "property/其他/text");
-                var slice = input.split("/");
+                var input = window.prompt("新建设计参数,格式：参数名+参数组名+参数类型(text或number)", "property+其他+text");
+                var slice = input.split("+");
                 var property = slice[0];
                 var group = slice[1];
                 var type;
@@ -482,8 +482,8 @@
                     alert("只能删除自定义参数！");
             }
             function addrow_r() {
-                var input = window.prompt("新建设计要求,格式：参数名/参数组名/参数类型(text或number)", "property/其他/text");
-                var slice = input.split("/");
+                var input = window.prompt("新建设计要求,格式：参数名+参数组名+参数类型(text或number)", "property+其他+text");
+                var slice = input.split("+");
                 var property = slice[0];
                 var group = slice[1];
                 var type;

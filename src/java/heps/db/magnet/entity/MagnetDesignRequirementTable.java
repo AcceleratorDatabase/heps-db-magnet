@@ -37,7 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByIntensityS", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.intensityS = :intensityS")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findByIntensityO", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.intensityO = :intensityO")
     , @NamedQuery(name = "MagnetDesignRequirementTable.findBySystemComponent", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.systemComponent = :systemComponent")
-    , @NamedQuery(name = "MagnetDesignRequirementTable.findByNonSystemComponent", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.nonSystemComponent = :nonSystemComponent")})
+    , @NamedQuery(name = "MagnetDesignRequirementTable.findByNonSystemComponent", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.nonSystemComponent = :nonSystemComponent")
+    , @NamedQuery(name = "MagnetDesignRequirementTable.findByTransversEvenness", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.transverseEvenness = :transverseEvenness")
+    , @NamedQuery(name = "MagnetDesignRequirementTable.findByInteFieldConsistency", query = "SELECT m FROM MagnetDesignRequirementTable m WHERE m.inteFieldConsistency = :inteFieldConsistency")})
 public class MagnetDesignRequirementTable implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,6 +69,10 @@ public class MagnetDesignRequirementTable implements Serializable {
     private Double systemComponent;
     @Column(name = "non_system_component")
     private Double nonSystemComponent;
+    @Column(name = "transverse_evenness")
+    private Double transverseEvenness;
+    @Column(name = "inte_field_consistency")
+    private Double inteFieldConsistency;
     @JoinColumn(name = "design_id", referencedColumnName = "design_id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private MagnetDesignTable magnetDesignTable;
@@ -164,6 +170,20 @@ public class MagnetDesignRequirementTable implements Serializable {
 
     public void setNonSystemComponent(Double nonSystemComponent) {
         this.nonSystemComponent = nonSystemComponent;
+    }
+    public Double getTransverseEvenness() {
+        return transverseEvenness;
+    }
+
+    public void setTransverseEvenness(Double transverseEvenness) {
+        this.transverseEvenness = transverseEvenness;
+    }
+    public Double getInteFieldConsistency() {
+        return inteFieldConsistency;
+    }
+
+    public void setInteFieldConsistency(Double inteFieldConsistency) {
+        this.inteFieldConsistency = inteFieldConsistency;
     }
 
     public MagnetDesignTable getMagnetDesignTable() {
